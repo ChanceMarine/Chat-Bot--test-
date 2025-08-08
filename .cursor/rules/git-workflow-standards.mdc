@@ -1,0 +1,387 @@
+---
+description: Git workflow standards, branching strategies, and commit message conventions
+globs: **/*
+alwaysApply: true
+---
+# Git Workflow Standards
+
+## Branch Naming Convention
+
+### Feature Branches
+- **Format**: `feature/description-of-feature`
+- **Examples**:
+  - `feature/user-authentication`
+  - `feature/payment-integration`
+  - `feature/admin-dashboard`
+
+### Bug Fixes
+- **Format**: `fix/description-of-bug`
+- **Examples**:
+  - `fix/login-validation-error`
+  - `fix/memory-leak-in-api`
+  - `fix/typo-in-error-message`
+
+### Hotfixes
+- **Format**: `hotfix/critical-issue-description`
+- **Examples**:
+  - `hotfix/security-vulnerability-patch`
+  - `hotfix/database-connection-failure`
+  - `hotfix/urgent-production-fix`
+
+### Releases
+- **Format**: `release/version-number`
+- **Examples**:
+  - `release/v1.2.0`
+  - `release/v2.0.0-beta`
+  - `release/v1.1.5-patch`
+
+### Documentation
+- **Format**: `docs/description-of-documentation`
+- **Examples**:
+  - `docs/api-documentation-update`
+  - `docs/readme-improvements`
+  - `docs/installation-guide`
+
+## Commit Message Format
+
+### Conventional Commits Structure
+```
+type(scope): description
+
+[optional body]
+
+[optional footer]
+```
+
+### Commit Types
+- **feat**: A new feature
+- **fix**: A bug fix
+- **docs**: Documentation only changes
+- **style**: Changes that do not affect the meaning of the code
+- **refactor**: A code change that neither fixes a bug nor adds a feature
+- **test**: Adding missing tests or correcting existing tests
+- **chore**: Changes to the build process or auxiliary tools
+
+### Commit Examples
+```bash
+# Feature commit
+feat(auth): add JWT token authentication
+
+# Bug fix commit
+fix(api): resolve memory leak in user endpoint
+
+# Documentation commit
+docs(readme): update installation instructions
+
+# Style commit
+style(components): format code with prettier
+
+# Refactor commit
+refactor(database): optimize user query performance
+
+# Test commit
+test(auth): add unit tests for login validation
+
+# Chore commit
+chore(deps): update dependencies to latest versions
+```
+
+### Commit Message Guidelines
+- Use imperative mood ("add" not "added")
+- Keep the first line under 50 characters
+- Use lowercase for type and scope
+- Be specific and descriptive
+- Reference issues when applicable
+
+## Pull Request Guidelines
+
+### PR Structure
+```markdown
+## Description
+Brief description of the changes made.
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation update
+
+## Testing
+- [ ] Unit tests pass
+- [ ] Integration tests pass
+- [ ] Manual testing completed
+
+## Checklist
+- [ ] Code follows project style guidelines
+- [ ] Self-review completed
+- [ ] Documentation updated
+- [ ] No breaking changes (or breaking changes documented)
+
+## Related Issues
+Closes #123
+Fixes #456
+```
+
+### PR Best Practices
+- **Keep PRs Small**: Focus on one feature or fix per PR
+- **Clear Description**: Explain what and why, not how
+- **Include Tests**: Add tests for new functionality
+- **Update Documentation**: Keep docs current with changes
+- **Link Issues**: Reference related issues using keywords
+
+### PR Review Process
+1. **Self Review**: Review your own code before requesting review
+2. **Peer Review**: Get feedback from at least one team member
+3. **Address Feedback**: Respond to all review comments
+4. **Final Approval**: Get approval before merging
+5. **Merge Strategy**: Use appropriate merge strategy (squash, rebase, merge)
+
+## Code Review Process
+
+### Review Checklist
+- [ ] **Functionality**: Does the code work as intended?
+- [ ] **Code Quality**: Is the code readable and maintainable?
+- [ ] **Performance**: Are there any performance concerns?
+- [ ] **Security**: Are there any security vulnerabilities?
+- [ ] **Testing**: Are there adequate tests?
+- [ ] **Documentation**: Is documentation updated?
+
+### Review Guidelines
+- **Be Constructive**: Provide helpful, specific feedback
+- **Focus on Code**: Review the code, not the person
+- **Ask Questions**: Clarify unclear code with questions
+- **Suggest Alternatives**: Offer better approaches when possible
+- **Be Timely**: Respond to review requests promptly
+
+### Review Comments
+```markdown
+# Good review comment
+Consider using a more descriptive variable name here. 
+`userData` would be clearer than `data`.
+
+# Better approach suggestion
+This could be simplified using Array.reduce() instead of a for loop.
+
+# Security concern
+This input should be validated to prevent XSS attacks.
+
+# Performance suggestion
+Consider caching this result to avoid repeated database calls.
+```
+
+## Branch Management
+
+### Main Branch Protection
+- **Require Reviews**: All PRs must be reviewed
+- **Require Status Checks**: Tests must pass before merge
+- **Require Up-to-date**: Branch must be up-to-date with main
+- **Restrict Pushes**: Direct pushes to main are blocked
+
+### Branch Cleanup
+- **Delete Merged Branches**: Remove feature branches after merge
+- **Archive Old Branches**: Keep important historical branches
+- **Regular Cleanup**: Schedule periodic branch cleanup
+
+### Branch Strategy
+```bash
+# Create feature branch
+git checkout -b feature/new-feature
+
+# Keep branch updated
+git fetch origin
+git rebase origin/main
+
+# Push changes
+git push origin feature/new-feature
+
+# Create PR and merge
+# Delete branch after merge
+```
+
+## Git Workflow Commands
+
+### Starting Work
+```bash
+# Update main branch
+git checkout main
+git pull origin main
+
+# Create feature branch
+git checkout -b feature/your-feature-name
+```
+
+### During Development
+```bash
+# Stage changes
+git add .
+
+# Commit with conventional message
+git commit -m "feat(auth): add user registration"
+
+# Push to remote
+git push origin feature/your-feature-name
+```
+
+### Before PR
+```bash
+# Update with latest main
+git fetch origin
+git rebase origin/main
+
+# Run tests
+npm test
+
+# Push updated branch
+git push origin feature/your-feature-name --force-with-lease
+```
+
+### After PR Approval
+```bash
+# Merge PR (use squash for feature branches)
+# Delete local branch
+git checkout main
+git pull origin main
+git branch -d feature/your-feature-name
+```
+
+## Git Hooks and Automation
+
+### Pre-commit Hooks
+```bash
+# Run linting
+npm run lint
+
+# Run tests
+npm test
+
+# Check commit message format
+npx commitlint --edit .git/COMMIT_EDITMSG
+```
+
+### Pre-push Hooks
+```bash
+# Run full test suite
+npm run test:full
+
+# Check for security vulnerabilities
+npm audit
+
+# Build project
+npm run build
+```
+
+## Git Configuration
+
+### Global Configuration
+```bash
+# Set user information
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+
+# Set default branch name
+git config --global init.defaultBranch main
+
+# Set default editor
+git config --global core.editor "code --wait"
+```
+
+### Repository Configuration
+```bash
+# Set up branch protection
+# Configure in GitHub/GitLab settings
+
+# Set up merge strategy
+git config pull.rebase false  # merge (the default strategy)
+git config pull.rebase true   # rebase
+git config pull.ff only       # fast-forward only
+```
+
+## Conflict Resolution
+
+### Preventing Conflicts
+- **Frequent Updates**: Keep branches updated with main
+- **Small PRs**: Reduce conflict probability with smaller changes
+- **Clear Communication**: Coordinate on shared files
+- **Early Integration**: Merge frequently to avoid large conflicts
+
+### Resolving Conflicts
+```bash
+# During rebase
+git rebase origin/main
+
+# Resolve conflicts in files
+# Edit conflicted files manually
+
+# Stage resolved files
+git add .
+
+# Continue rebase
+git rebase --continue
+
+# Push updated branch
+git push origin feature/your-feature-name --force-with-lease
+```
+
+### Conflict Resolution Best Practices
+- **Understand Changes**: Review both versions before resolving
+- **Test After Resolution**: Ensure code still works
+- **Communicate**: Discuss complex conflicts with team
+- **Document**: Note any important decisions made during resolution
+
+## Git Tools and Extensions
+
+### Recommended Tools
+- **GitLens**: Enhanced Git capabilities in VS Code
+- **Git Graph**: Visualize Git history
+- **Git History**: View file history and changes
+- **GitLens Insiders**: Advanced Git features
+
+### Useful Aliases
+```bash
+# Add to .gitconfig
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    visual = !gitk
+```
+
+## Integration with CI/CD
+
+### Automated Checks
+- **Linting**: Check code style and quality
+- **Testing**: Run automated tests
+- **Security**: Scan for vulnerabilities
+- **Build**: Ensure project builds successfully
+
+### Deployment Integration
+- **Staging**: Deploy to staging environment
+- **Production**: Deploy to production after merge
+- **Rollback**: Ability to rollback problematic deployments
+
+## Best Practices Summary
+
+### Do's
+- Use conventional commit messages
+- Keep branches focused and small
+- Review code thoroughly
+- Test before pushing
+- Update documentation with changes
+- Communicate with team members
+
+### Don'ts
+- Commit directly to main branch
+- Push untested code
+- Ignore review feedback
+- Use vague commit messages
+- Leave branches unmerged for long periods
+- Force push to shared branches
+
+Follow these Git workflow standards to maintain a clean, organized, and collaborative development process.
+description:
+globs:
+alwaysApply: false
+---

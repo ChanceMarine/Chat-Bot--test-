@@ -1,0 +1,782 @@
+---
+description: Complete spec-driven development methodology with three-phase process (Requirements → Design → Tasks)
+globs: **/*
+alwaysApply: true
+---
+# Kiro Master Guide: Complete Spec-Driven Development Methodology
+
+## Table of Contents
+1. [Core Philosophy](#core-philosophy)
+2. [Three-Phase Methodology](#three-phase-methodology)
+3. [Prompting Strategies](#prompting-strategies)
+4. [Templates](#templates)
+5. [Quality Standards](#quality-standards)
+6. [Execution Patterns](#execution-patterns)
+7. [Git Workflow](#git-workflow)
+8. [Steering Documents](#steering-documents)
+9. [Best Practices](#best-practices)
+10. [Troubleshooting](#troubleshooting)
+
+---
+
+## Core Philosophy
+
+### Clarity Before Code
+The fundamental principle is that clarity of thought and purpose must precede implementation. By investing time in understanding requirements, designing solutions, and planning implementation, we reduce uncertainty and increase the likelihood of building the right thing correctly.
+
+### Iterative Refinement
+Each phase is designed to be iterative. Rather than moving linearly from idea to implementation, the methodology encourages refinement and validation at each step.
+
+### Documentation as Communication
+Specifications serve as communication tools that align stakeholders, preserve decision rationale, and provide context for future maintenance.
+
+---
+
+## Three-Phase Methodology
+
+### Phase 1: Requirements Gathering
+**Purpose**: Transform vague feature ideas into clear, testable requirements
+
+**Key Activities**:
+- Capture user stories that express value and purpose
+- Define acceptance criteria using EARS (Easy Approach to Requirements Syntax)
+- Identify edge cases and constraints
+- Validate completeness and feasibility
+
+**EARS Format**:
+- WHEN [specific event or trigger] THEN [system name] SHALL [specific system response]
+- IF [condition or state] THEN [system name] SHALL [required behavior]
+- WHILE [ongoing condition] [system name] SHALL [continuous behavior]
+- WHERE [context or location] [system name] SHALL [contextual behavior]
+
+### Phase 2: Design Documentation
+**Purpose**: Create a comprehensive technical plan for implementation
+
+**Key Activities**:
+- Research technical approaches and constraints
+- Define system architecture and component interactions
+- Specify data models and interfaces
+- Plan error handling and testing strategies
+
+**Design Structure**:
+1. Architecture Overview
+2. Component Design
+3. Data Models
+4. Interfaces and APIs
+5. Error Handling
+6. Testing Strategy
+
+### Phase 3: Task Planning
+**Purpose**: Break down the design into actionable, sequential implementation steps
+
+**Key Activities**:
+- Convert design elements into specific coding tasks
+- Sequence tasks to enable incremental progress
+- Define clear objectives and completion criteria
+- Reference requirements to ensure traceability
+
+**Task Format**:
+- Task [Number]: [Task Name]
+- Purpose: [What this task accomplishes]
+- Requirements Addressed: [List specific requirements]
+- Dependencies: [Previous tasks or external dependencies]
+- Deliverables: [Specific files/components to create]
+- Testing: [How to validate this task]
+
+---
+
+## Prompting Strategies
+
+### Core Prompting Principles
+
+#### 1. Phase-Specific Prompts
+Always specify which phase you're in and what you need:
+- "Let's start with requirements gathering for [feature]"
+- "Now let's design the solution based on these requirements"
+- "Break down this design into actionable tasks"
+
+#### 2. Structured Input
+Provide context and constraints clearly:
+- Feature description and goals
+- Technical constraints and requirements
+- User needs and business value
+- Existing system context
+
+#### 3. Validation Requests
+Ask for validation at each phase:
+- "Does this requirement cover all the necessary scenarios?"
+- "Is this design comprehensive enough for implementation?"
+- "Are these tasks specific enough for coding?"
+
+### Prompt Templates
+
+#### Requirements Phase
+```
+I want to create a spec for [FEATURE_NAME]. Here's my initial idea:
+
+[BRIEF_FEATURE_DESCRIPTION]
+
+Please help me create comprehensive requirements using the EARS format. Focus on:
+- User stories that capture the core value proposition
+- Acceptance criteria that are testable and specific
+- Edge cases and error scenarios
+- Integration points with existing systems
+
+The feature should serve [TARGET_USER_TYPE] and solve [CORE_PROBLEM].
+```
+
+#### Design Phase
+```
+Based on the requirements we've established, I need a comprehensive design for [FEATURE_NAME].
+
+Requirements summary: [BRIEF_RECAP_OF_KEY_REQUIREMENTS]
+
+Please create a design that addresses:
+- Overall architecture and component relationships
+- Data models and their relationships
+- API interfaces and contracts
+- Error handling strategies
+- Testing approach
+
+Consider these technical constraints:
+- Technology stack: [CURRENT_TECH_STACK]
+- Performance requirements: [KEY_PERFORMANCE_NEEDS]
+- Integration points: [SYSTEMS_TO_INTEGRATE_WITH]
+```
+
+#### Tasks Phase
+```
+Now that we have the design approved, please break it down into actionable coding tasks.
+
+Design summary: [KEY_DESIGN_COMPONENTS]
+
+Create an implementation plan that:
+- Follows test-driven development principles
+- Builds incrementally with early validation
+- Sequences tasks to minimize dependencies
+- Includes specific file/component creation steps
+
+Each task should:
+- Reference specific requirements it addresses
+- Be completable by a coding agent
+- Build on previous tasks
+- Include testing considerations
+```
+
+### Advanced Prompting Techniques
+
+#### 1. Progressive Disclosure
+Start with high-level requirements, then drill down:
+```
+"First, let's identify the main user stories for this feature."
+"Now, let's add acceptance criteria for each story."
+"Finally, let's consider edge cases and error scenarios."
+```
+
+#### 2. Alternative Exploration
+Ask for multiple approaches:
+```
+"Show me two different design approaches for this feature."
+"What are the trade-offs between these approaches?"
+"Which approach best aligns with our requirements?"
+```
+
+#### 3. Validation Prompts
+Use specific validation questions:
+```
+"Does this requirement cover all user scenarios?"
+"Are there any security considerations we missed?"
+"Will this design scale with our expected growth?"
+```
+
+#### 4. Iterative Refinement
+Use feedback loops:
+```
+"Review this requirement and suggest improvements."
+"Identify any gaps in this design."
+"Validate that these tasks will meet all requirements."
+```
+
+### Context-Specific Prompts
+
+#### For New Features
+```
+"I want to build [FEATURE_NAME]. Let's start with requirements using the Kiro methodology."
+```
+
+#### For Bug Fixes
+```
+"I need to fix [BUG_DESCRIPTION]. Let's first understand the root cause and then design a solution."
+```
+
+#### For Refactoring
+```
+"I want to refactor [COMPONENT_NAME]. Let's analyze the current implementation and design improvements."
+```
+
+#### For Performance Optimization
+```
+"[SYSTEM_NAME] is experiencing performance issues. Let's identify bottlenecks and design optimizations."
+```
+
+---
+
+## Templates
+
+### Requirements Template
+```markdown
+# Requirements Document
+
+## Document Information
+- **Feature Name**: [Your Feature Name]
+- **Version**: 1.0
+- **Date**: [Current Date]
+- **Author**: [Your Name]
+- **Stakeholders**: [List key stakeholders]
+
+## Introduction
+[Provide a clear, concise overview of the feature]
+
+### Feature Summary
+[One sentence summary of what this feature does]
+
+### Business Value
+[Explain the business value and expected outcomes]
+
+### Scope
+[Define what is included and excluded from this feature]
+
+## Requirements
+
+### Requirement 1: [Requirement Title]
+**User Story:** As a [role], I want [functionality], so that [benefit].
+
+**Acceptance Criteria:**
+1. WHEN [trigger] THEN [system] SHALL [response]
+2. IF [condition] THEN [system] SHALL [behavior]
+3. WHILE [ongoing] [system] SHALL [continuous behavior]
+4. WHERE [context] [system] SHALL [contextual behavior]
+
+**Additional Details:**
+- **Priority**: [High/Medium/Low]
+- **Complexity**: [High/Medium/Low]
+- **Dependencies**: [List dependencies]
+- **Assumptions**: [List assumptions]
+
+## Non-Functional Requirements
+[Performance, Security, Usability requirements]
+```
+
+### Design Template
+```markdown
+# Design Document
+
+## Document Information
+- **Feature Name**: [Your Feature Name]
+- **Version**: 1.0
+- **Date**: [Current Date]
+- **Author**: [Your Name]
+- **Requirements Reference**: [Link to requirements document]
+
+## Overview
+[Provide a high-level overview of the design approach and key architectural decisions]
+
+### Design Goals
+[List the primary design objectives and constraints]
+
+### Key Decisions
+[Document important design decisions and their rationale]
+
+## Architecture
+
+### System Overview
+[High-level system architecture diagram and description]
+
+### Component Relationships
+[How components interact and communicate]
+
+### Technology Stack
+[Technologies, frameworks, and tools to be used]
+
+## Components
+
+### Component 1: [Component Name]
+**Purpose**: [What this component does]
+
+**Responsibilities**:
+- [Responsibility 1]
+- [Responsibility 2]
+- [Responsibility 3]
+
+**Interfaces**:
+- [Input interfaces]
+- [Output interfaces]
+
+**Dependencies**:
+- [List dependencies on other components or external systems]
+
+## Data Models
+
+### Entity Relationships
+[Entity relationship diagram or description]
+
+### Data Flow
+[How data moves through the system]
+
+### Storage Strategy
+[Database design, file storage, caching strategy]
+
+## Interfaces
+
+### API Design
+[API endpoints, request/response formats, authentication]
+
+### User Interface
+[UI/UX design principles, wireframes, interaction patterns]
+
+### External Integrations
+[Third-party services, APIs, data sources]
+
+## Error Handling
+
+### Error Scenarios
+[List potential error conditions and how they're handled]
+
+### Recovery Strategies
+[How the system recovers from failures]
+
+### Logging and Monitoring
+[How errors are logged and monitored]
+
+## Testing Strategy
+
+### Unit Testing
+[Component-level testing approach]
+
+### Integration Testing
+[System integration testing strategy]
+
+### User Acceptance Testing
+[How requirements will be validated]
+
+## Implementation Considerations
+
+### Performance
+[Performance requirements and optimization strategies]
+
+### Security
+[Security measures and considerations]
+
+### Scalability
+[How the system will scale with growth]
+
+### Maintainability
+[How the system will be maintained and updated]
+```
+
+### Tasks Template
+```markdown
+# Implementation Tasks
+
+## Document Information
+- **Feature Name**: [Your Feature Name]
+- **Version**: 1.0
+- **Date**: [Current Date]
+- **Author**: [Your Name]
+- **Requirements Reference**: [Link to requirements document]
+- **Design Reference**: [Link to design document]
+
+## Implementation Overview
+[Brief overview of the implementation approach and key considerations]
+
+## Task Breakdown
+
+### Task 1: [Task Name]
+**Purpose**: [What this task accomplishes]
+
+**Requirements Addressed**: [List specific requirements this task implements]
+
+**Dependencies**: [Previous tasks or external dependencies]
+
+**Deliverables**: [Specific files/components to create]
+
+**Implementation Steps**:
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Testing**: [How to validate this task]
+
+**Estimated Effort**: [Time estimate]
+
+## Implementation Guidelines
+
+### Code Quality Standards
+- Follow test-driven development principles
+- Include comprehensive error handling
+- Write clear, maintainable code
+- Document design decisions in code comments
+
+### Testing Requirements
+- Unit tests for all components
+- Integration tests for system interactions
+- User acceptance tests for requirements validation
+
+### Review Process
+- Code review for each task
+- Design review for architectural decisions
+- Requirements validation for completed features
+
+## Risk Mitigation
+
+### Technical Risks
+[List potential technical challenges and mitigation strategies]
+
+### Timeline Risks
+[List potential schedule risks and mitigation strategies]
+
+### Quality Risks
+[List potential quality issues and mitigation strategies]
+```
+
+---
+
+## Quality Standards
+
+### Code Quality Standards
+- Follow language-specific style guides (ESLint for JS/TS, Black for Python, etc.)
+- Maintain consistent naming conventions across the codebase
+- Write self-documenting code with clear variable and function names
+- Include meaningful comments for complex business logic
+- Keep functions small and focused on single responsibilities
+
+### Testing Requirements
+- Write unit tests for all business logic functions
+- Maintain minimum 80% code coverage
+- Include integration tests for API endpoints
+- Write end-to-end tests for critical user flows
+- Use descriptive test names that explain the scenario being tested
+
+### Documentation Standards
+- Update README.md for any significant changes
+- Document API endpoints with clear examples
+- Include setup and deployment instructions
+- Maintain changelog for version releases
+- Document architectural decisions in ADR format
+
+### Security Practices
+- Never commit secrets, API keys, or passwords
+- Use environment variables for configuration
+- Validate all user inputs
+- Implement proper authentication and authorization
+- Follow OWASP security guidelines
+
+### Performance Guidelines
+- Optimize database queries and avoid N+1 problems
+- Implement caching where appropriate
+- Use lazy loading for large datasets
+- Monitor and profile performance regularly
+- Consider scalability in architectural decisions
+
+---
+
+## Execution Patterns
+
+### Execution Approach
+- Execute user goals using the provided tools, in as few steps as possible
+- Perform multiple independent operations simultaneously when possible
+- Be concise and direct in responses
+- Prioritize actionable information over general explanations
+- Don't repeat yourself or say the same message multiple times
+- Write only the absolute minimal amount of code needed
+- For complex projects, provide structure overview first, then minimal skeleton implementations
+- Focus on essential functionality only
+
+### Response Style
+- Be knowledgeable but not instructive
+- Speak like a developer, be relatable and digestible
+- Be decisive, precise, and clear
+- Be supportive, not authoritative
+- Use positive, optimistic language
+- Stay warm and friendly
+- Be easygoing but not mellow
+- Keep cadence quick and easy
+- Use relaxed language grounded in facts
+- Be concise and direct
+- Don't use markdown headers unless showing multi-step answers
+- Don't bold text
+
+### Communication Patterns
+- Don't repeat yourself, saying the same message over and over
+- Do not repeat yourself, if you just said you're going to do something, and are doing it again, no need to repeat
+- Don't mention the execution log in your response
+
+### Information Requests
+If the user is asking for information, explanations, or opinions, just say the answers instead:
+- "What's the latest version of Node.js?"
+- "Explain how promises work in JavaScript"
+- "List the top 10 Python libraries for data science"
+- "What's the difference between let and const?"
+- "Tell me about design patterns for this use case"
+
+### Testing Guidelines
+- Run tests automatically only when user has suggested to do so
+- Running tests when user has not requested them will annoy them
+
+---
+
+## Git Workflow
+
+### Branch Naming Convention
+- Feature branches: `feature/description-of-feature`
+- Bug fixes: `fix/description-of-bug`
+- Hotfixes: `hotfix/critical-issue-description`
+- Releases: `release/version-number`
+
+### Commit Message Format
+Follow conventional commits format:
+```
+type(scope): description
+
+[optional body]
+
+[optional footer]
+```
+
+Types: feat, fix, docs, style, refactor, test, chore
+
+### Pull Request Guidelines
+- Create PR from feature branch to main/develop
+- Include clear description of changes
+- Link related issues using keywords (fixes #123)
+- Ensure all tests pass before requesting review
+- Squash commits when merging to keep history clean
+
+### Code Review Process
+- At least one approval required before merge
+- Review for code quality, security, and performance
+- Check that tests cover new functionality
+- Verify documentation is updated if needed
+- Ensure no breaking changes without proper versioning
+
+---
+
+## Steering Documents
+
+### Project Standards
+```markdown
+# Project Standards and Guidelines
+
+## Code Quality Standards
+- Follow language-specific style guides (ESLint for JS/TS, Black for Python, etc.)
+- Maintain consistent naming conventions across the codebase
+- Write self-documenting code with clear variable and function names
+- Include meaningful comments for complex business logic
+- Keep functions small and focused on single responsibilities
+
+## Testing Requirements
+- Write unit tests for all business logic functions
+- Maintain minimum 80% code coverage
+- Include integration tests for API endpoints
+- Write end-to-end tests for critical user flows
+- Use descriptive test names that explain the scenario being tested
+
+## Documentation Standards
+- Update README.md for any significant changes
+- Document API endpoints with clear examples
+- Include setup and deployment instructions
+- Maintain changelog for version releases
+- Document architectural decisions in ADR format
+
+## Security Practices
+- Never commit secrets, API keys, or passwords
+- Use environment variables for configuration
+- Validate all user inputs
+- Implement proper authentication and authorization
+- Follow OWASP security guidelines
+
+## Performance Guidelines
+- Optimize database queries and avoid N+1 problems
+- Implement caching where appropriate
+- Use lazy loading for large datasets
+- Monitor and profile performance regularly
+- Consider scalability in architectural decisions
+```
+
+### Frontend Standards
+```markdown
+# Frontend Standards
+
+## Component Architecture
+- Use functional components with hooks
+- Keep components small and focused
+- Implement proper prop validation
+- Use TypeScript for type safety
+
+## State Management
+- Use React Context for global state
+- Keep local state in components
+- Use Redux for complex state management
+- Implement proper error boundaries
+
+## Styling
+- Use CSS-in-JS or styled-components
+- Follow design system guidelines
+- Ensure responsive design
+- Implement accessibility standards
+
+## Performance
+- Use React.memo for expensive components
+- Implement code splitting
+- Optimize bundle size
+- Use lazy loading for routes
+
+## Testing
+- Write unit tests for components
+- Use React Testing Library
+- Test user interactions
+- Mock external dependencies
+```
+
+### API Design Standards
+```markdown
+# API Design Standards
+
+## RESTful Design
+- Use proper HTTP methods (GET, POST, PUT, DELETE)
+- Implement consistent URL patterns
+- Use plural nouns for resources
+- Include proper status codes
+
+## Authentication
+- Use JWT tokens for authentication
+- Implement refresh token rotation
+- Use HTTPS for all endpoints
+- Implement rate limiting
+
+## Error Handling
+- Use consistent error response format
+- Include meaningful error messages
+- Implement proper logging
+- Handle edge cases gracefully
+
+## Documentation
+- Use OpenAPI/Swagger for documentation
+- Include request/response examples
+- Document authentication requirements
+- Provide usage examples
+
+## Performance
+- Implement pagination for large datasets
+- Use caching where appropriate
+- Optimize database queries
+- Monitor response times
+```
+
+---
+
+## Best Practices
+
+### 1. Be Specific
+- Provide concrete examples and scenarios
+- Specify technical constraints and requirements
+- Include user context and business goals
+
+### 2. Ask for Validation
+- Request feedback on completeness
+- Ask for alternative approaches
+- Seek clarification on unclear points
+
+### 3. Iterate and Refine
+- Start with high-level requirements
+- Refine based on feedback
+- Validate each phase before proceeding
+
+### 4. Maintain Context
+- Reference previous decisions and requirements
+- Keep track of design decisions and rationale
+- Ensure traceability throughout the process
+
+### 5. Common Pitfalls to Avoid
+
+#### Jumping to Implementation
+- Don't skip requirements or design phases
+- Always start with clear requirements
+- Validate design before coding
+
+#### Vague Prompts
+- Don't ask for "better code" without context
+- Provide specific requirements and constraints
+- Include user stories and acceptance criteria
+
+#### Ignoring Feedback
+- Don't proceed without validation
+- Ask for clarification when needed
+- Iterate based on feedback
+
+---
+
+## Troubleshooting
+
+### If Requirements Are Unclear
+- Ask for more specific user stories
+- Request examples and scenarios
+- Clarify business goals and constraints
+
+### If Design Is Incomplete
+- Ask for missing components
+- Request error handling strategies
+- Clarify integration points
+
+### If Tasks Are Too Vague
+- Ask for specific deliverables
+- Request implementation steps
+- Clarify testing requirements
+
+### Response Validation
+
+#### Requirements Validation
+- ✅ All user stories have clear acceptance criteria
+- ✅ Edge cases and error scenarios are covered
+- ✅ Non-functional requirements are specified
+- ✅ Dependencies and constraints are identified
+
+#### Design Validation
+- ✅ Architecture addresses all requirements
+- ✅ Components have clear responsibilities
+- ✅ Error handling is comprehensive
+- ✅ Testing strategy is defined
+
+#### Tasks Validation
+- ✅ Tasks are specific and actionable
+- ✅ Dependencies are clearly identified
+- ✅ Testing is included for each task
+- ✅ Requirements traceability is maintained
+
+---
+
+## Usage Instructions
+
+### For Any New Feature/Project:
+1. Start with: "I want to build [feature]. Let's follow the Kiro methodology starting with requirements."
+2. Cursor will automatically guide you through the three-phase process
+3. Use the templates provided for each phase
+4. Validate each phase before proceeding to the next
+
+### For Complex Projects:
+1. Use the steering documents for project-specific guidance
+2. Create project-specific .cursorrules files
+3. Use custom agents for specialized workflows
+4. Reference the quality standards throughout development
+
+### For Team Collaboration:
+1. Share the requirements and design documents
+2. Use the git workflow for version control
+3. Follow the code review process
+4. Maintain documentation standards
+
+This master guide provides everything needed to implement Kiro's systematic, spec-driven development methodology in Cursor. Use it as a comprehensive reference for all your development projects.
+description:
+globs:
+alwaysApply: false
+---

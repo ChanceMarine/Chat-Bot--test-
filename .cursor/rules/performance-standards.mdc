@@ -1,0 +1,685 @@
+---
+description: Performance optimization standards, monitoring, and best practices
+globs: **/*
+alwaysApply: true
+---
+# Performance Standards
+
+## Overview
+
+This rule defines performance standards and optimization techniques for web applications, including frontend optimization, backend performance, database optimization, and monitoring strategies.
+
+## Frontend Performance
+
+### React Optimization
+
+#### Component Optimization
+```typescript
+// ✅ Good: Use React.memo for expensive components
+import React, { memo } from 'react';
+
+interface ExpensiveComponentProps {
+  data: ComplexData[];
+  onItemClick: (id: string) => void;
+}
+
+const ExpensiveComponent = memo<ExpensiveComponentProps>(({ data, onItemClick }) => {
+  return (
+    <div>
+      {data.map(item => (
+        <div key={item.id} onClick={() => onItemClick(item.id)}>
+          {item.name}
+        </div>
+      ))}
+    </div>
+  );
+});
+
+// ✅ Good: Use useMemo for expensive calculations
+const ExpensiveCalculation = ({ items }: { items: Item[] }) => {
+  const processedData = useMemo(() => {
+    return items.map(item => ({
+      ...item,
+      processedValue: expensiveCalculation(item),
+    }));
+  }, [items]);
+
+  return <div>{/* Render processed data */}</div>;
+};
+
+// ✅ Good: Use useCallback for stable function references
+const ParentComponent = () => {
+  const [items, setItems] = useState<Item[]>([]);
+
+  const handleItemClick = useCallback((id: string) => {
+    // Handle item click
+  }, []);
+
+  return <ExpensiveComponent data={items} onItemClick={handleItemClick} />;
+};
+```
+
+#### Code Splitting
+```typescript
+// ✅ Good: Lazy load components
+import { lazy, Suspense } from 'react';
+
+const HeavyComponent = lazy(() => import('./HeavyComponent'));
+const AdminPanel = lazy(() => import('./AdminPanel'));
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HeavyComponent />
+    </Suspense>
+  );
+}
+
+// ✅ Good: Route-based code splitting
+const HomePage = lazy(() => import('./pages/HomePage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+
+function App() {
+  return (
+    <Router>
+      <Suspense fallback={<LoadingSpinner />}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Routes>
+      </Suspense>
+    </Router>
+  );
+}
+```
+
+### Bundle Optimization
+
+#### Tree Shaking
+```typescript
+// ✅ Good: Import only what you need
+import { useState, useEffect } from 'react';
+import { debounce } from 'lodash-es';
+
+// ❌ Avoid: Import entire libraries
+import * as React from 'react';
+import _ from 'lodash';
+```
+
+#### Bundle Analysis
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite';
+import { visualizer } from 'rollup-plugin-visualizer';
+
+export default defineConfig({
+  plugins: [
+    visualizer({
+      filename: 'dist/stats.html',
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
+    }),
+  ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
+          utils: ['lodash-es', 'date-fns'],
+        },
+      },
+    },
+  },
+});
+```
+
+### Image Optimization
+
+#### Next.js Image Component
+```typescript
+// ✅ Good: Use Next.js Image for optimization
+import Image from 'next/image';
+
+function OptimizedImage() {
+  return (
+    <Image
+      src="/hero.jpg"
+      alt="Hero image"
+      width={1200}
+      height={600}
+      priority
+      placeholder="blur"
+      blurDataURL="data:image/jpeg;base64,..."
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+    />
+  );
+}
+
+// ✅ Good: Responsive images
+function ResponsiveImage() {
+  return (
+    <Image
+      src="/product.jpg"
+      alt="Product"
+      fill
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+      className="object-cover"
+    />
+  );
+}
+```
+
+#### Image Formats
+```typescript
+// ✅ Good: Use modern image formats
+const imageFormats = {
+  webp: '/image.webp',
+  avif: '/image.avif',
+  fallback: '/image.jpg',
+};
+
+function OptimizedImage() {
+  return (
+    <picture>
+      <source srcSet={imageFormats.avif} type="image/avif" />
+      <source srcSet={imageFormats.webp} type="image/webp" />
+      <img src={imageFormats.fallback} alt="Optimized image" />
+    </picture>
+  );
+}
+```
+
+## Backend Performance
+
+### API Optimization
+
+#### Response Caching
+```typescript
+// ✅ Good: Implement response caching
+import { cache } from 'react';
+
+export const getUser = cache(async (id: string): Promise<User> => {
+  const user = await prisma.user.findUnique({
+    where: { id },
+    select: { id: true, name: true, email: true },
+  });
+  
+  if (!user) {
+    throw new Error('User not found');
+  }
+  
+  return user;
+});
+
+// ✅ Good: Redis caching for expensive operations
+import Redis from 'ioredis';
+
+const redis = new Redis(process.env.REDIS_URL);
+
+export const getCachedUser = async (id: string): Promise<User | null> => {
+  const cacheKey = `user:${id}`;
+  
+  // Try to get from cache first
+  const cached = await redis.get(cacheKey);
+  if (cached) {
+    return JSON.parse(cached);
+  }
+  
+  // Fetch from database
+  const user = await getUser(id);
+  
+  // Cache for 5 minutes
+  await redis.setex(cacheKey, 300, JSON.stringify(user));
+  
+  return user;
+};
+```
+
+#### Database Query Optimization
+```typescript
+// ✅ Good: Optimize database queries
+export const getUsersWithPosts = async (limit: number = 10) => {
+  return prisma.user.findMany({
+    take: limit,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      posts: {
+        select: {
+          id: true,
+          title: true,
+          createdAt: true,
+        },
+        take: 5, // Limit related data
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+};
+
+// ✅ Good: Use database indexes
+// Add to your Prisma schema
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  
+  @@index([email])
+  @@index([createdAt])
+}
+```
+
+### Connection Pooling
+```typescript
+// ✅ Good: Configure connection pooling
+import { PrismaClient } from '@prisma/client';
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
+
+export const prisma = globalForPrisma.prisma ?? new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL,
+    },
+  },
+  log: ['query', 'error', 'warn'],
+});
+
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = prisma;
+}
+```
+
+## Database Performance
+
+### Query Optimization
+
+#### N+1 Problem Prevention
+```typescript
+// ❌ Avoid: N+1 queries
+const users = await prisma.user.findMany();
+for (const user of users) {
+  const posts = await prisma.post.findMany({ where: { userId: user.id } });
+  // This creates N+1 queries
+}
+
+// ✅ Good: Use include to fetch related data
+const usersWithPosts = await prisma.user.findMany({
+  include: {
+    posts: true,
+  },
+});
+```
+
+#### Pagination
+```typescript
+// ✅ Good: Implement cursor-based pagination
+export const getPaginatedPosts = async (
+  cursor?: string,
+  limit: number = 10
+) => {
+  return prisma.post.findMany({
+    take: limit,
+    skip: cursor ? 1 : 0,
+    cursor: cursor ? { id: cursor } : undefined,
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
+};
+
+// ✅ Good: Use offset pagination for small datasets
+export const getOffsetPaginatedPosts = async (
+  page: number = 1,
+  limit: number = 10
+) => {
+  const offset = (page - 1) * limit;
+  
+  const [posts, total] = await Promise.all([
+    prisma.post.findMany({
+      take: limit,
+      skip: offset,
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.post.count(),
+  ]);
+  
+  return {
+    posts,
+    total,
+    pages: Math.ceil(total / limit),
+    currentPage: page,
+  };
+};
+```
+
+### Database Indexing
+```sql
+-- ✅ Good: Create indexes for frequently queried columns
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_posts_author_id ON posts(author_id);
+CREATE INDEX idx_posts_created_at ON posts(created_at);
+
+-- ✅ Good: Composite indexes for complex queries
+CREATE INDEX idx_posts_author_created ON posts(author_id, created_at);
+
+-- ✅ Good: Partial indexes for filtered queries
+CREATE INDEX idx_active_users ON users(email) WHERE active = true;
+```
+
+## Caching Strategies
+
+### Application-Level Caching
+```typescript
+// ✅ Good: In-memory caching for frequently accessed data
+class Cache {
+  private cache = new Map<string, { data: any; expires: number }>();
+  
+  set(key: string, data: any, ttl: number = 300000) {
+    this.cache.set(key, {
+      data,
+      expires: Date.now() + ttl,
+    });
+  }
+  
+  get(key: string): any | null {
+    const item = this.cache.get(key);
+    if (!item || item.expires < Date.now()) {
+      this.cache.delete(key);
+      return null;
+    }
+    return item.data;
+  }
+  
+  clear() {
+    this.cache.clear();
+  }
+}
+
+const cache = new Cache();
+
+export const getCachedData = async (key: string, fetcher: () => Promise<any>) => {
+  const cached = cache.get(key);
+  if (cached) {
+    return cached;
+  }
+  
+  const data = await fetcher();
+  cache.set(key, data);
+  return data;
+};
+```
+
+### CDN Configuration
+```typescript
+// ✅ Good: Configure CDN headers
+export const setCacheHeaders = (res: Response, maxAge: number = 3600) => {
+  res.headers.set('Cache-Control', `public, max-age=${maxAge}`);
+  res.headers.set('CDN-Cache-Control', `public, max-age=${maxAge * 2}`);
+  res.headers.set('Vercel-CDN-Cache-Control', `public, max-age=${maxAge * 2}`);
+};
+
+// ✅ Good: Cache different content types appropriately
+export const setContentTypeCache = (res: Response, contentType: string) => {
+  switch (contentType) {
+    case 'text/html':
+      setCacheHeaders(res, 300); // 5 minutes for HTML
+      break;
+    case 'application/json':
+      setCacheHeaders(res, 3600); // 1 hour for API responses
+      break;
+    case 'image/jpeg':
+    case 'image/png':
+    case 'image/webp':
+      setCacheHeaders(res, 86400); // 24 hours for images
+      break;
+    default:
+      setCacheHeaders(res, 3600);
+  }
+};
+```
+
+## Performance Monitoring
+
+### Core Web Vitals
+```typescript
+// ✅ Good: Monitor Core Web Vitals
+export const reportWebVitals = (metric: any) => {
+  if (metric.label === 'web-vital') {
+    console.log(metric);
+    
+    // Send to analytics
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', metric.name, {
+        event_category: 'Web Vitals',
+        event_label: metric.id,
+        value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+        non_interaction: true,
+      });
+    }
+  }
+};
+
+// ✅ Good: Monitor performance metrics
+export const monitorPerformance = () => {
+  if (typeof window !== 'undefined' && 'performance' in window) {
+    const observer = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        console.log('Performance Entry:', entry);
+      }
+    });
+    
+    observer.observe({ entryTypes: ['navigation', 'resource', 'paint'] });
+  }
+};
+```
+
+### API Performance Monitoring
+```typescript
+// ✅ Good: Monitor API response times
+export const monitorApiPerformance = (req: Request, res: Response, next: NextFunction) => {
+  const start = Date.now();
+  
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    const status = res.statusCode;
+    
+    console.log(`API ${req.method} ${req.path} - ${status} - ${duration}ms`);
+    
+    // Alert on slow responses
+    if (duration > 1000) {
+      console.warn(`Slow API response: ${req.path} took ${duration}ms`);
+    }
+  });
+  
+  next();
+};
+```
+
+## Performance Testing
+
+### Load Testing
+```typescript
+// ✅ Good: Load testing with Artillery
+// artillery.config.yml
+export default {
+  target: 'http://localhost:3000',
+  phases: [
+    { duration: 60, arrivalRate: 10 },
+    { duration: 120, arrivalRate: 20 },
+    { duration: 60, arrivalRate: 10 },
+  ],
+  scenarios: [
+    {
+      name: 'API Load Test',
+      flow: [
+        { get: { url: '/api/users' } },
+        { think: 1 },
+        { get: { url: '/api/posts' } },
+      ],
+    },
+  ],
+};
+```
+
+### Performance Budgets
+```typescript
+// ✅ Good: Set performance budgets
+export const performanceBudgets = {
+  'bundle-size': {
+    maxSize: '250KB',
+    maxInitialRequests: 6,
+  },
+  'lighthouse-score': {
+    performance: 90,
+    accessibility: 90,
+    'best-practices': 90,
+    seo: 90,
+  },
+  'core-web-vitals': {
+    LCP: 2500,
+    FID: 100,
+    CLS: 0.1,
+  },
+};
+```
+
+## Optimization Techniques
+
+### Lazy Loading
+```typescript
+// ✅ Good: Lazy load non-critical resources
+export const LazyComponent = lazy(() => import('./HeavyComponent'));
+
+// ✅ Good: Intersection Observer for lazy loading
+export const useIntersectionObserver = (ref: RefObject<Element>) => {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    
+    return () => observer.disconnect();
+  }, [ref]);
+  
+  return isVisible;
+};
+```
+
+### Debouncing and Throttling
+```typescript
+// ✅ Good: Debounce expensive operations
+import { debounce } from 'lodash-es';
+
+export const useDebouncedSearch = (callback: (query: string) => void) => {
+  const debouncedCallback = useMemo(
+    () => debounce(callback, 300),
+    [callback]
+  );
+  
+  return debouncedCallback;
+};
+
+// ✅ Good: Throttle scroll events
+export const useThrottledScroll = (callback: () => void) => {
+  const throttledCallback = useMemo(
+    () => throttle(callback, 100),
+    [callback]
+  );
+  
+  useEffect(() => {
+    window.addEventListener('scroll', throttledCallback);
+    return () => window.removeEventListener('scroll', throttledCallback);
+  }, [throttledCallback]);
+};
+```
+
+## Best Practices Summary
+
+### Do's
+- Use React.memo for expensive components
+- Implement code splitting and lazy loading
+- Optimize images and use modern formats
+- Cache frequently accessed data
+- Monitor Core Web Vitals
+- Use database indexes appropriately
+- Implement proper pagination
+- Set up performance budgets
+- Use CDN for static assets
+- Optimize bundle size
+
+### Don'ts
+- Don't render large lists without virtualization
+- Don't make unnecessary API calls
+- Don't ignore Core Web Vitals
+- Don't use heavy libraries for simple tasks
+- Don't skip performance monitoring
+- Don't use offset pagination for large datasets
+- Don't ignore caching opportunities
+- Don't load all data at once
+- Don't use synchronous operations for I/O
+- Don't ignore bundle size
+
+## Performance Checklist
+
+### Frontend Optimization
+- [ ] Implement code splitting
+- [ ] Use React.memo for expensive components
+- [ ] Optimize images and use modern formats
+- [ ] Implement lazy loading
+- [ ] Monitor Core Web Vitals
+- [ ] Optimize bundle size
+- [ ] Use proper caching strategies
+
+### Backend Optimization
+- [ ] Implement response caching
+- [ ] Optimize database queries
+- [ ] Use connection pooling
+- [ ] Implement proper pagination
+- [ ] Monitor API response times
+- [ ] Use database indexes
+- [ ] Implement rate limiting
+
+### Monitoring and Testing
+- [ ] Set up performance monitoring
+- [ ] Implement load testing
+- [ ] Set performance budgets
+- [ ] Monitor Core Web Vitals
+- [ ] Track API performance
+- [ ] Implement error tracking
+- [ ] Set up alerts for performance issues
+
+Follow these performance standards to create fast, responsive, and scalable web applications.
+description:
+globs:
+alwaysApply: false
+---

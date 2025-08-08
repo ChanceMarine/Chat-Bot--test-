@@ -1,0 +1,466 @@
+---
+description: Guide for creating and maintaining Cursor rules for AI-assisted development
+globs: **/*
+alwaysApply: true
+---
+# Cursor Rules Generation
+
+## Overview
+
+This guide provides systematic approaches to automatically generate Cursor rules for any type of project file, whether it's React components, backend services, utility functions, CSS files, database schemas, API routes, or any other file type.
+
+## Foundational Rules Setup
+
+### 1. Cursor Rules Meta-Rule
+
+Create `.cursor/rules/cursor-rules.mdc`:
+
+```markdown
+---
+description: How to add or edit Cursor rules in our project
+globs: **/*
+alwaysApply: false
+---
+# Cursor Rules Location
+
+How to add new cursor rules to the project
+
+1. Always place rule files in PROJECT_ROOT/.cursor/rules/:
+   ```
+   .cursor/rules/
+   ├── your-rule-name.mdc
+   ├── another-rule.mdc
+   └── ...
+   ```
+
+2. Follow the naming convention:
+   - Use kebab-case for filenames
+   - Always use .mdc extension
+   - Make names descriptive of the rule's purpose
+
+3. Directory structure:
+   ```
+   PROJECT_ROOT/
+   ├── .cursor/
+   │   └── rules/
+   │       ├── your-rule-name.mdc
+   │       └── ...
+   └── ...
+   ```
+
+4. Never place rule files:
+   - In the project root
+   - In subdirectories outside .cursor/rules
+   - In any other location
+
+5. Cursor rules have the following structure:
+
+```
+---
+description: Short description of the rule's purpose
+globs: optional/path/pattern/**/*
+alwaysApply: false
+---
+# Rule Title
+
+Main content explaining the rule with markdown formatting.
+
+1. Step-by-step instructions
+2. Code examples
+3. Guidelines
+
+Example:
+
+```typescript
+// Good example
+function goodExample() {
+  // Implementation following guidelines
+}
+
+// Bad example
+function badExample() {
+  // Implementation not following guidelines
+}
+```
+```
+
+### 2. Self-Improvement Rule
+
+Create `.cursor/rules/self-improvement.mdc`:
+
+```markdown
+---
+description: Guidelines for continuously improving Cursor rules based on emerging code patterns and best practices
+globs: **/*
+alwaysApply: true
+---
+## Rule Improvement Triggers
+
+- New code patterns not covered by existing rules
+- Repeated similar implementations across files
+- Common error patterns that could be prevented
+- New libraries or tools being used consistently
+- Emerging best practices in the codebase
+
+# Analysis Process:
+- Compare new code with existing rules
+- Identify patterns that should be standardized
+- Look for references to external documentation
+- Check for consistent error handling patterns
+- Monitor test patterns and coverage
+
+# Rule Updates:
+
+- **Add New Rules When:**
+  - A new technology/pattern is used in 3+ files
+  - Common bugs could be prevented by a rule
+  - Code reviews repeatedly mention the same feedback
+  - New security or performance patterns emerge
+
+- **Modify Existing Rules When:**
+  - Better examples exist in the codebase
+  - Additional edge cases are discovered
+  - Related rules have been updated
+  - Implementation details have changed
+
+- **Example Pattern Recognition:**
+
+  ```typescript
+  // If you see repeated patterns like:
+  const data = await prisma.user.findMany({
+    select: { id: true, email: true },
+    where: { status: 'ACTIVE' }
+  });
+
+  // Consider adding to [prisma.mdc](mdc:shipixen/.cursor/rules/prisma.mdc):
+  // - Standard select fields
+  // - Common where conditions
+  // - Performance optimization patterns
+  ```
+
+- **Rule Quality Checks:**
+- Rules should be actionable and specific
+- Examples should come from actual code
+- References should be up to date
+- Patterns should be consistently enforced
+
+## Continuous Improvement:
+
+- Monitor code review comments
+- Track common development questions
+- Update rules after major refactors
+- Add links to relevant documentation
+- Cross-reference related rules
+
+## Rule Deprecation
+
+- Mark outdated patterns as deprecated
+- Remove rules that no longer apply
+- Update references to deprecated rules
+- Document migration paths for old patterns
+
+## Documentation Updates:
+
+- Keep examples synchronized with code
+- Update references to external docs
+- Maintain links between related rules
+- Document breaking changes
+
+Follow [cursor-rules.mdc](mdc:.cursor/rules/cursor-rules.mdc) for proper rule formatting and structure.
+```
+
+## Automated Rule Generation Process
+
+### Step 1: Project Structure Rule
+
+Generate a project structure rule to document your codebase:
+
+```
+@cursor-rules.mdc List all source files and folders in the project,
+and create a new cursor rule outlining the directory structure and important files and folders.
+```
+
+This creates a rule that documents:
+- Directory organization
+- File naming conventions
+- Component locations
+- Configuration files
+- Build and deployment structure
+
+### Step 2: Tech Stack Rule
+
+Generate a tech stack rule from your package.json:
+
+```
+@cursor-rules.mdc @package.json Analyze all major dependencies
+and create a cursor rule outlining the stack of the application
+and the versions I'm using, and any remarks on best practices on those versions.
+```
+
+This creates a rule that documents:
+- Framework versions and best practices
+- Library-specific conventions
+- Deprecated methods to avoid
+- Performance optimization patterns
+- Security considerations
+
+### Step 3: Component-Specific Rules
+
+Generate rules for specific file types by analyzing examples:
+
+```
+@cursor-rules.mdc @components/ui/button.tsx
+/Generate Cursor Rules
+I want to generate a cursor rule for this React component. Please analyze it carefully and outline all of the conventions found. Output as one rule file only.
+```
+
+This approach works for:
+- React components
+- API routes
+- Database models
+- Utility functions
+- CSS files
+- Configuration files
+
+## Generic Rule Generation Template
+
+### For Any File Type
+
+```
+@cursor-rules.mdc @[FILE_PATH]
+/Generate Cursor Rules
+I want to generate a cursor rule for this [FILE_TYPE]. Please analyze it carefully and outline all of the conventions found. Output as one rule file only.
+```
+
+### Specific Analysis Requests
+
+```
+@cursor-rules.mdc @[FILE_PATH]
+/Generate Cursor Rules
+Focus on the [SPECIFIC_ASPECT] patterns in this file. Please analyze it carefully and outline all of the conventions found. Output as one rule file only.
+```
+
+Examples:
+- "Focus on the error handling patterns"
+- "Extract the TypeScript conventions"
+- "Identify the testing patterns"
+- "Look at the styling approach"
+
+## Rule Generation Best Practices
+
+### 1. Use Your Best Files as Examples
+- Choose well-written, representative files
+- Include files that follow your preferred patterns
+- Avoid files with known issues or anti-patterns
+- Use files that demonstrate your coding standards
+
+### 2. Be Specific in Your Requests
+- Specify what aspects to focus on
+- Ask for particular patterns or conventions
+- Request specific formatting or structure
+- Include context about your project needs
+
+### 3. Validate Generated Rules
+- Review rules for accuracy and completeness
+- Test rules against your existing codebase
+- Ensure rules don't conflict with each other
+- Update rules based on feedback and usage
+
+### 4. Iterate and Refine
+- Start with basic rules and expand
+- Add more specific rules as needed
+- Update rules based on new patterns
+- Remove or deprecate outdated rules
+
+## Advanced Rule Generation Techniques
+
+### Multi-File Analysis
+
+```
+@cursor-rules.mdc @file1.tsx @file2.tsx @file3.tsx
+/Generate Cursor Rules
+Analyze these multiple files to identify common patterns and conventions. Create a comprehensive rule that covers all the shared practices. Output as one rule file only.
+```
+
+### Pattern-Specific Analysis
+
+```
+@cursor-rules.mdc @[FILE_PATH]
+/Generate Cursor Rules
+Focus specifically on [PATTERN_TYPE] patterns in this codebase. Examples include:
+- Error handling patterns
+- State management approaches
+- API integration patterns
+- Styling conventions
+- Testing strategies
+Output as one rule file only.
+```
+
+### Context-Aware Generation
+
+```
+@cursor-rules.mdc @[FILE_PATH]
+/Generate Cursor Rules
+Consider the context of a [PROJECT_TYPE] project when analyzing this file. Focus on conventions that are specific to [TECH_STACK] and [DOMAIN]. Output as one rule file only.
+```
+
+## Rule Organization Strategies
+
+### By File Type
+```
+.cursor/rules/
+├── react-components.mdc
+├── api-routes.mdc
+├── database-models.mdc
+├── utility-functions.mdc
+├── styling.mdc
+└── configuration.mdc
+```
+
+### By Domain
+```
+.cursor/rules/
+├── frontend/
+│   ├── components.mdc
+│   ├── styling.mdc
+│   └── state-management.mdc
+├── backend/
+│   ├── api-routes.mdc
+│   ├── database.mdc
+│   └── authentication.mdc
+└── shared/
+    ├── utilities.mdc
+    ├── testing.mdc
+    └── security.mdc
+```
+
+### By Complexity Level
+```
+.cursor/rules/
+├── basic-patterns.mdc
+├── intermediate-patterns.mdc
+├── advanced-patterns.mdc
+└── architecture-patterns.mdc
+```
+
+## Rule Quality Validation
+
+### Validation Checklist
+- [ ] Rules are specific and actionable
+- [ ] Examples are current and working
+- [ ] Guidelines are clear and unambiguous
+- [ ] Rules don't conflict with each other
+- [ ] Rules cover common use cases
+- [ ] Rules include error prevention
+
+### Testing Generated Rules
+- Apply rules to existing codebase
+- Check for rule violations
+- Verify rule effectiveness
+- Gather feedback from team members
+- Measure impact on code quality
+
+### Rule Maintenance
+- Update rules when patterns change
+- Remove outdated rules
+- Add new rules for emerging patterns
+- Keep rules synchronized with codebase
+- Version control rule changes
+
+## Integration with Development Workflow
+
+### Pre-commit Rule Validation
+- Check code against current rules
+- Flag potential rule violations
+- Suggest rule improvements
+- Maintain rule compliance
+
+### Code Review Integration
+- Include rule checks in reviews
+- Flag rule violations during review
+- Suggest rule updates based on review
+- Document review findings for rule updates
+
+### Continuous Integration
+- Automate rule validation in CI
+- Fail builds on critical rule violations
+- Generate rule compliance reports
+- Track rule effectiveness over time
+
+## Scaling to Large Codebases
+
+### Monorepo Organization
+- Create domain-specific rule directories
+- Use glob patterns for rule application
+- Maintain rule hierarchy and inheritance
+- Coordinate rule changes across projects
+
+### Team Collaboration
+- Share rules across team members
+- Coordinate rule updates and changes
+- Provide training on rule usage
+- Gather feedback for rule improvements
+
+### Rule Governance
+- Establish rule review process
+- Define rule approval workflow
+- Maintain rule documentation
+- Track rule adoption and effectiveness
+
+## Troubleshooting Common Issues
+
+### When Rules Don't Apply
+- Check glob patterns in rule metadata
+- Verify rule file location and naming
+- Ensure rule syntax is correct
+- Restart Cursor after rule changes
+
+### When Rules Conflict
+- Review rule priorities and scope
+- Resolve conflicting guidance
+- Update rule metadata for specificity
+- Consolidate overlapping rules
+
+### When Rules Are Too Broad
+- Make rules more specific
+- Add conditional application
+- Split broad rules into focused ones
+- Use file-specific rule targeting
+
+### When Rules Are Too Narrow
+- Expand rule scope gradually
+- Add related patterns and conventions
+- Include edge cases and variations
+- Consider rule generalization
+
+## Best Practices Summary
+
+### Rule Generation
+- Use `/Generate Cursor Rules` command
+- Analyze your best code examples
+- Be specific in your requests
+- Validate and test generated rules
+
+### Rule Organization
+- Use logical directory structure
+- Apply appropriate glob patterns
+- Maintain rule relationships
+- Keep rules focused and specific
+
+### Rule Maintenance
+- Update rules regularly
+- Remove outdated patterns
+- Add new best practices
+- Monitor rule effectiveness
+
+### Rule Integration
+- Include rules in development workflow
+- Validate rules in CI/CD
+- Train team on rule usage
+- Gather feedback for improvements
+
+Follow this systematic approach to generate and maintain effective Cursor rules that improve code quality and development efficiency across your projects.
+description:
+globs:
+alwaysApply: false
+---

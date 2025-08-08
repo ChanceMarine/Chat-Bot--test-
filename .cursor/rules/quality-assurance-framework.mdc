@@ -1,0 +1,399 @@
+---
+description: Comprehensive quality assurance framework including testing, code review, and validation
+globs: **/*
+alwaysApply: true
+---
+# Quality Assurance Framework
+
+## Overview
+
+This framework provides comprehensive testing approaches for spec-driven development, validation techniques for each phase of the process, and quality gates to ensure high-quality implementation.
+
+## Testing Philosophy for Spec-Driven Development
+
+### Core Principles
+
+1. **Requirements-Driven Testing**: Every test should trace back to a specific requirement
+2. **Phase-Appropriate Validation**: Different validation techniques for each spec phase
+3. **Continuous Quality**: Quality checks throughout the development process
+4. **Automated Where Possible**: Reduce manual effort through automation
+5. **Feedback Loops**: Quick feedback to catch issues early
+
+### Testing Pyramid for Spec-Driven Development
+
+```
+    /\
+   /  \     Integration Tests
+  /____\    (API, Component Integration)
+ /      \   
+/________\   Unit Tests
+           (Individual Functions, Classes)
+
+Foundation: Requirements Validation
+```
+
+## Phase-Specific Validation Techniques
+
+### Requirements Phase Validation
+
+#### Requirements Quality Checklist
+- [ ] **Completeness**: All user stories have acceptance criteria
+- [ ] **Clarity**: Requirements are unambiguous and specific
+- [ ] **Testability**: Each requirement can be validated
+- [ ] **EARS Format**: Proper use of WHEN/IF/THEN structure
+- [ ] **Traceability**: Requirements link to business objectives
+- [ ] **Consistency**: No conflicting requirements
+
+#### Requirements Review Process
+```markdown
+1. **Self Review**: Author reviews requirements for completeness
+2. **Stakeholder Review**: Business stakeholders validate requirements
+3. **Technical Review**: Development team assesses feasibility
+4. **Acceptance**: Formal approval before moving to design
+```
+
+#### Requirements Validation Techniques
+- **Scenario Walkthroughs**: Step through user journeys
+- **Edge Case Analysis**: Identify boundary conditions
+- **Conflict Detection**: Check for contradictory requirements
+- **Completeness Analysis**: Ensure all user needs are covered
+
+### Design Phase Validation
+
+#### Design Quality Checklist
+- [ ] **Architecture Soundness**: Design supports all requirements
+- [ ] **Scalability**: Design can handle expected load
+- [ ] **Maintainability**: Code structure will be manageable
+- [ ] **Security**: Security considerations are addressed
+- [ ] **Performance**: Performance requirements are considered
+- [ ] **Integration**: External system interactions are defined
+
+#### Design Review Process
+```markdown
+1. **Architecture Review**: Senior developers validate overall design
+2. **Security Review**: Security implications are assessed
+3. **Performance Review**: Performance characteristics are evaluated
+4. **Integration Review**: External dependencies are validated
+```
+
+#### Design Validation Techniques
+- **Design Walkthroughs**: Step through system interactions
+- **Threat Modeling**: Identify security vulnerabilities
+- **Performance Modeling**: Estimate system performance
+- **Dependency Analysis**: Map external system requirements
+
+### Tasks Phase Validation
+
+#### Task Quality Checklist
+- [ ] **Actionability**: Each task has clear deliverables
+- [ ] **Sequencing**: Task order makes logical sense
+- [ ] **Completeness**: All design elements are covered
+- [ ] **Testability**: Each task can be validated
+- [ ] **Scope**: Tasks are appropriately sized
+- [ ] **Dependencies**: Task dependencies are clear
+
+#### Task Review Process
+```markdown
+1. **Completeness Review**: All design elements have corresponding tasks
+2. **Sequencing Review**: Task order is logical and efficient
+3. **Scope Review**: Tasks are appropriately sized for implementation
+4. **Dependency Review**: Task dependencies are clearly defined
+```
+
+## Spec-Driven Development Validation
+
+### Validation Approach for Each Phase
+```markdown
+Requirements → Design → Tasks → Implementation
+     ↓           ↓        ↓          ↓
+  Validate    Validate  Validate   Test &
+  Complete-   Architec- Action-   Validate
+  ness        ture      ability   Quality
+```
+
+### Quality Gates Between Phases
+
+#### Requirements → Design Gate
+- [ ] All requirements are testable and measurable
+- [ ] Edge cases and error scenarios are covered
+- [ ] Non-functional requirements are specified
+- [ ] Dependencies and constraints are identified
+- [ ] Stakeholder approval obtained
+
+#### Design → Tasks Gate
+- [ ] Architecture addresses all requirements
+- [ ] Components have clear responsibilities
+- [ ] Error handling is comprehensive
+- [ ] Testing strategy is defined
+- [ ] Technical feasibility confirmed
+
+#### Tasks → Implementation Gate
+- [ ] Tasks are specific and actionable
+- [ ] Dependencies are clearly identified
+- [ ] Testing is included for each task
+- [ ] Requirements traceability is maintained
+- [ ] Implementation approach is clear
+
+## Testing Strategies
+
+### Unit Testing
+- **Purpose**: Test individual functions and components
+- **Coverage**: Minimum 80% code coverage
+- **Focus**: Business logic and edge cases
+- **Tools**: Jest, Mocha, PyTest, etc.
+
+#### Unit Testing Best Practices
+```typescript
+// Good unit test example
+describe('User Authentication', () => {
+  it('should authenticate valid credentials', async () => {
+    const result = await authenticateUser('user@example.com', 'password123');
+    expect(result.success).toBe(true);
+    expect(result.user).toBeDefined();
+  });
+
+  it('should reject invalid credentials', async () => {
+    const result = await authenticateUser('user@example.com', 'wrongpassword');
+    expect(result.success).toBe(false);
+    expect(result.error).toBe('Invalid credentials');
+  });
+});
+```
+
+### Integration Testing
+- **Purpose**: Test component interactions and API endpoints
+- **Focus**: Data flow and system integration
+- **Tools**: Supertest, Postman, etc.
+
+#### Integration Testing Best Practices
+```typescript
+// Good integration test example
+describe('User API', () => {
+  it('should create user and return session', async () => {
+    const response = await request(app)
+      .post('/api/users')
+      .send({
+        email: 'test@example.com',
+        password: 'password123'
+      });
+    
+    expect(response.status).toBe(201);
+    expect(response.body.user).toBeDefined();
+    expect(response.body.token).toBeDefined();
+  });
+});
+```
+
+### End-to-End Testing
+- **Purpose**: Test complete user workflows
+- **Focus**: Critical user journeys
+- **Tools**: Cypress, Playwright, Selenium
+
+#### E2E Testing Best Practices
+```typescript
+// Good E2E test example
+describe('User Registration Flow', () => {
+  it('should complete full registration process', () => {
+    cy.visit('/register');
+    cy.get('[data-testid="email-input"]').type('test@example.com');
+    cy.get('[data-testid="password-input"]').type('password123');
+    cy.get('[data-testid="submit-button"]').click();
+    cy.url().should('include', '/dashboard');
+    cy.get('[data-testid="welcome-message"]').should('contain', 'Welcome');
+  });
+});
+```
+
+## Quality Metrics and Monitoring
+
+### Code Quality Metrics
+- **Cyclomatic Complexity**: Keep functions simple (< 10)
+- **Code Coverage**: Maintain minimum 80% coverage
+- **Technical Debt**: Track and reduce debt over time
+- **Performance**: Monitor response times and resource usage
+
+### Testing Metrics
+- **Test Coverage**: Percentage of code covered by tests
+- **Test Execution Time**: Keep tests fast for quick feedback
+- **Test Reliability**: Minimize flaky tests
+- **Bug Detection Rate**: Track bugs found in testing vs production
+
+### Quality Gates Implementation
+
+#### Automated Quality Gates
+```yaml
+# Example CI/CD quality gates
+quality_gates:
+  - name: "Code Coverage"
+    threshold: 80
+    metric: "coverage_percentage"
+  
+  - name: "Test Execution"
+    threshold: 100
+    metric: "tests_passed"
+  
+  - name: "Security Scan"
+    threshold: 0
+    metric: "security_vulnerabilities"
+  
+  - name: "Performance"
+    threshold: 2000
+    metric: "response_time_ms"
+```
+
+#### Manual Quality Gates
+- **Code Review**: All code changes reviewed
+- **Design Review**: Architecture decisions validated
+- **Requirements Review**: Business requirements confirmed
+- **User Acceptance**: End users validate functionality
+
+## Error Handling and Recovery
+
+### Error Handling Strategy
+- **Graceful Degradation**: System continues working with reduced functionality
+- **User-Friendly Messages**: Clear error messages for users
+- **Comprehensive Logging**: Detailed logs for debugging
+- **Monitoring and Alerting**: Proactive issue detection
+
+### Recovery Strategies
+- **Automatic Retry**: Retry failed operations with exponential backoff
+- **Circuit Breaker**: Prevent cascade failures
+- **Fallback Mechanisms**: Alternative paths when primary fails
+- **Data Recovery**: Backup and restore procedures
+
+## Performance Testing
+
+### Performance Requirements
+- **Response Time**: API endpoints respond within 200ms
+- **Throughput**: System handles expected load
+- **Scalability**: Performance scales with load
+- **Resource Usage**: Efficient memory and CPU usage
+
+### Performance Testing Types
+- **Load Testing**: Test system under expected load
+- **Stress Testing**: Test system beyond expected load
+- **Spike Testing**: Test system with sudden load increases
+- **Endurance Testing**: Test system over extended periods
+
+## Security Testing
+
+### Security Requirements
+- **Authentication**: Secure user authentication
+- **Authorization**: Proper access control
+- **Data Protection**: Sensitive data encrypted
+- **Input Validation**: All inputs validated and sanitized
+
+### Security Testing Types
+- **Vulnerability Scanning**: Automated security scans
+- **Penetration Testing**: Manual security testing
+- **Code Review**: Security-focused code review
+- **Dependency Scanning**: Check for vulnerable dependencies
+
+## Continuous Quality Improvement
+
+### Quality Feedback Loops
+- **Code Review Feedback**: Learn from review comments
+- **Test Failure Analysis**: Understand why tests fail
+- **Bug Analysis**: Root cause analysis of bugs
+- **Performance Monitoring**: Track performance trends
+
+### Quality Improvement Process
+1. **Identify Issues**: Find quality problems
+2. **Analyze Root Cause**: Understand why issues occur
+3. **Implement Fixes**: Address root causes
+4. **Monitor Results**: Track improvement over time
+5. **Iterate**: Continue improving
+
+## Tools and Automation
+
+### Testing Tools
+- **Unit Testing**: Jest, Mocha, PyTest, JUnit
+- **Integration Testing**: Supertest, Postman, REST Assured
+- **E2E Testing**: Cypress, Playwright, Selenium
+- **Performance Testing**: Artillery, JMeter, K6
+
+### Quality Tools
+- **Code Coverage**: Istanbul, JaCoCo, Coverage.py
+- **Static Analysis**: ESLint, SonarQube, Pylint
+- **Security Scanning**: OWASP ZAP, Snyk, Dependabot
+- **Performance Monitoring**: New Relic, DataDog, Prometheus
+
+### CI/CD Integration
+```yaml
+# Example CI/CD pipeline with quality gates
+stages:
+  - test:
+      - unit_tests
+      - integration_tests
+      - security_scan
+  - quality_gate:
+      - coverage_check
+      - performance_test
+      - security_validation
+  - deploy:
+      - staging_deploy
+      - e2e_tests
+      - production_deploy
+```
+
+## Documentation and Reporting
+
+### Test Documentation
+- **Test Plans**: Document testing approach
+- **Test Cases**: Detailed test scenarios
+- **Test Results**: Track test execution results
+- **Quality Reports**: Regular quality status reports
+
+### Quality Reporting
+```markdown
+# Quality Report Template
+
+## Executive Summary
+- Overall quality status
+- Key metrics and trends
+- Critical issues and actions
+
+## Detailed Metrics
+- Code coverage: 85%
+- Test pass rate: 98%
+- Performance: All endpoints < 200ms
+- Security: No critical vulnerabilities
+
+## Issues and Actions
+- [ ] Fix flaky integration tests
+- [ ] Improve error handling in auth module
+- [ ] Add performance monitoring
+
+## Recommendations
+- Implement automated security scanning
+- Add more E2E tests for critical flows
+- Improve test data management
+```
+
+## Integration with Kiro Methodology
+
+### Requirements Phase Quality
+- Validate requirements are testable
+- Ensure acceptance criteria are measurable
+- Check for completeness and consistency
+
+### Design Phase Quality
+- Validate architecture supports requirements
+- Check for security and performance considerations
+- Ensure design is implementable
+
+### Tasks Phase Quality
+- Validate tasks are actionable
+- Check task dependencies and sequencing
+- Ensure all requirements are covered
+
+### Implementation Phase Quality
+- Execute comprehensive testing
+- Validate against requirements
+- Monitor quality metrics
+
+Follow this quality assurance framework to ensure high-quality implementations that meet all requirements and provide reliable, maintainable software.
+description:
+globs:
+alwaysApply: false
+---

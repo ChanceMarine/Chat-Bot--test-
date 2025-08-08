@@ -1,0 +1,453 @@
+---
+description: Systematic decision-making frameworks for AI-assisted development and problem-solving
+globs: **/*
+alwaysApply: true
+---
+# AI Decision Frameworks
+
+## Overview
+
+This document explains the systematic decision-making frameworks used by AI during spec-driven development. Understanding these frameworks helps developers collaborate more effectively with AI systems and anticipate how decisions will be made throughout the requirements, design, and task phases.
+
+## Requirements Analysis Framework
+
+### Prioritization Criteria
+
+When analyzing and prioritizing requirements, the AI applies these evaluation criteria in order:
+
+1. **User Impact Severity**
+   - Critical: Core functionality that blocks primary user workflows
+   - High: Important features that significantly affect user experience
+   - Medium: Useful features that enhance but don't block workflows
+   - Low: Nice-to-have features that provide marginal value
+
+2. **Technical Feasibility**
+   - Immediate: Can be implemented with existing tools and patterns
+   - Moderate: Requires research or learning new approaches
+   - Complex: Needs significant architectural decisions or new infrastructure
+   - Uncertain: Requires proof-of-concept or technical validation
+
+3. **Dependency Relationships**
+   - Foundation: Must be implemented before other features can work
+   - Independent: Can be implemented in any order
+   - Dependent: Requires other features to be completed first
+   - Optional: Enhances other features but isn't required
+
+### Requirements Validation Process
+
+The AI follows this systematic approach to validate requirements:
+
+```
+Input: Raw requirement statement
+↓
+1. Clarity Check
+   - Is the requirement unambiguous?
+   - Are all terms clearly defined?
+   - Can success be objectively measured?
+↓
+2. Completeness Analysis
+   - Are all necessary conditions specified?
+   - Are edge cases considered?
+   - Are error scenarios addressed?
+↓
+3. Consistency Verification
+   - Does this conflict with other requirements?
+   - Are there logical contradictions?
+   - Do related requirements align?
+↓
+4. Feasibility Assessment
+   - Is this technically achievable?
+   - Are there resource constraints?
+   - What are the implementation risks?
+↓
+Output: Validated requirement with confidence level
+```
+
+## Design Decision Framework
+
+### Architecture Decision Criteria
+
+When making architectural decisions, the AI evaluates options using these weighted factors:
+
+1. **Maintainability (30%)**
+   - Code clarity and readability
+   - Separation of concerns
+   - Testing ease and coverage potential
+   - Documentation requirements
+
+2. **Scalability (25%)**
+   - Performance under load
+   - Resource utilization efficiency
+   - Horizontal scaling potential
+   - Future extension capabilities
+
+3. **Reliability (20%)**
+   - Error handling robustness
+   - Failure recovery mechanisms
+   - Data consistency guarantees
+   - Monitoring and observability
+
+4. **Development Velocity (15%)**
+   - Implementation complexity
+   - Learning curve for team
+   - Tooling and ecosystem support
+   - Debugging and troubleshooting ease
+
+5. **Security (10%)**
+   - Authentication and authorization
+   - Data protection requirements
+   - Input validation and sanitization
+   - Compliance considerations
+
+### Design Evaluation Matrix
+
+The AI uses a systematic matrix to evaluate design options:
+
+| Criteria | Weight | Option A | Option B | Option C |
+|----------|--------|----------|----------|----------|
+| Maintainability | 30% | 8/10 | 6/10 | 9/10 |
+| Scalability | 25% | 7/10 | 9/10 | 6/10 |
+| Reliability | 20% | 8/10 | 7/10 | 8/10 |
+| Development Velocity | 15% | 6/10 | 8/10 | 7/10 |
+| Security | 10% | 9/10 | 7/10 | 8/10 |
+| **Total Score** | **100%** | **7.6/10** | **7.4/10** | **7.7/10** |
+
+### Technology Selection Framework
+
+When choosing technologies, the AI considers:
+
+1. **Project Constraints**
+   - Existing technology stack
+   - Team expertise and experience
+   - Budget and timeline constraints
+   - Infrastructure limitations
+
+2. **Technology Maturity**
+   - Community adoption and support
+   - Documentation quality
+   - Ecosystem richness
+   - Long-term viability
+
+3. **Performance Characteristics**
+   - Speed and efficiency
+   - Resource consumption
+   - Scalability limitations
+   - Integration capabilities
+
+4. **Risk Assessment**
+   - Learning curve complexity
+   - Vendor lock-in potential
+   - Security vulnerabilities
+   - Maintenance overhead
+
+## Task Planning Framework
+
+### Task Decomposition Strategy
+
+The AI breaks down design into tasks using these principles:
+
+1. **Incremental Value Delivery**
+   - Each task should deliver testable functionality
+   - Tasks should build on previous work
+   - Early tasks should validate core assumptions
+   - Later tasks should add polish and optimization
+
+2. **Dependency Management**
+   - Identify critical path tasks
+   - Minimize blocking dependencies
+   - Enable parallel work where possible
+   - Plan for integration points
+
+3. **Risk Mitigation**
+   - Address high-risk areas early
+   - Include proof-of-concept tasks
+   - Plan for alternative approaches
+   - Build in validation checkpoints
+
+### Task Prioritization Matrix
+
+| Factor | Weight | High Priority | Medium Priority | Low Priority |
+|--------|--------|---------------|-----------------|--------------|
+| Business Value | 40% | Core functionality | Nice-to-have features | Experimental features |
+| Technical Risk | 30% | Unproven approaches | Moderate complexity | Well-understood patterns |
+| Dependencies | 20% | Blocks other work | Some dependencies | Independent |
+| Effort | 10% | Quick wins | Moderate effort | High effort |
+
+## Implementation Decision Framework
+
+### Code Quality Standards
+
+The AI applies these standards when generating code:
+
+1. **Readability and Maintainability**
+   - Clear variable and function names
+   - Consistent code style and formatting
+   - Appropriate comments and documentation
+   - Logical code organization
+
+2. **Performance and Efficiency**
+   - Optimize for common use cases
+   - Minimize resource consumption
+   - Use appropriate data structures
+   - Implement caching where beneficial
+
+3. **Error Handling and Robustness**
+   - Comprehensive error handling
+   - Graceful degradation
+   - Input validation and sanitization
+   - Logging and monitoring
+
+4. **Security and Safety**
+   - Secure by default
+   - Input validation and sanitization
+   - Authentication and authorization
+   - Data protection and privacy
+
+### Testing Strategy Decisions
+
+The AI determines testing approaches based on:
+
+1. **Risk Assessment**
+   - High-risk areas need comprehensive testing
+   - Business-critical features require thorough validation
+   - Complex logic needs extensive unit testing
+   - Integration points need integration testing
+
+2. **Cost-Benefit Analysis**
+   - Test effort vs. potential failure cost
+   - Manual vs. automated testing balance
+   - Coverage vs. maintenance overhead
+   - Testing vs. development velocity
+
+3. **Testing Pyramid Application**
+   - Unit tests for business logic
+   - Integration tests for component interactions
+   - End-to-end tests for critical user journeys
+   - Performance tests for scalability validation
+
+## Problem-Solving Framework
+
+### Root Cause Analysis
+
+When troubleshooting issues, the AI follows this process:
+
+1. **Symptom Analysis**
+   - What is the observable problem?
+   - When does it occur?
+   - What are the error messages or logs?
+   - What is the impact on users?
+
+2. **Context Investigation**
+   - What changed recently?
+   - What are the system conditions?
+   - What are the user actions?
+   - What are the environmental factors?
+
+3. **Hypothesis Generation**
+   - What could be causing this?
+   - What are the most likely causes?
+   - What are the less likely but possible causes?
+   - What are the edge cases?
+
+4. **Testing and Validation**
+   - How can we test each hypothesis?
+   - What evidence supports or refutes each?
+   - What additional information do we need?
+   - What are the next steps?
+
+### Solution Evaluation Framework
+
+When evaluating potential solutions, the AI considers:
+
+1. **Effectiveness**
+   - Does it solve the root cause?
+   - Does it prevent future occurrences?
+   - Does it address all symptoms?
+   - Does it maintain system integrity?
+
+2. **Implementation Complexity**
+   - How much effort is required?
+   - What are the implementation risks?
+   - What are the testing requirements?
+   - What are the deployment considerations?
+
+3. **Side Effects**
+   - What are the potential negative impacts?
+   - What are the performance implications?
+   - What are the security considerations?
+   - What are the maintenance implications?
+
+## Optimization Framework
+
+### Performance Optimization Decisions
+
+The AI uses this framework for performance decisions:
+
+1. **Measurement First**
+   - Profile to identify bottlenecks
+   - Measure before and after changes
+   - Focus on user-perceived performance
+   - Consider resource utilization
+
+2. **Optimization Hierarchy**
+   - Algorithm improvements (biggest impact)
+   - Data structure optimizations
+   - Caching strategies
+   - Resource management
+   - Hardware considerations
+
+3. **Trade-off Analysis**
+   - Performance vs. complexity
+   - Speed vs. memory usage
+   - Optimization vs. maintainability
+   - Current performance vs. future scalability
+
+### Scalability Decision Framework
+
+When planning for scale, the AI considers:
+
+1. **Current vs. Future Load**
+   - Expected growth patterns
+   - Peak vs. average load
+   - Geographic distribution
+   - Usage patterns and trends
+
+2. **Scaling Strategies**
+   - Horizontal vs. vertical scaling
+   - Database scaling approaches
+   - Caching and CDN strategies
+   - Load balancing and distribution
+
+3. **Infrastructure Considerations**
+   - Cloud vs. on-premise
+   - Containerization and orchestration
+   - Monitoring and alerting
+   - Disaster recovery and backup
+
+## Security Decision Framework
+
+### Security Assessment Process
+
+The AI evaluates security using this framework:
+
+1. **Threat Modeling**
+   - Identify potential attackers
+   - Map attack vectors
+   - Assess vulnerability impact
+   - Prioritize security measures
+
+2. **Security Controls**
+   - Authentication and authorization
+   - Input validation and sanitization
+   - Data encryption and protection
+   - Audit logging and monitoring
+
+3. **Compliance Considerations**
+   - Regulatory requirements
+   - Industry standards
+   - Data privacy laws
+   - Security certifications
+
+## Integration Decision Framework
+
+### API Design Decisions
+
+When designing APIs, the AI considers:
+
+1. **Consistency and Standards**
+   - RESTful design principles
+   - Consistent naming conventions
+   - Standard HTTP status codes
+   - Proper error handling
+
+2. **Usability and Developer Experience**
+   - Clear and intuitive endpoints
+   - Comprehensive documentation
+   - Good error messages
+   - Versioning strategy
+
+3. **Performance and Reliability**
+   - Response time optimization
+   - Caching strategies
+   - Rate limiting and throttling
+   - Fault tolerance and resilience
+
+## Monitoring and Observability Framework
+
+### Observability Decision Framework
+
+The AI plans observability using:
+
+1. **Logging Strategy**
+   - What events to log
+   - Log level determination
+   - Structured logging format
+   - Log retention and rotation
+
+2. **Metrics and Monitoring**
+   - Key performance indicators
+   - Business metrics
+   - Infrastructure metrics
+   - Alert thresholds and escalation
+
+3. **Tracing and Debugging**
+   - Request tracing
+   - Performance profiling
+   - Error tracking
+   - Debug information
+
+## Continuous Improvement Framework
+
+### Learning and Adaptation
+
+The AI uses this framework for continuous improvement:
+
+1. **Feedback Collection**
+   - User feedback and satisfaction
+   - Performance metrics and trends
+   - Error rates and patterns
+   - Development velocity and quality
+
+2. **Analysis and Insights**
+   - Identify improvement opportunities
+   - Root cause analysis of issues
+   - Pattern recognition in problems
+   - Success factor analysis
+
+3. **Implementation and Validation**
+   - Prioritize improvements
+   - Implement changes incrementally
+   - Measure impact of changes
+   - Iterate based on results
+
+## Integration with Kiro Methodology
+
+### Requirements Phase Integration
+- Use decision frameworks to prioritize requirements
+- Apply validation processes to ensure quality
+- Consider feasibility and dependencies
+- Plan for traceability and testing
+
+### Design Phase Integration
+- Apply architectural decision criteria
+- Use technology selection framework
+- Consider scalability and maintainability
+- Plan for security and performance
+
+### Tasks Phase Integration
+- Use task decomposition strategies
+- Apply prioritization matrices
+- Consider dependencies and risks
+- Plan for incremental delivery
+
+### Implementation Phase Integration
+- Apply code quality standards
+- Use testing strategy decisions
+- Consider performance and security
+- Plan for monitoring and observability
+
+Follow these decision frameworks to understand how AI makes choices and to collaborate more effectively throughout the spec-driven development process.
+description:
+globs:
+alwaysApply: false
+---

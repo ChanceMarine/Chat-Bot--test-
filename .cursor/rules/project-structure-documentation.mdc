@@ -1,0 +1,440 @@
+---
+description: Standards for documenting project structure, architecture, and file organization
+globs: **/*
+alwaysApply: true
+---
+# Project Structure Documentation
+
+## Overview
+
+This rule defines how to document and organize project structure, including directory organization, file naming conventions, and important files and folders that AI should understand.
+
+## Directory Structure Documentation
+
+### Root Directory Structure
+```
+project-root/
+├── .cursor/              # Cursor IDE configuration
+│   └── rules/           # Cursor rules files
+├── src/                  # Source code directory
+│   ├── components/       # React components
+│   ├── pages/           # Page components
+│   ├── utils/           # Utility functions
+│   ├── hooks/           # Custom React hooks
+│   ├── types/           # TypeScript type definitions
+│   ├── styles/          # CSS and styling files
+│   └── api/             # API routes and handlers
+├── public/              # Static assets
+├── docs/                # Documentation
+├── tests/               # Test files
+├── config/              # Configuration files
+├── scripts/             # Build and utility scripts
+└── package.json         # Project dependencies and scripts
+```
+
+### Source Code Organization
+
+#### Components Directory (`src/components/`)
+```
+components/
+├── ui/                  # Reusable UI components
+│   ├── Button/
+│   ├── Input/
+│   └── Modal/
+├── layout/              # Layout components
+│   ├── Header/
+│   ├── Footer/
+│   └── Sidebar/
+├── features/            # Feature-specific components
+│   ├── auth/
+│   ├── dashboard/
+│   └── settings/
+└── shared/             # Shared components across features
+    ├── LoadingSpinner/
+    └── ErrorBoundary/
+```
+
+#### Pages Directory (`src/pages/`)
+```
+pages/
+├── auth/               # Authentication pages
+│   ├── login/
+│   ├── register/
+│   └── forgot-password/
+├── dashboard/          # Dashboard pages
+│   ├── overview/
+│   ├── analytics/
+│   └── settings/
+└── public/            # Public pages
+    ├── home/
+    ├── about/
+    └── contact/
+```
+
+#### Utils Directory (`src/utils/`)
+```
+utils/
+├── api/               # API utility functions
+├── validation/        # Form validation utilities
+├── formatting/        # Data formatting utilities
+├── constants/         # Application constants
+└── helpers/          # General helper functions
+```
+
+## File Naming Conventions
+
+### Component Files
+- **PascalCase**: `UserProfile.tsx`, `LoginForm.tsx`
+- **Descriptive names**: Clearly indicate component purpose
+- **Consistent suffixes**: Use `.tsx` for React components, `.ts` for utilities
+
+### Utility Files
+- **camelCase**: `formatDate.ts`, `validateEmail.ts`
+- **Action-oriented names**: Describe what the function does
+- **Group related functions**: Keep related utilities in the same file
+
+### Configuration Files
+- **kebab-case**: `tailwind.config.js`, `eslint.config.js`
+- **Descriptive names**: Indicate configuration purpose
+- **Standard locations**: Keep config files in root or config directory
+
+### Test Files
+- **Match source names**: `Component.test.tsx`, `utility.test.ts`
+- **Group by type**: Unit tests, integration tests, e2e tests
+- **Clear naming**: Indicate what is being tested
+
+## Important Files and Their Purposes
+
+### Configuration Files
+```markdown
+# Root Level Configuration
+package.json          # Dependencies and scripts
+tsconfig.json         # TypeScript configuration
+tailwind.config.js    # Tailwind CSS configuration
+eslint.config.js      # ESLint rules and settings
+prettier.config.js    # Code formatting rules
+jest.config.js        # Testing configuration
+
+# Build and Deployment
+next.config.js        # Next.js configuration
+vite.config.ts        # Vite configuration
+webpack.config.js     # Webpack configuration
+```
+
+### Documentation Files
+```markdown
+README.md             # Project overview and setup
+CHANGELOG.md          # Version history and changes
+CONTRIBUTING.md       # Contribution guidelines
+LICENSE               # Project license
+docs/                 # Detailed documentation
+├── api/             # API documentation
+├── components/      # Component documentation
+└── deployment/      # Deployment guides
+```
+
+### Source Code Files
+```markdown
+src/
+├── main.tsx         # Application entry point
+├── App.tsx          # Root application component
+├── index.css        # Global styles
+├── vite-env.d.ts    # Vite environment types
+└── components/      # React components
+```
+
+## Component Organization Patterns
+
+### Feature-Based Organization
+```
+src/
+├── features/
+│   ├── auth/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── utils/
+│   │   └── types/
+│   ├── dashboard/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   └── utils/
+│   └── settings/
+│       ├── components/
+│       └── utils/
+└── shared/
+    ├── components/
+    ├── hooks/
+    └── utils/
+```
+
+### Layer-Based Organization
+```
+src/
+├── presentation/     # UI components and pages
+├── domain/          # Business logic and entities
+├── infrastructure/  # External services and data
+└── shared/          # Shared utilities and types
+```
+
+## Import and Export Patterns
+
+### Barrel Exports
+```typescript
+// src/components/index.ts
+export { Button } from './ui/Button';
+export { Input } from './ui/Input';
+export { Modal } from './ui/Modal';
+
+// Usage
+import { Button, Input, Modal } from '@/components';
+```
+
+### Feature-Based Exports
+```typescript
+// src/features/auth/index.ts
+export { LoginForm } from './components/LoginForm';
+export { useAuth } from './hooks/useAuth';
+export { authApi } from './api/authApi';
+```
+
+### Type Exports
+```typescript
+// src/types/index.ts
+export * from './user';
+export * from './api';
+export * from './common';
+```
+
+## File Structure Guidelines
+
+### Component File Structure
+```typescript
+// ComponentName.tsx
+import React from 'react';
+import { ComponentProps } from './types';
+
+export const ComponentName: React.FC<ComponentProps> = ({ prop1, prop2 }) => {
+  // Component implementation
+  return <div>Component content</div>;
+};
+
+// ComponentName.test.tsx
+import { render, screen } from '@testing-library/react';
+import { ComponentName } from './ComponentName';
+
+describe('ComponentName', () => {
+  it('renders correctly', () => {
+    render(<ComponentName prop1="value" />);
+    expect(screen.getByText('Component content')).toBeInTheDocument();
+  });
+});
+
+// ComponentName.types.ts
+export interface ComponentProps {
+  prop1: string;
+  prop2?: number;
+}
+```
+
+### Utility File Structure
+```typescript
+// utilityName.ts
+export const utilityFunction = (param: string): string => {
+  // Implementation
+  return result;
+};
+
+// utilityName.test.ts
+import { utilityFunction } from './utilityName';
+
+describe('utilityFunction', () => {
+  it('returns expected result', () => {
+    const result = utilityFunction('test');
+    expect(result).toBe('expected');
+  });
+});
+```
+
+## Configuration and Environment
+
+### Environment Variables
+```bash
+# .env.local
+VITE_API_URL=http://localhost:3000
+VITE_APP_NAME=MyApp
+VITE_ENVIRONMENT=development
+
+# .env.production
+VITE_API_URL=https://api.myapp.com
+VITE_APP_NAME=MyApp
+VITE_ENVIRONMENT=production
+```
+
+### Build Configuration
+```javascript
+// vite.config.ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+  },
+});
+```
+
+## Testing Structure
+
+### Test Organization
+```
+tests/
+├── unit/              # Unit tests
+│   ├── components/
+│   ├── utils/
+│   └── hooks/
+├── integration/       # Integration tests
+│   ├── api/
+│   └── features/
+├── e2e/              # End-to-end tests
+│   ├── auth/
+│   └── dashboard/
+└── fixtures/         # Test data and fixtures
+    ├── users.json
+    └── api-responses/
+```
+
+### Test File Naming
+```markdown
+ComponentName.test.tsx     # Component tests
+utilityName.test.ts        # Utility function tests
+hookName.test.ts          # Custom hook tests
+api.test.ts              # API integration tests
+```
+
+## Documentation Standards
+
+### README Structure
+```markdown
+# Project Name
+
+Brief description of the project.
+
+## Features
+
+- Feature 1
+- Feature 2
+- Feature 3
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+```bash
+npm install
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+### Building
+
+```bash
+npm run build
+```
+
+## Project Structure
+
+```
+src/
+├── components/     # React components
+├── pages/         # Page components
+├── utils/         # Utility functions
+└── types/         # TypeScript types
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+## License
+
+This project is licensed under the MIT License.
+```
+
+### Component Documentation
+```markdown
+# ComponentName
+
+Brief description of the component.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| prop1 | string | - | Description of prop1 |
+| prop2 | number | 0 | Description of prop2 |
+
+## Usage
+
+```tsx
+import { ComponentName } from '@/components';
+
+<ComponentName prop1="value" prop2={42} />
+```
+
+## Examples
+
+### Basic Usage
+
+```tsx
+<ComponentName prop1="hello" />
+```
+
+### Advanced Usage
+
+```tsx
+<ComponentName prop1="hello" prop2={100} />
+```
+```
+
+## Best Practices
+
+### File Organization
+- **Group related files**: Keep related files together
+- **Use consistent naming**: Follow established naming conventions
+- **Limit file size**: Keep files focused and manageable
+- **Separate concerns**: Keep different types of code separate
+
+### Import Organization
+- **Group imports**: External libraries, internal modules, types
+- **Use absolute imports**: Use `@/` alias for src directory
+- **Avoid deep nesting**: Keep import paths shallow
+- **Use barrel exports**: Export multiple items from index files
+
+### Code Organization
+- **Single responsibility**: Each file should have one clear purpose
+- **Consistent structure**: Use consistent file structure patterns
+- **Clear separation**: Separate UI, logic, and data layers
+- **Maintainable**: Structure for long-term maintainability
+
+Follow this project structure documentation to maintain organized, scalable, and maintainable codebases.
+description:
+globs:
+alwaysApply: false
+---

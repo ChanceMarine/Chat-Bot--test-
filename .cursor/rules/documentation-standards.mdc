@@ -1,0 +1,933 @@
+---
+description: Comprehensive standards for code documentation, API docs, and technical writing
+globs: **/*
+alwaysApply: true
+---
+# Documentation Standards
+
+## Overview
+
+This rule defines documentation standards and best practices for web applications, including README files, API documentation, code comments, and maintaining comprehensive project documentation.
+
+## README Documentation
+
+### Project README Structure
+```markdown
+# Project Name
+
+Brief, compelling description of what this project does and why it exists.
+
+## Features
+
+- **Feature 1**: Description of the first key feature
+- **Feature 2**: Description of the second key feature
+- **Feature 3**: Description of the third key feature
+
+## Quick Start
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+- PostgreSQL 14+ (if using database)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/username/project-name.git
+cd project-name
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your configuration
+
+# Run database migrations
+npm run db:migrate
+
+# Start development server
+npm run dev
+```
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```bash
+# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/dbname"
+
+# Authentication
+JWT_SECRET="your-super-secret-jwt-key"
+
+# API Keys
+STRIPE_SECRET_KEY="sk_test_..."
+STRIPE_PUBLISHABLE_KEY="pk_test_..."
+
+# External Services
+SENDGRID_API_KEY="SG..."
+```
+
+## Usage
+
+### Development
+
+```bash
+# Start development server
+npm run dev
+
+# Run tests
+npm test
+
+# Run linting
+npm run lint
+
+# Build for production
+npm run build
+```
+
+### Production
+
+```bash
+# Build the application
+npm run build
+
+# Start production server
+npm start
+```
+
+## Project Structure
+
+```
+src/
+├── components/     # React components
+├── pages/         # Page components
+├── utils/         # Utility functions
+├── types/         # TypeScript types
+├── styles/        # CSS and styling
+└── api/           # API routes
+```
+
+## API Documentation
+
+See [API.md](./docs/API.md) for detailed API documentation.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```
+
+### Component README
+```markdown
+# ComponentName
+
+Brief description of what this component does and when to use it.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | - | The title to display |
+| `onClick` | `function` | - | Callback when button is clicked |
+| `disabled` | `boolean` | `false` | Whether the button is disabled |
+| `variant` | `'primary' \| 'secondary'` | `'primary'` | The visual style variant |
+
+## Usage
+
+```tsx
+import { ComponentName } from '@/components/ComponentName';
+
+function MyComponent() {
+  return (
+    <ComponentName
+      title="Click me"
+      onClick={() => console.log('clicked')}
+      variant="primary"
+    />
+  );
+}
+```
+
+## Examples
+
+### Basic Usage
+
+```tsx
+<ComponentName title="Hello World" />
+```
+
+### With Event Handler
+
+```tsx
+<ComponentName
+  title="Submit"
+  onClick={() => handleSubmit()}
+  disabled={isLoading}
+/>
+```
+
+### Different Variants
+
+```tsx
+<ComponentName title="Primary" variant="primary" />
+<ComponentName title="Secondary" variant="secondary" />
+```
+
+## Accessibility
+
+This component follows ARIA guidelines and supports:
+- Keyboard navigation
+- Screen reader announcements
+- Focus management
+- High contrast mode
+
+## Testing
+
+```bash
+npm test ComponentName
+```
+
+## Related
+
+- [Design System](./DESIGN_SYSTEM.md)
+- [Accessibility Guidelines](./ACCESSIBILITY.md)
+```
+```
+
+## API Documentation
+
+### OpenAPI/Swagger Documentation
+```yaml
+# openapi.yaml
+openapi: 3.0.0
+info:
+  title: Project API
+  description: API documentation for the project
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+
+servers:
+  - url: https://api.example.com/v1
+    description: Production server
+  - url: https://staging-api.example.com/v1
+    description: Staging server
+
+paths:
+  /users:
+    get:
+      summary: Get all users
+      description: Retrieve a list of all users
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    post:
+      summary: Create a new user
+      description: Create a new user account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique user identifier
+        email:
+          type: string
+          format: email
+          description: User's email address
+        name:
+          type: string
+          description: User's full name
+        createdAt:
+          type: string
+          format: date-time
+          description: Account creation timestamp
+      required:
+        - id
+        - email
+        - name
+        - createdAt
+
+    CreateUserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address
+        password:
+          type: string
+          minLength: 8
+          description: User's password
+        name:
+          type: string
+          minLength: 2
+          description: User's full name
+      required:
+        - email
+        - password
+        - name
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code
+```
+
+### API Documentation Template
+```markdown
+# API Documentation
+
+## Authentication
+
+All API requests require authentication using JWT tokens. Include the token in the Authorization header:
+
+```
+Authorization: Bearer <your-jwt-token>
+```
+
+## Base URL
+
+- Production: `https://api.example.com/v1`
+- Staging: `https://staging-api.example.com/v1`
+
+## Endpoints
+
+### Users
+
+#### GET /users
+
+Retrieve a list of all users.
+
+**Query Parameters:**
+- `page` (integer, optional): Page number (default: 1)
+- `limit` (integer, optional): Number of items per page (default: 10)
+
+**Response:**
+```json
+{
+  "users": [
+    {
+      "id": "uuid",
+      "email": "user@example.com",
+      "name": "John Doe",
+      "createdAt": "2024-01-15T10:30:00Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 100,
+    "pages": 10
+  }
+}
+```
+
+#### POST /users
+
+Create a new user account.
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "securepassword",
+  "name": "John Doe"
+}
+```
+
+**Response:**
+```json
+{
+  "id": "uuid",
+  "email": "user@example.com",
+  "name": "John Doe",
+  "createdAt": "2024-01-15T10:30:00Z"
+}
+```
+
+**Error Responses:**
+- `400 Bad Request`: Validation errors
+- `409 Conflict`: Email already exists
+
+### Posts
+
+#### GET /posts
+
+Retrieve a list of posts.
+
+**Query Parameters:**
+- `author` (string, optional): Filter by author ID
+- `category` (string, optional): Filter by category
+- `page` (integer, optional): Page number
+- `limit` (integer, optional): Items per page
+
+**Response:**
+```json
+{
+  "posts": [
+    {
+      "id": "uuid",
+      "title": "Post Title",
+      "content": "Post content...",
+      "author": {
+        "id": "uuid",
+        "name": "John Doe"
+      },
+      "createdAt": "2024-01-15T10:30:00Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 50,
+    "pages": 5
+  }
+}
+```
+
+## Error Handling
+
+All errors follow a consistent format:
+
+```json
+{
+  "error": "Error message",
+  "code": "ERROR_CODE",
+  "details": {
+    "field": "Additional error details"
+  }
+}
+```
+
+### Common Error Codes
+
+- `VALIDATION_ERROR`: Request data validation failed
+- `AUTHENTICATION_ERROR`: Invalid or missing authentication
+- `AUTHORIZATION_ERROR`: Insufficient permissions
+- `NOT_FOUND`: Resource not found
+- `CONFLICT`: Resource conflict (e.g., duplicate email)
+- `INTERNAL_ERROR`: Server error
+
+## Rate Limiting
+
+API requests are limited to:
+- 100 requests per minute for authenticated users
+- 10 requests per minute for unauthenticated users
+
+Rate limit headers are included in responses:
+- `X-RateLimit-Limit`: Request limit per window
+- `X-RateLimit-Remaining`: Remaining requests
+- `X-RateLimit-Reset`: Time when limit resets
+```
+
+## Code Comments
+
+### Function Documentation
+```typescript
+/**
+ * Calculates the total price including tax and discounts
+ * 
+ * @param items - Array of items with price and quantity
+ * @param taxRate - Tax rate as decimal (e.g., 0.1 for 10%)
+ * @param discountCode - Optional discount code to apply
+ * @returns Total price with tax and discounts applied
+ * 
+ * @example
+ * ```typescript
+ * const items = [
+ *   { price: 10, quantity: 2 },
+ *   { price: 5, quantity: 1 }
+ * ];
+ * const total = calculateTotal(items, 0.1, 'SAVE10');
+ * console.log(total); // 22.5
+ * ```
+ * 
+ * @throws {Error} When discount code is invalid
+ */
+export const calculateTotal = (
+  items: CartItem[],
+  taxRate: number,
+  discountCode?: string
+): number => {
+  // Implementation
+};
+```
+
+### Class Documentation
+```typescript
+/**
+ * Manages user authentication and session state
+ * 
+ * Provides methods for login, logout, and session management.
+ * Uses JWT tokens for stateless authentication.
+ * 
+ * @example
+ * ```typescript
+ * const auth = new AuthService();
+ * await auth.login('user@example.com', 'password');
+ * const user = auth.getCurrentUser();
+ * ```
+ */
+class AuthService {
+  private token: string | null = null;
+  private user: User | null = null;
+
+  /**
+   * Authenticates user with email and password
+   * 
+   * @param email - User's email address
+   * @param password - User's password
+   * @returns Promise that resolves to user data
+   * @throws {AuthError} When credentials are invalid
+   */
+  async login(email: string, password: string): Promise<User> {
+    // Implementation
+  }
+
+  /**
+   * Logs out the current user and clears session
+   */
+  logout(): void {
+    this.token = null;
+    this.user = null;
+    localStorage.removeItem('auth_token');
+  }
+
+  /**
+   * Gets the currently authenticated user
+   * 
+   * @returns Current user or null if not authenticated
+   */
+  getCurrentUser(): User | null {
+    return this.user;
+  }
+}
+```
+
+### Component Documentation
+```typescript
+/**
+ * A reusable button component with multiple variants
+ * 
+ * Supports primary, secondary, and danger variants with
+ * loading states and disabled functionality.
+ * 
+ * @example
+ * ```tsx
+ * <Button
+ *   variant="primary"
+ *   onClick={() => handleClick()}
+ *   loading={isLoading}
+ * >
+ *   Click me
+ * </Button>
+ * ```
+ */
+interface ButtonProps {
+  /** The button text or content */
+  children: React.ReactNode;
+  /** Visual style variant */
+  variant?: 'primary' | 'secondary' | 'danger';
+  /** Whether the button is in loading state */
+  loading?: boolean;
+  /** Whether the button is disabled */
+  disabled?: boolean;
+  /** Click handler function */
+  onClick?: () => void;
+  /** Additional CSS classes */
+  className?: string;
+}
+
+export const Button: React.FC<ButtonProps> = ({
+  children,
+  variant = 'primary',
+  loading = false,
+  disabled = false,
+  onClick,
+  className,
+}) => {
+  // Implementation
+};
+```
+
+## Inline Comments
+
+### Good Comments
+```typescript
+// ✅ Good: Explain why, not what
+// Skip validation for admin users to allow bulk operations
+if (user.role === 'admin') {
+  return true;
+}
+
+// ✅ Good: Explain complex business logic
+// Calculate discount based on user tier and purchase history
+const discount = calculateUserDiscount(user.tier, user.purchaseHistory);
+
+// ✅ Good: Document workarounds
+// TODO: Remove this workaround when the API is fixed
+// Issue: https://github.com/example/api/issues/123
+const temporaryFix = await applyTemporaryWorkaround(data);
+
+// ✅ Good: Explain non-obvious code
+// Use setTimeout to debounce rapid state updates
+const debouncedUpdate = setTimeout(() => {
+  updateState(newValue);
+}, 300);
+```
+
+### Bad Comments
+```typescript
+// ❌ Bad: Obvious comments
+const user = getUser(); // Get the user
+
+// ❌ Bad: Commenting out code
+// const oldCode = doSomething();
+
+// ❌ Bad: Outdated comments
+// This function returns a user (actually returns user data now)
+function getUser() {
+  return getUserData();
+}
+```
+
+## Architecture Documentation
+
+### System Architecture
+```markdown
+# System Architecture
+
+## Overview
+
+This application follows a layered architecture pattern with clear separation of concerns.
+
+## Architecture Layers
+
+### Presentation Layer
+- **React Components**: UI components and pages
+- **State Management**: Zustand for global state
+- **Routing**: Next.js App Router
+
+### Business Logic Layer
+- **Services**: Business logic and data processing
+- **Validators**: Input validation and sanitization
+- **Utilities**: Helper functions and utilities
+
+### Data Access Layer
+- **Prisma Client**: Database operations
+- **API Routes**: External service integrations
+- **Caching**: Redis for performance optimization
+
+## Data Flow
+
+```
+User Action → Component → Service → Database
+     ↑                                    ↓
+     ← Response ← API Route ← Prisma ←
+```
+
+## Technology Stack
+
+### Frontend
+- **Framework**: Next.js 14 with App Router
+- **Language**: TypeScript 5.1.3
+- **Styling**: Tailwind CSS 3.3.3
+- **Components**: Radix UI Primitives
+- **State**: Zustand 4.5.2
+
+### Backend
+- **Runtime**: Node.js 18+
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: JWT tokens
+- **Caching**: Redis
+- **API**: RESTful with OpenAPI documentation
+
+### Infrastructure
+- **Hosting**: Vercel
+- **Database**: Supabase
+- **CDN**: Vercel Edge Network
+- **Monitoring**: Vercel Analytics
+
+## Security
+
+- **Authentication**: JWT-based stateless auth
+- **Authorization**: Role-based access control
+- **Data Protection**: Input validation and sanitization
+- **HTTPS**: All communications encrypted
+- **CORS**: Properly configured for production
+
+## Performance
+
+- **Caching**: Redis for API responses
+- **CDN**: Static assets served via CDN
+- **Optimization**: Code splitting and lazy loading
+- **Monitoring**: Core Web Vitals tracking
+```
+
+## Deployment Documentation
+
+### Deployment Guide
+```markdown
+# Deployment Guide
+
+## Prerequisites
+
+- Node.js 18+ installed
+- PostgreSQL database set up
+- Environment variables configured
+- Domain name configured
+
+## Environment Setup
+
+### Production Environment Variables
+
+```bash
+# Database
+DATABASE_URL="postgresql://user:password@host:5432/dbname"
+
+# Authentication
+JWT_SECRET="your-super-secret-jwt-key"
+
+# External Services
+STRIPE_SECRET_KEY="sk_live_..."
+SENDGRID_API_KEY="SG..."
+
+# Application
+NEXT_PUBLIC_APP_URL="https://yourdomain.com"
+NODE_ENV="production"
+```
+
+### Staging Environment Variables
+
+```bash
+# Use test keys for external services
+STRIPE_SECRET_KEY="sk_test_..."
+SENDGRID_API_KEY="SG_test_..."
+```
+
+## Deployment Steps
+
+### 1. Build the Application
+
+```bash
+# Install dependencies
+npm ci
+
+# Run tests
+npm test
+
+# Build for production
+npm run build
+```
+
+### 2. Database Migration
+
+```bash
+# Run database migrations
+npm run db:migrate
+
+# Seed initial data (if needed)
+npm run db:seed
+```
+
+### 3. Deploy to Vercel
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel --prod
+```
+
+### 4. Verify Deployment
+
+- Check application is accessible
+- Verify all features work correctly
+- Monitor error logs
+- Test critical user flows
+
+## Monitoring
+
+### Health Checks
+
+- Application health: `GET /api/health`
+- Database connectivity: `GET /api/health/db`
+- External services: `GET /api/health/services`
+
+### Logs
+
+- Application logs: Vercel dashboard
+- Database logs: Supabase dashboard
+- Error tracking: Sentry integration
+
+### Alerts
+
+- Set up alerts for:
+  - High error rates
+  - Slow response times
+  - Database connection issues
+  - External service failures
+```
+
+## Maintenance Documentation
+
+### Maintenance Schedule
+```markdown
+# Maintenance Schedule
+
+## Daily Tasks
+
+- [ ] Monitor error logs
+- [ ] Check application performance
+- [ ] Verify database backups
+- [ ] Review security alerts
+
+## Weekly Tasks
+
+- [ ] Update dependencies
+- [ ] Review performance metrics
+- [ ] Check for security vulnerabilities
+- [ ] Backup verification
+
+## Monthly Tasks
+
+- [ ] Database optimization
+- [ ] Security audit
+- [ ] Performance review
+- [ ] Documentation updates
+
+## Quarterly Tasks
+
+- [ ] Major dependency updates
+- [ ] Architecture review
+- [ ] Security penetration testing
+- [ ] Disaster recovery testing
+```
+
+## Best Practices Summary
+
+### Do's
+- Write clear, concise documentation
+- Keep documentation up to date
+- Use consistent formatting and structure
+- Include examples and code snippets
+- Document both what and why
+- Use proper markdown formatting
+- Include troubleshooting sections
+- Maintain version history
+
+### Don'ts
+- Don't write outdated documentation
+- Don't skip important details
+- Don't use unclear language
+- Don't forget to include examples
+- Don't ignore user feedback
+- Don't document obvious things
+- Don't use inconsistent formatting
+- Don't forget to update when code changes
+
+## Documentation Checklist
+
+### Project Documentation
+- [ ] Comprehensive README
+- [ ] Installation instructions
+- [ ] Environment setup guide
+- [ ] API documentation
+- [ ] Architecture overview
+- [ ] Deployment guide
+- [ ] Troubleshooting guide
+
+### Code Documentation
+- [ ] Function and class comments
+- [ ] Component documentation
+- [ ] Type definitions
+- [ ] Inline comments for complex logic
+- [ ] Code examples
+- [ ] Error handling documentation
+
+### Maintenance
+- [ ] Regular documentation reviews
+- [ ] Update documentation with code changes
+- [ ] Version control for documentation
+- [ ] User feedback collection
+- [ ] Documentation testing
+
+Follow these documentation standards to create comprehensive, maintainable, and user-friendly project documentation.
+description:
+globs:
+alwaysApply: false
+---

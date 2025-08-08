@@ -1,0 +1,332 @@
+---
+description: Standards for writing requirements using EARS (Easy Approach to Requirements Syntax)
+globs: **/*
+alwaysApply: true
+---
+# EARS Requirements Standards
+
+## Overview
+
+EARS (Easy Approach to Requirements Syntax) is a structured approach to writing requirements that makes them clear, testable, and unambiguous. It uses specific keywords to define different types of requirements.
+
+## EARS Keywords and Structure
+
+### WHEN (Event-driven requirements)
+Used for requirements triggered by specific events or conditions.
+
+**Format:** `WHEN [event/trigger] THEN [system] SHALL [response]`
+
+**Examples:**
+- WHEN a user clicks the "Save" button THEN the system SHALL validate all form fields
+- WHEN a file upload exceeds 10MB THEN the system SHALL display an error message
+- WHEN a user session expires THEN the system SHALL redirect to the login page
+
+### IF (State-driven requirements)
+Used for requirements that depend on specific system states or conditions.
+
+**Format:** `IF [condition] THEN [system] SHALL [response]`
+
+**Examples:**
+- IF a user is not authenticated THEN the system SHALL deny access to protected resources
+- IF the database connection fails THEN the system SHALL display a maintenance message
+- IF a user has admin privileges THEN the system SHALL show the admin panel
+
+### WHILE (Continuous requirements)
+Used for requirements that must be maintained during ongoing operations.
+
+**Format:** `WHILE [condition] [system] SHALL [continuous behavior]`
+
+**Examples:**
+- WHILE a file is uploading the system SHALL display a progress indicator
+- WHILE a user is typing the system SHALL provide real-time validation feedback
+- WHILE the system is processing a request the system SHALL prevent duplicate submissions
+
+### WHERE (Optional requirements)
+Used for requirements that apply only in specific contexts or locations.
+
+**Format:** `WHERE [location/context] [system] SHALL [behavior]`
+
+**Examples:**
+- WHERE the user is on a mobile device the system SHALL use responsive layout
+- WHERE the application runs in production mode the system SHALL log errors to external service
+- WHERE multiple users edit simultaneously the system SHALL handle conflicts gracefully
+
+## EARS Best Practices
+
+### 1. Use Active Voice
+Write requirements using active voice for clarity.
+
+**Good:**
+- WHEN a user submits the form THEN the system SHALL validate the input
+
+**Poor:**
+- WHEN the form is submitted THEN the input SHALL be validated by the system
+
+### 2. Be Specific
+Avoid vague terms like "user-friendly" or "fast".
+
+**Good:**
+- WHEN a user clicks "Submit" THEN the system SHALL respond within 2 seconds
+
+**Poor:**
+- WHEN a user submits THEN the system SHALL respond quickly
+
+### 3. One Requirement Per Statement
+Each EARS statement should contain exactly one requirement.
+
+**Good:**
+- WHEN a user logs in THEN the system SHALL create a session
+- WHEN a user logs in THEN the system SHALL redirect to the dashboard
+
+**Poor:**
+- WHEN a user logs in THEN the system SHALL create a session AND redirect to the dashboard
+
+### 4. Testable Outcomes
+Every requirement should be verifiable through testing.
+
+**Good:**
+- WHEN a user enters an invalid email THEN the system SHALL display "Invalid email format"
+
+**Poor:**
+- WHEN a user enters an invalid email THEN the system SHALL provide helpful feedback
+
+### 5. Consistent Terminology
+Use the same terms throughout all requirements.
+
+**Good:**
+- WHEN a user clicks "Save" THEN the system SHALL save the document
+- WHEN a user clicks "Cancel" THEN the system SHALL discard changes
+
+**Poor:**
+- WHEN a user clicks "Save" THEN the system SHALL save the document
+- WHEN a user clicks "Cancel" THEN the system SHALL throw away changes
+
+## EARS Anti-Patterns to Avoid
+
+### Compound Requirements
+Avoid multiple SHALL statements in one requirement.
+
+**Poor:**
+- WHEN a user registers THEN the system SHALL create an account AND send a welcome email AND log the event
+
+**Better:**
+- WHEN a user registers THEN the system SHALL create an account
+- WHEN a user account is created THEN the system SHALL send a welcome email
+- WHEN a user registers THEN the system SHALL log the registration event
+
+### Vague Conditions
+Don't use unclear triggers like "when appropriate".
+
+**Poor:**
+- WHEN appropriate THEN the system SHALL show notifications
+
+**Better:**
+- WHEN a new message arrives THEN the system SHALL show a notification
+- WHEN a task is completed THEN the system SHALL show a success message
+
+### Implementation Details
+Focus on what, not how.
+
+**Poor:**
+- WHEN a user submits THEN the system SHALL use AJAX to send the data
+
+**Better:**
+- WHEN a user submits THEN the system SHALL send the form data without page reload
+
+### Untestable Requirements
+Avoid subjective terms that can't be measured.
+
+**Poor:**
+- WHEN a user interacts THEN the system SHALL feel responsive
+
+**Better:**
+- WHEN a user clicks a button THEN the system SHALL respond within 100ms
+
+## Requirements Document Structure
+
+### Document Information
+```markdown
+## Document Information
+- **Feature Name**: [Your Feature Name]
+- **Version**: 1.0
+- **Date**: [Current Date]
+- **Author**: [Your Name]
+- **Stakeholders**: [List key stakeholders]
+```
+
+### Introduction
+```markdown
+## Introduction
+[Provide a clear, concise overview of the feature]
+
+### Feature Summary
+[One sentence summary of what this feature does]
+
+### Business Value
+[Explain the business value and expected outcomes]
+
+### Scope
+[Define what is included and excluded from this feature]
+```
+
+### Requirements Section
+```markdown
+## Requirements
+
+### Requirement 1: [Requirement Title]
+**User Story:** As a [role], I want [functionality], so that [benefit].
+
+#### Acceptance Criteria
+1. WHEN [specific event or trigger] THEN [system name] SHALL [specific system response]
+2. IF [condition or state] THEN [system name] SHALL [required behavior]
+3. WHILE [ongoing condition] [system name] SHALL [continuous behavior]
+4. WHERE [context or location] [system name] SHALL [contextual behavior]
+
+#### Additional Details
+- **Priority**: [High/Medium/Low]
+- **Complexity**: [High/Medium/Low]
+- **Dependencies**: [List dependencies]
+- **Assumptions**: [List assumptions]
+```
+
+### Non-Functional Requirements
+```markdown
+## Non-Functional Requirements
+
+### Performance Requirements
+- WHEN [load condition] THEN [system name] SHALL [performance criteria]
+- IF [usage scenario] THEN [system name] SHALL [response time requirement]
+
+### Security Requirements
+- WHEN [security event] THEN [system name] SHALL [security response]
+- IF [authentication condition] THEN [system name] SHALL [access control behavior]
+
+### Usability Requirements
+- WHEN [user interaction] THEN [system name] SHALL [usability standard]
+```
+
+## Requirements Validation Process
+
+### Validation Checklist
+- [ ] Each requirement is testable and measurable
+- [ ] Requirements cover normal, edge, and error cases
+- [ ] User stories provide clear business value
+- [ ] Acceptance criteria are specific and unambiguous
+- [ ] Requirements are independent and don't conflict
+- [ ] All user roles and interactions are addressed
+
+### Common Validation Questions
+- Can this requirement be tested automatically?
+- Is the expected behavior clearly defined?
+- Are there any assumptions that need to be made explicit?
+- What happens when things go wrong?
+- Are there any missing user scenarios?
+
+### Requirements Review Process
+```markdown
+1. **Self Review**: Author reviews requirements for completeness
+2. **Stakeholder Review**: Business stakeholders validate requirements
+3. **Technical Review**: Development team assesses feasibility
+4. **Acceptance**: Formal approval before moving to design
+```
+
+## Requirements Traceability
+
+### Linking Requirements to Implementation
+Each requirement should be traceable to:
+- Specific user stories
+- Design components
+- Implementation tasks
+- Test cases
+
+### Traceability Matrix
+```markdown
+| Requirement ID | User Story | Design Component | Implementation Task | Test Case |
+|---------------|------------|------------------|-------------------|-----------|
+| REQ-001       | US-001     | AuthService      | TASK-001          | TC-001    |
+| REQ-002       | US-001     | SessionManager   | TASK-002          | TC-002    |
+```
+
+## Requirements Management
+
+### Version Control
+- Use semantic versioning for requirements documents
+- Track changes with clear change logs
+- Maintain requirements history
+
+### Change Management
+- Assess impact of requirement changes
+- Update related design and implementation artifacts
+- Communicate changes to all stakeholders
+
+### Requirements Prioritization
+- Use MoSCoW method (Must, Should, Could, Won't)
+- Consider business value and technical complexity
+- Align with project timeline and resources
+
+## Integration with Kiro Methodology
+
+### Requirements Phase Integration
+- Use EARS format for all acceptance criteria
+- Ensure requirements are testable and measurable
+- Validate requirements before moving to design phase
+
+### Design Phase Integration
+- Reference requirements in design decisions
+- Ensure design addresses all requirements
+- Maintain traceability between requirements and design
+
+### Tasks Phase Integration
+- Link implementation tasks to specific requirements
+- Ensure all requirements have corresponding tasks
+- Validate that tasks will satisfy requirements
+
+## Examples
+
+### Good EARS Requirements
+```markdown
+### Requirement 1: User Authentication
+**User Story:** As a user, I want to log in with my credentials, so that I can access my account.
+
+#### Acceptance Criteria
+1. WHEN a user provides correct email and password THEN the system SHALL authenticate and create a session
+2. WHEN a user provides incorrect credentials THEN the system SHALL return an authentication error
+3. WHEN a user attempts multiple failed logins THEN the system SHALL implement rate limiting
+4. IF a user is already logged in THEN the system SHALL handle existing session appropriately
+5. WHILE a user session is active THEN the system SHALL maintain authentication state
+6. WHERE the user is on a mobile device THEN the system SHALL use responsive login form
+```
+
+### Poor EARS Requirements
+```markdown
+### Requirement 1: User Authentication
+**User Story:** As a user, I want to log in, so that I can use the system.
+
+#### Acceptance Criteria
+1. WHEN a user logs in THEN the system SHALL work properly
+2. IF something goes wrong THEN the system SHALL handle it appropriately
+3. WHILE the user is using the system THEN it SHALL be user-friendly
+```
+
+## Tools and Resources
+
+### EARS Validation Tools
+- Automated EARS syntax checkers
+- Requirements traceability tools
+- Test case generation from EARS requirements
+
+### Documentation Templates
+- Standard EARS requirements template
+- Requirements review checklist
+- Traceability matrix template
+
+### Best Practices References
+- IEEE 830 Software Requirements Specifications
+- BABOK Requirements Analysis
+- Agile Requirements Engineering
+
+Follow these EARS standards to create clear, testable, and maintainable requirements that serve as a solid foundation for the Kiro methodology.
+description:
+globs:
+alwaysApply: false
+---
