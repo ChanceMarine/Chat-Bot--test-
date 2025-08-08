@@ -755,13 +755,18 @@ Types: feat, fix, docs, style, refactor, test, chore
 
 ---
 
+### Phase Header Convention
+- Use: `🔵 REQUIREMENTS   |   ⚪️ DESIGN   |   ⚪️ TASKS   |   ⚪️ BUILD` and include one blank line below.
+- Apply on every assistant message.
+
 ## Usage Instructions
 
 ### For Any New Feature/Project:
-1. Start with: "I want to build [feature]. Let's follow the Kiro methodology starting with requirements."
-2. Cursor will automatically guide you through the three-phase process
-3. Use the templates provided for each phase
-4. Validate each phase before proceeding to the next
+1. The assistant will automatically create `requirements.md` for the feature without pre-edit approval.
+2. The assistant will request confirmation that the drafted requirements fit the user's vision.
+3. Upon approval, the assistant will automatically create `design.md`, then request confirmation.
+4. Upon approval, the assistant will automatically create `tasks.md`, then request confirmation.
+5. After all three are approved, the assistant will ask to begin Step 1 of implementation.
 
 ### For Complex Projects:
 1. Use the steering documents for project-specific guidance

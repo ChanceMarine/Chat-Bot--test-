@@ -16,6 +16,26 @@ This file tracks errors encountered and rule improvements needed to prevent them
   - **Suggested Fix**: Strengthen ai-prompting-strategies.mdc to ensure permission asking
   - **Status**: 🔄 In Progress
 
+- [ ] **Phase Header Enforcement**
+  - **Error**: Missing/inconsistent phase header and spacing
+  - **Suggested Fix**: Add convention across rules
+  - **Status**: 🔄 In Progress
+
+- [ ] **Confirm + Numbered Options**
+  - **Error**: Edits without explicit approval; unnumbered choices
+  - **Suggested Fix**: Add confirmation & numbering conventions
+  - **Status**: 🔄 In Progress
+
+- [ ] **Live Tasks + Logs**
+  - **Error**: `tasks.md` not updated live; missing Logs
+  - **Suggested Fix**: Add live tracking and Logs requirements
+  - **Status**: 🔄 In Progress
+
+- [ ] **Conciseness / Non-Repetition**
+  - **Error**: Repeating approvals/plans
+  - **Suggested Fix**: Add concise-response guidance and avoid repetition
+  - **Status**: 🔄 In Progress
+
 ### 🟡 Medium Priority
 
 - [ ] **Rule Loading Verification**

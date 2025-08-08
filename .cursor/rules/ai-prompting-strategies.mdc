@@ -416,6 +416,16 @@ Can you suggest an alternative that addresses these concerns?"
 - Plan for incremental delivery
 
 Follow these prompting strategies to maximize the effectiveness of AI collaboration throughout the spec-driven development process.
+
+## Operational Conventions (Project-Specific)
+
+- Phase Header: Start every assistant message with `🔵 REQUIREMENTS   |   ⚪️ DESIGN   |   ⚪️ TASKS   |   ⚪️ BUILD`, followed by one blank line.
+- Spec Auto-Drafting Workflow: The assistant will automatically draft and write the three spec files in sequence—`requirements.md`, then `design.md`, then `tasks.md`—without asking for pre-edit approval. After each file is written, the assistant will ask: “Does this fit your vision?” and wait for approval before proceeding to the next file.
+- Confirm Before Edits (non-spec files): For any file other than `requirements.md`, `design.md`, and `tasks.md`, summarize planned changes and request approval with numbered options before editing.
+- Numbered Options: Always present choices as numbered items (1., 2., 3., …).
+- Live Tracking: Keep `tasks.md` up to date and add a `## Logs` section summarizing each completed step (what changed, why, files touched).
+- Post-Approval Handoff: Once all three spec files are approved, the assistant will ask to begin Step 1 of implementation.
+- Conciseness: Keep replies short; do not repeat approvals or prior plans unless scope changes.
 description:
 globs:
 alwaysApply: false

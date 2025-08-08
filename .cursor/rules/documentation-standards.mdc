@@ -900,6 +900,10 @@ vercel --prod
 - Don't use inconsistent formatting
 - Don't forget to update when code changes
 
+### Tasks Document Conventions
+- Include a `## Logs` section summarizing each completed step (what changed, why, files).
+- Keep task statuses current and traceable to requirements.
+
 ## Documentation Checklist
 
 ### Project Documentation

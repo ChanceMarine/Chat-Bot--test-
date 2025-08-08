@@ -433,6 +433,9 @@ import { ComponentName } from '@/components';
 - **Clear separation**: Separate UI, logic, and data layers
 - **Maintainable**: Structure for long-term maintainability
 
+### Spec Documents
+- Use three core docs at project root or `docs/`: `requirements.md` (EARS with IDs), `design.md` (references REQ IDs), and `tasks.md` (checklist with a `## Logs` section).
+
 Follow this project structure documentation to maintain organized, scalable, and maintainable codebases.
 description:
 globs:
