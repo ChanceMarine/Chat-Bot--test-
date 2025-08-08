@@ -13,6 +13,8 @@ alwaysApply: true
 - New libraries or tools being used consistently
 - Emerging best practices in the codebase
 
+**Note**: All errors and rule improvements should be documented in [rule-improvement-tasks.mdc](mdc:.cursor/rules/rule-improvement-tasks.mdc) for tracking and systematic resolution.
+
 ## Analysis Process
 
 - Compare new code with existing rules
