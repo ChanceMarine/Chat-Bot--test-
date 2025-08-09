@@ -1,0 +1,450 @@
+---
+description: Project structure, documentation standards, and EARS requirements formatting
+globs: **/*
+alwaysApply: true
+---
+# Project Organization
+
+## Directory Structure
+
+### Standard Project Layout
+```
+project-root/
+├── .cursor/              # Cursor IDE configuration
+│   └── rules/           # Cursor rules files
+├── .kiro/               # Kiro specs and documentation
+│   └── specs/           # Feature specifications
+├── src/                 # Source code
+│   ├── components/      # React components
+│   ├── pages/          # Page components  
+│   ├── utils/          # Utility functions
+│   ├── hooks/          # Custom React hooks
+│   ├── types/          # TypeScript definitions
+│   └── api/            # API routes and handlers
+├── public/             # Static assets
+├── docs/               # Project documentation
+├── tests/              # Test files
+└── config/             # Configuration files
+```
+
+### Component Organization
+```
+components/
+├── ui/                 # Reusable UI components
+│   ├── Button/
+│   ├── Input/
+│   └── Modal/
+├── layout/             # Layout components
+│   ├── Header/
+│   ├── Footer/
+│   └── Sidebar/
+├── features/           # Feature-specific components
+│   ├── auth/
+│   ├── dashboard/
+│   └── settings/
+└── shared/            # Shared components
+    ├── LoadingSpinner/
+    └── ErrorBoundary/
+```
+
+## File Naming Conventions
+
+### Components
+- **PascalCase**: `UserProfile.tsx`, `LoginForm.tsx`
+- **Descriptive names**: Clearly indicate component purpose
+- **Consistent extensions**: `.tsx` for React components, `.ts` for utilities
+
+### Utilities and Services
+- **camelCase**: `formatDate.ts`, `validateEmail.ts`, `userService.ts`
+- **Action-oriented**: Describe what the function/service does
+- **Grouped by domain**: Keep related functionality together
+
+### Configuration Files
+- **kebab-case**: `tailwind.config.js`, `eslint.config.js`
+- **Standard locations**: Root or config directory
+- **Clear purpose**: Name indicates configuration type
+
+### Test Files
+- **Match source**: `Component.test.tsx`, `utility.test.ts`
+- **Clear scope**: Indicate what is being tested
+- **Consistent location**: Co-located with source or in tests directory
+
+## Documentation Standards
+
+### README Structure
+```markdown
+# Project Name
+Brief, compelling description of what this project does.
+
+## Features
+- **Feature 1**: Description
+- **Feature 2**: Description
+- **Feature 3**: Description
+
+## Quick Start
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+
+### Installation
+```bash
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+## Project Structure
+[Brief overview of directory organization]
+
+## Contributing
+See CONTRIBUTING.md for guidelines.
+```
+
+### API Documentation
+```markdown
+# API Documentation
+
+## Authentication
+All requests require JWT token in Authorization header:
+```
+Authorization: Bearer <token>
+```
+
+## Endpoints
+
+### GET /api/users
+Retrieve user list with pagination.
+
+**Query Parameters:**
+- `page` (number): Page number (default: 1)
+- `limit` (number): Items per page (default: 10)
+
+**Response:**
+```json
+{
+  "users": [...],
+  "pagination": { "page": 1, "total": 100 }
+}
+```
+```
+
+### Component Documentation
+```typescript
+/**
+ * Reusable button component with multiple variants
+ * 
+ * @example
+ * ```tsx
+ * <Button variant="primary" onClick={handleClick}>
+ *   Click me
+ * </Button>
+ * ```
+ */
+interface ButtonProps {
+  /** Button content */
+  children: React.ReactNode;
+  /** Visual style variant */
+  variant?: 'primary' | 'secondary' | 'danger';
+  /** Click handler */
+  onClick?: () => void;
+}
+
+export const Button: React.FC<ButtonProps> = ({
+  children,
+  variant = 'primary',
+  onClick,
+}) => {
+  // Implementation
+};
+```
+
+## EARS Requirements Format
+
+### EARS Keywords and Structure
+- **WHEN**: Event-driven requirements
+- **IF**: State-driven requirements  
+- **WHILE**: Continuous requirements
+- **WHERE**: Context-specific requirements
+
+### Format Structure
+```markdown
+### Requirement 1: [Title]
+**User Story:** As a [role], I want [goal], so that [benefit].
+
+#### Acceptance Criteria
+1. WHEN [event] THEN [system] SHALL [response]
+2. IF [condition] THEN [system] SHALL [behavior]
+3. WHILE [ongoing] [system] SHALL [continuous behavior]
+4. WHERE [context] [system] SHALL [contextual behavior]
+```
+
+### EARS Best Practices
+- **One requirement per statement**
+- **Use active voice**
+- **Be specific and measurable**
+- **Make requirements testable**
+- **Avoid vague terms like "user-friendly"**
+
+### Good EARS Examples
+```markdown
+1. WHEN a user clicks "Save" THEN the system SHALL validate all form fields
+2. IF a user is not authenticated THEN the system SHALL redirect to login page
+3. WHILE a file is uploading the system SHALL display progress indicator
+4. WHERE the user is on mobile the system SHALL use responsive layout
+```
+
+## Spec Document Structure
+
+### Three Core Documents
+1. **requirements.md** - EARS format with requirement IDs
+2. **design.md** - References requirement IDs  
+3. **tasks.json** - Implementation tasks with complexity analysis
+
+### Requirements Document Template
+```markdown
+# Requirements Document
+
+## Document Information
+- **Feature Name**: [Name]
+- **Version**: 1.0
+- **Date**: [Date]
+- **Author**: [Author]
+
+## Introduction
+[Feature overview and business value]
+
+## Requirements
+
+### Requirement 1: [Title]
+**User Story:** As a [role], I want [goal], so that [benefit].
+
+#### Acceptance Criteria
+1. WHEN [event] THEN [system] SHALL [response]
+2. IF [condition] THEN [system] SHALL [behavior]
+
+#### Additional Details
+- **Priority**: High/Medium/Low
+- **Complexity**: High/Medium/Low
+- **Dependencies**: [List]
+```
+
+### Design Document Template
+```markdown
+# Design Document
+
+## Overview
+[High-level design approach and key decisions]
+
+## Architecture
+[System architecture and component relationships]
+
+## Components
+[Detailed component design]
+
+## Data Models
+[Entity relationships and data flow]
+
+## Error Handling
+[Error scenarios and recovery strategies]
+
+## Testing Strategy
+[Testing approach and validation methods]
+```
+
+### Tasks Document Template
+```json
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Task Name",
+      "description": "Detailed description",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "high",
+      "complexityScore": 6,
+      "details": "Implementation details",
+      "testStrategy": "Validation approach",
+      "subtasks": []
+    }
+  ],
+  "metadata": {
+    "projectName": "Project Name",
+    "totalTasks": 10,
+    "lastUpdated": "2024-01-08"
+  }
+}
+```
+
+## Import and Export Patterns
+
+### Barrel Exports
+```typescript
+// src/components/index.ts
+export { Button } from './ui/Button';
+export { Input } from './ui/Input';
+export { Modal } from './ui/Modal';
+
+// Usage
+import { Button, Input } from '@/components';
+```
+
+### Feature-Based Exports
+```typescript
+// src/features/auth/index.ts
+export { LoginForm } from './components/LoginForm';
+export { useAuth } from './hooks/useAuth';
+export { authApi } from './api/authApi';
+```
+
+### Type Exports
+```typescript
+// src/types/index.ts
+export * from './user';
+export * from './api';
+export * from './common';
+```
+
+## Configuration Management
+
+### Environment Variables
+```bash
+# .env.local (development)
+NEXT_PUBLIC_API_URL=http://localhost:3000
+DATABASE_URL=postgresql://user:pass@localhost:5432/db
+JWT_SECRET=your-secret-key
+
+# .env.production
+NEXT_PUBLIC_API_URL=https://api.yourdomain.com
+DATABASE_URL=postgresql://user:pass@prod-host:5432/db
+JWT_SECRET=production-secret
+```
+
+### Build Configuration
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+  },
+});
+```
+
+## Integration with Task Complexity
+
+### Documentation Requirements by Complexity
+```typescript
+const documentationByComplexity = {
+  high: {
+    requirements: 'detailed EARS with edge cases',
+    design: 'comprehensive with diagrams',
+    tasks: 'expanded subtasks with dependencies',
+    code: 'extensive comments and examples'
+  },
+  medium: {
+    requirements: 'standard EARS format',
+    design: 'clear architecture overview',
+    tasks: 'well-defined with testing',
+    code: 'key comments and documentation'
+  },
+  low: {
+    requirements: 'basic EARS format',
+    design: 'simple overview',
+    tasks: 'straightforward description',
+    code: 'minimal but clear comments'
+  }
+};
+```
+
+### Traceability Matrix
+```markdown
+| Requirement ID | Design Component | Task ID | Test Case | Complexity |
+|---------------|------------------|---------|-----------|------------|
+| REQ-001       | AuthService      | T-001   | TC-001    | 7          |
+| REQ-002       | UserManager      | T-002   | TC-002    | 4          |
+```
+
+## Quality Standards
+
+### File Organization Principles
+- **Group related files together**
+- **Use consistent naming conventions**
+- **Limit file size and complexity**
+- **Separate concerns clearly**
+- **Maintain logical hierarchy**
+
+### Documentation Requirements
+- **Keep documentation current with code changes**
+- **Include examples for complex concepts**
+- **Use consistent formatting and structure**
+- **Provide clear setup and usage instructions**
+- **Document architectural decisions and rationale**
+
+### Import Organization
+```typescript
+// 1. External libraries
+import React from 'react';
+import { NextPage } from 'next';
+
+// 2. Internal modules (absolute imports)
+import { Button } from '@/components';
+import { useAuth } from '@/hooks';
+
+// 3. Relative imports
+import './styles.css';
+
+// 4. Type imports (separate)
+import type { User } from '@/types';
+```
+
+## Maintenance Guidelines
+
+### Regular Reviews
+- **Monthly documentation updates**
+- **Quarterly structure reviews**
+- **Annual architecture assessments**
+- **Continuous improvement based on team feedback**
+
+### Change Management
+- **Document structural changes**
+- **Update related documentation**
+- **Communicate changes to team**
+- **Maintain backward compatibility when possible**
+
+### Quality Metrics
+- **Documentation coverage**: All major features documented
+- **Structure consistency**: Follows established patterns
+- **Import cleanliness**: No circular dependencies
+- **File organization**: Logical grouping and naming
+
+## Integration Points
+
+### With Kiro Methodology
+- **Requirements**: Use EARS format consistently
+- **Design**: Reference requirements with IDs
+- **Tasks**: Include complexity analysis and subtask breakdown
+- **Implementation**: Maintain traceability throughout
+
+### With Development Standards
+- **Code Organization**: Align with quality standards
+- **Testing**: Integrate testing requirements into structure
+- **Performance**: Consider performance implications in organization
+- **Security**: Apply security standards to project structure
+
+### With AI Collaboration
+- **Complexity Analysis**: Factor structure complexity into task analysis
+- **Research Integration**: Use project structure for codebase analysis
+- **Decision Making**: Apply organization principles to architectural decisions
+
+This organization system ensures maintainable, scalable project structure with clear documentation and consistent patterns across all development work while supporting intelligent task complexity management.

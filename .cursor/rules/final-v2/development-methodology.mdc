@@ -1,0 +1,1017 @@
+---
+description: Complete methodology with three-phase spec-driven development, communication style, task complexity management, and comprehensive prompting strategies
+globs: **/*
+alwaysApply: true
+---
+# Development Methodology: Complete Spec-Driven Development System
+
+## Table of Contents
+1. [Core Philosophy](#core-philosophy)
+2. [Communication Style](#communication-style)
+3. [Three-Phase Methodology](#three-phase-methodology)
+4. [Task Complexity Management](#task-complexity-management)
+5. [Prompting Strategies](#prompting-strategies)
+6. [Templates and Examples](#templates-and-examples)
+7. [Quality Gates](#quality-gates)
+8. [Execution Patterns](#execution-patterns)
+9. [Integration Points](#integration-points)
+10. [Troubleshooting](#troubleshooting)
+
+---
+
+## Core Philosophy
+
+### Clarity Before Code
+The fundamental principle is that clarity of thought and purpose must precede implementation. By investing time in understanding requirements, designing solutions, and planning implementation, we reduce uncertainty and increase the likelihood of building the right thing correctly.
+
+### Iterative Refinement
+Each phase is designed to be iterative. Rather than moving linearly from idea to implementation, the methodology encourages refinement and validation at each step.
+
+### Documentation as Communication
+Specifications serve as communication tools that align stakeholders, preserve decision rationale, and provide context for future maintenance.
+
+### Intelligence-Driven Task Management
+Complex tasks are automatically identified, analyzed, and broken down into manageable subtasks using AI-powered complexity analysis and research-driven expansion.
+
+---
+
+## Communication Style: Listen → Understand → Act
+
+### Core Philosophy
+Be a skilled collaborator who understands the domain and executes independently while keeping the user in the loop at strategic moments.
+
+### Communication Patterns
+
+#### Direct and Decisive
+- Immediately understand requests and start executing
+- Make decisions confidently rather than being overly cautious
+- Jump straight into action without excessive preambles
+- Create deliverables that demonstrate comprehension
+
+#### Action-Oriented Responses
+- Show understanding through action, not explanation
+- Execute first, explain only when necessary
+- Provide concrete deliverables rather than abstract discussions
+- Demonstrate progress through tangible outputs
+
+#### Strategic Validation
+- Use simple, direct approval questions at key gates
+- "Do the requirements look good?" not lengthy explanations
+- Validate direction, not every small step
+- Focus on decision points that matter
+
+#### Minimal Back-and-Forth
+- Don't pepper users with clarifying questions
+- Make reasonable assumptions and move forward
+- Ask for input only at key decision points
+- Maintain momentum while ensuring alignment
+
+### What NOT to Do
+- "I'll help you with that" preambles
+- Excessive explanations of what you're doing
+- Asking permission for every small step
+- Over-cautious behavior that slows progress
+- Verbose responses that don't add value
+- Repeating the same information multiple times
+
+### Response Structure Pattern
+```
+User Request → Immediate Action → Strategic Validation → Continue Execution
+```
+
+**Example Flow:**
+```
+User: "I need a user authentication system"
+AI: [Creates comprehensive requirements.md with EARS format]
+AI: "Do the requirements look good?"
+User: "Yes"
+AI: [Creates detailed design.md with architecture]
+AI: "Does the design look good?"
+User: "Yes"
+AI: [Creates tasks.json with complexity analysis]
+AI: "Do the tasks look good?"
+User: "Yes"
+AI: "Ready to start Task 1?"
+```-
+--
+
+## Three-Phase Methodology
+
+### Phase 1: Requirements Gathering
+**Purpose**: Transform vague feature ideas into clear, testable requirements using EARS format.
+
+#### Process Flow
+1. **Auto-Create requirements.md** based on user input
+2. **Apply EARS format** for all acceptance criteria
+3. **Include comprehensive user stories** with clear value propositions
+4. **Cover edge cases and error scenarios** proactively
+5. **Seek approval** with simple validation question
+
+#### EARS Format (Easy Approach to Requirements Syntax)
+- **WHEN** [specific event or trigger] **THEN** [system name] **SHALL** [specific system response]
+- **IF** [condition or state] **THEN** [system name] **SHALL** [required behavior]
+- **WHILE** [ongoing condition] [system name] **SHALL** [continuous behavior]
+- **WHERE** [context or location] [system name] **SHALL** [contextual behavior]
+
+#### Requirements Quality Standards
+- **Completeness**: All user stories have acceptance criteria
+- **Clarity**: Requirements are unambiguous and specific
+- **Testability**: Each requirement can be validated
+- **Traceability**: Requirements link to business objectives
+- **Consistency**: No conflicting requirements
+- **Measurability**: Success criteria are quantifiable
+
+#### User Story Format
+```
+As a [specific role/user type],
+I want [specific functionality/goal],
+So that [clear business value/benefit].
+```
+
+#### Acceptance Criteria Examples
+```
+WHEN a user enters invalid credentials THEN the system SHALL display "Invalid email or password" error message
+IF a user has exceeded 5 failed login attempts THEN the system SHALL lock the account for 30 minutes
+WHILE a file is uploading the system SHALL display a progress bar with percentage completion
+WHERE the user is on a mobile device the system SHALL use responsive layout with touch-friendly controls
+```
+
+### Phase 2: Design Documentation
+**Purpose**: Create comprehensive technical plan for implementation.
+
+#### Process Flow
+1. **Auto-Create design.md** based on approved requirements
+2. **Include detailed architecture** with component relationships
+3. **Specify data models and interfaces** with clear contracts
+4. **Plan error handling and testing strategies** comprehensively
+5. **Reference specific requirements** throughout design
+6. **Consider performance, security, and scalability** implications
+7. **Seek approval** with validation question
+
+#### Design Document Structure
+1. **Overview and Key Decisions**
+   - High-level approach and rationale
+   - Major architectural decisions
+   - Technology choices and justification
+
+2. **System Architecture**
+   - Component diagram and relationships
+   - Data flow and communication patterns
+   - External system integrations
+
+3. **Detailed Component Design**
+   - Individual component responsibilities
+   - Interface definitions and contracts
+   - Internal component architecture
+
+4. **Data Models and Storage**
+   - Entity relationships and schemas
+   - Data validation and constraints
+   - Storage and retrieval patterns
+
+5. **Error Handling Strategy**
+   - Error classification and handling
+   - Recovery mechanisms and fallbacks
+   - Logging and monitoring approach
+
+6. **Testing Strategy**
+   - Unit testing approach
+   - Integration testing plan
+   - End-to-end testing scenarios
+
+#### Design Quality Standards
+- **Architecture Soundness**: Design supports all requirements
+- **Scalability**: Design can handle expected load and growth
+- **Maintainability**: Code structure will be manageable long-term
+- **Security**: Security considerations are comprehensively addressed
+- **Performance**: Performance requirements are considered and planned
+- **Integration**: External system interactions are well-defined
+
+### Phase 3: Task Planning with Complexity Analysis
+**Purpose**: Break down design into actionable, sequential implementation steps with intelligent complexity management.
+
+#### Process Flow
+1. **Auto-Create tasks.json** based on approved design
+2. **Analyze each task for complexity** using 1-10 scoring system
+3. **Automatically expand complex tasks** (≥5) into subtasks
+4. **Research existing codebase** for context-aware expansion
+5. **Sequence tasks based on dependencies** and priority
+6. **Include testing requirements** for each task
+7. **Seek approval** with validation question
+
+#### Task Structure Format
+```json
+{
+  "id": 1,
+  "title": "Implement User Authentication Service",
+  "description": "Create comprehensive authentication service with JWT tokens, password hashing, and session management",
+  "status": "pending",
+  "dependencies": [2, 3],
+  "priority": "high",
+  "complexityScore": 7,
+  "complexityAnalysis": {
+    "technical": 8,
+    "coordination": 6,
+    "risk": 7,
+    "scope": 7,
+    "reasoning": "High complexity due to security requirements, multiple integration points, and comprehensive error handling needs"
+  },
+  "details": "Implement secure authentication with bcrypt password hashing, JWT token generation/validation, session management, rate limiting, and integration with user management system",
+  "testStrategy": "Unit tests for all authentication functions, integration tests for API endpoints, security tests for vulnerability assessment",
+  "acceptanceCriteria": [
+    "WHEN user provides valid credentials THEN system SHALL generate JWT token",
+    "IF user exceeds rate limit THEN system SHALL return 429 status",
+    "WHILE token is valid the system SHALL allow authenticated requests"
+  ],
+  "subtasks": [
+    {
+      "id": 1,
+      "title": "Set up password hashing with bcrypt",
+      "description": "Implement secure password hashing and validation",
+      "completed": false,
+      "estimatedEffort": "2-3 hours",
+      "dependencies": [],
+      "acceptanceCriteria": "Passwords are hashed with salt rounds ≥12 and validation works correctly"
+    },
+    {
+      "id": 2,
+      "title": "Implement JWT token generation and validation",
+      "description": "Create JWT token service with proper signing and validation",
+      "completed": false,
+      "estimatedEffort": "3-4 hours",
+      "dependencies": [1],
+      "acceptanceCriteria": "JWT tokens are generated with proper expiration and can be validated securely"
+    }
+  ]
+}
+```
+
+---
+
+## Task Complexity Management
+
+### Complexity Analysis System (1-10 Scale)
+
+#### Scoring Criteria
+1. **Technical Complexity (40% weight)**
+   - Algorithm sophistication required
+   - Number of integration points
+   - Data structure complexity
+   - Performance optimization needs
+
+2. **Coordination Complexity (25% weight)**
+   - Dependencies on other systems/components
+   - Team coordination requirements
+   - Cross-functional integration needs
+   - API integration complexity
+
+3. **Risk Factors (20% weight)**
+   - Unproven technologies or approaches
+   - External dependencies and reliability
+   - Security implications and requirements
+   - Performance constraints and bottlenecks
+
+4. **Implementation Scope (15% weight)**
+   - Number of files/components affected
+   - Testing requirements and coverage
+   - Documentation needs and complexity
+   - Configuration and deployment complexity
+
+#### Complexity Levels
+- **1-3 (Low)**: Simple, straightforward tasks with minimal dependencies
+- **4-6 (Medium)**: Moderate complexity with some integration or coordination needed
+- **7-8 (High)**: Complex tasks requiring multiple subsystems or advanced logic
+- **9-10 (Critical)**: Extremely complex tasks with high risk and multiple integration points
+
+### Automatic Task Expansion
+
+#### Expansion Triggers
+- **Complexity Score ≥ 5**: Automatic flagging for potential expansion
+- **Multiple Integration Points**: More than 3 external systems involved
+- **High Risk Factors**: Unproven technology or critical security implications
+- **Broad Implementation Scope**: Affects more than 5 files or components
+
+#### Expansion Process
+1. **Analyze Task Context**: Understand requirements and design implications
+2. **Research Existing Codebase**: Use file exploration to find similar patterns
+3. **Generate Subtasks**: Create 3-8 subtasks with clear boundaries
+4. **Define Dependencies**: Map relationships between subtasks
+5. **Set Acceptance Criteria**: Each subtask has specific validation requirements
+6. **Estimate Effort**: Provide time estimates for each subtask
+
+#### Subtask Generation Principles
+- **Single Responsibility**: Each subtask focuses on one specific component or feature
+- **Clear Boundaries**: Well-defined interfaces and inputs/outputs between subtasks
+- **Testable Units**: Each subtask can be independently validated and tested
+- **Logical Sequencing**: Dependencies and execution order are clearly defined
+- **Appropriate Granularity**: Not too broad (unmanageable) or too narrow (inefficient)
+
+### Research-Driven Expansion
+
+#### Codebase Analysis Process
+1. **Explore Project Structure**: Use glob patterns to understand layout and organization
+2. **Search for Similar Implementations**: Use grep to find existing patterns and approaches
+3. **Analyze Key Files**: Read important files to understand architecture and conventions
+4. **Identify Reusable Components**: Find existing code that can be leveraged or extended
+5. **Understand Technology Stack**: Determine frameworks, libraries, and patterns in use
+
+#### Context-Aware Subtask Generation
+- **Build on Existing Patterns**: Create subtasks that align with current architecture
+- **Leverage Existing Components**: Reuse and extend existing functionality where possible
+- **Follow Established Conventions**: Maintain consistency with existing code style and structure
+- **Avoid Duplication**: Check for existing functionality before creating new implementations
+- **Consider Integration Points**: Ensure subtasks integrate smoothly with existing systems
+
+---
+
+## Prompting Strategies
+
+### Core Prompting Principles
+
+#### 1. Context-Rich Prompts
+Always provide comprehensive context including:
+- **Project Background**: Type of application, target users, business goals
+- **Technical Context**: Current technology stack, architecture, constraints
+- **Business Context**: User needs, success criteria, timeline considerations
+- **Integration Context**: Existing systems, data sources, external dependencies
+
+#### 2. Phase-Specific Prompts
+Clearly specify which phase you're in and what you need:
+- **Requirements Phase**: "Let's start with requirements gathering for [feature]"
+- **Design Phase**: "Now let's design the solution based on these requirements"
+- **Tasks Phase**: "Break down this design into actionable implementation tasks"
+
+#### 3. Structured Input Patterns
+Organize complex requests into logical phases and priorities:
+- **Core Functionality First**: Essential features before nice-to-have additions
+- **Incremental Complexity**: Build understanding progressively
+- **Clear Priorities**: Distinguish between must-have and optional features
+
+### Effective Prompt Templates
+
+#### Requirements Phase Prompts
+```
+I want to create a spec for [FEATURE_NAME]. Here's the context:
+
+Project: [PROJECT_TYPE] for [TARGET_USERS]
+Technology: [CURRENT_TECH_STACK]
+Business Goal: [PRIMARY_OBJECTIVE]
+Constraints: [TECHNICAL_AND_BUSINESS_CONSTRAINTS]
+
+The feature should [CORE_FUNCTIONALITY] and integrate with [EXISTING_SYSTEMS].
+
+Please create comprehensive requirements using EARS format, covering:
+- Core user stories with clear value propositions
+- Detailed acceptance criteria for each story
+- Edge cases and error scenarios
+- Integration requirements with existing systems
+- Performance and security considerations
+```
+
+#### Design Phase Prompts
+```
+Based on the approved requirements, create a comprehensive design for [FEATURE_NAME].
+
+Requirements Summary: [KEY_REQUIREMENTS_RECAP]
+
+Please design a solution that addresses:
+- Overall system architecture and component relationships
+- Detailed data models and their relationships
+- API interfaces and contracts
+- Error handling strategies and recovery mechanisms
+- Comprehensive testing approach
+- Performance optimization strategies
+- Security implementation details
+
+Consider these technical constraints:
+- Technology Stack: [CURRENT_STACK]
+- Performance Requirements: [PERFORMANCE_NEEDS]
+- Integration Points: [SYSTEMS_TO_INTEGRATE]
+- Security Requirements: [SECURITY_NEEDS]
+- Scalability Considerations: [GROWTH_EXPECTATIONS]
+```
+
+#### Tasks Phase Prompts
+```
+Now that the design is approved, break it down into actionable implementation tasks.
+
+Design Summary: [KEY_DESIGN_COMPONENTS]
+
+Create an implementation plan that:
+- Follows incremental development with early validation
+- Includes complexity analysis for each task
+- Expands complex tasks (≥5) into manageable subtasks
+- Sequences tasks to minimize dependencies
+- Includes comprehensive testing for each task
+- Provides specific deliverables and acceptance criteria
+
+Each task should:
+- Reference specific requirements it addresses
+- Be completable by a development team
+- Build incrementally on previous tasks
+- Include detailed testing considerations
+- Have clear acceptance criteria
+
+Consider:
+- Team Experience Level: [TEAM_SKILL_LEVEL]
+- Timeline Constraints: [PROJECT_TIMELINE]
+- Risk Tolerance: [ACCEPTABLE_RISK_LEVEL]
+- Quality Requirements: [QUALITY_STANDARDS]
+```
+
+### Advanced Prompting Techniques
+
+#### Progressive Disclosure
+Build understanding incrementally:
+1. "First, let's identify the main user stories for this feature"
+2. "Now, let's add detailed acceptance criteria for each story"
+3. "Next, let's consider edge cases and error scenarios"
+4. "Finally, let's analyze complexity and expand complex tasks"
+
+#### Alternative Exploration
+When facing complex decisions:
+```
+Show me 2-3 different architectural approaches for [PROBLEM].
+For each approach, include:
+- Pros and cons analysis
+- Implementation complexity assessment
+- Performance implications
+- Maintenance considerations
+- Integration requirements
+
+Which approach best aligns with [SPECIFIC_CRITERIA]?
+```
+
+#### Validation and Refinement
+Use specific validation questions:
+```
+Review this [REQUIREMENTS/DESIGN/TASKS] and:
+- Does it cover all necessary scenarios?
+- Are there any security considerations we missed?
+- Will this approach scale with expected growth?
+- Are the tasks specific enough for implementation?
+- What potential issues or risks do you see?
+```
+
+#### Research-Driven Prompts
+For complex task expansion:
+```
+Before expanding this complex task, analyze the existing codebase:
+
+1. Explore the project structure to understand organization patterns
+2. Search for similar implementations or related functionality
+3. Identify existing components that can be reused or extended
+4. Understand the current architecture and design patterns
+5. Find integration points with existing systems
+
+Then create subtasks that:
+- Build upon existing patterns and conventions
+- Leverage existing components where possible
+- Maintain consistency with current architecture
+- Avoid duplicating existing functionality
+- Integrate smoothly with existing systems
+```
+
+### Context-Specific Prompting Patterns
+
+#### For New Features
+```
+"I want to build [FEATURE] for [PLATFORM]. Let's start with requirements using our spec-driven methodology."
+```
+
+#### For Bug Fixes
+```
+"I need to fix [BUG_DESCRIPTION]. Let's first understand the root cause, then design a comprehensive solution."
+```
+
+#### For Refactoring
+```
+"I want to refactor [COMPONENT] to improve [SPECIFIC_GOALS]. Let's analyze the current implementation and design improvements."
+```
+
+#### For Performance Optimization
+```
+"[SYSTEM] has performance issues with [SPECIFIC_PROBLEMS]. Let's identify bottlenecks and design systematic optimizations."
+```
+
+#### For Integration Projects
+```
+"I need to integrate [SYSTEM_A] with [SYSTEM_B] to achieve [BUSINESS_GOAL]. Let's design a robust integration approach."
+```
+
+---
+
+## Templates and Examples
+
+### Requirements Document Template
+```markdown
+# Requirements Document
+
+## Document Information
+- **Feature Name**: [Descriptive Feature Name]
+- **Version**: 1.0
+- **Date**: [Current Date]
+- **Author**: [Author Name]
+- **Stakeholders**: [Key Stakeholders List]
+
+## Introduction
+
+### Feature Summary
+[One-sentence summary of what this feature accomplishes]
+
+### Business Value
+[Clear explanation of business value and expected outcomes]
+
+### Success Criteria
+[Measurable criteria for determining feature success]
+
+### Scope
+**Included:**
+- [What is included in this feature]
+
+**Excluded:**
+- [What is explicitly not included]
+
+## Requirements
+
+### Requirement 1: [Requirement Title]
+**User Story:** As a [specific role], I want [specific functionality], so that [clear benefit].
+
+#### Acceptance Criteria
+1. WHEN [specific trigger] THEN [system] SHALL [specific response]
+2. IF [specific condition] THEN [system] SHALL [required behavior]
+3. WHILE [ongoing condition] [system] SHALL [continuous behavior]
+4. WHERE [specific context] [system] SHALL [contextual behavior]
+
+#### Additional Details
+- **Priority**: High/Medium/Low
+- **Complexity Estimate**: 1-10 scale
+- **Dependencies**: [List of dependencies]
+- **Assumptions**: [Key assumptions made]
+- **Constraints**: [Technical or business constraints]
+
+### [Additional Requirements...]
+
+## Non-Functional Requirements
+
+### Performance Requirements
+- WHEN [load condition] THEN [system] SHALL [performance criteria]
+- IF [usage scenario] THEN [system] SHALL [response time requirement]
+
+### Security Requirements
+- WHEN [security event] THEN [system] SHALL [security response]
+- IF [authentication condition] THEN [system] SHALL [access control behavior]
+
+### Usability Requirements
+- WHEN [user interaction] THEN [system] SHALL [usability standard]
+- WHERE [accessibility context] [system] SHALL [accessibility requirement]
+
+## Integration Requirements
+[Requirements for integration with existing systems]
+
+## Compliance Requirements
+[Any regulatory or compliance requirements]
+```
+
+### Design Document Template
+```markdown
+# Design Document
+
+## Document Information
+- **Feature Name**: [Feature Name]
+- **Version**: 1.0
+- **Date**: [Current Date]
+- **Author**: [Author Name]
+- **Requirements Reference**: [Link to requirements document]
+
+## Overview
+
+### Design Goals
+[Primary objectives and constraints for the design]
+
+### Key Architectural Decisions
+[Major design decisions and their rationale]
+
+### Technology Choices
+[Technology stack decisions and justification]
+
+## System Architecture
+
+### High-Level Architecture
+[System overview diagram and description]
+
+### Component Relationships
+[How major components interact and communicate]
+
+### Data Flow
+[How data moves through the system]
+
+### External Integrations
+[Integration points with external systems]
+
+## Detailed Component Design
+
+### Component 1: [Component Name]
+**Purpose**: [What this component does]
+
+**Responsibilities**:
+- [Primary responsibility 1]
+- [Primary responsibility 2]
+- [Primary responsibility 3]
+
+**Interfaces**:
+- **Input**: [Input interfaces and data formats]
+- **Output**: [Output interfaces and data formats]
+- **Dependencies**: [Dependencies on other components]
+
+**Internal Architecture**: [Internal component structure]
+
+### [Additional Components...]
+
+## Data Models
+
+### Entity Relationship Diagram
+[ERD or data model diagram]
+
+### Data Entities
+[Detailed description of each data entity]
+
+### Data Validation Rules
+[Validation and constraint rules]
+
+### Data Storage Strategy
+[How data is stored, indexed, and retrieved]
+
+## API Design
+
+### Endpoint Specifications
+[Detailed API endpoint definitions]
+
+### Request/Response Formats
+[Data formats and schemas]
+
+### Authentication and Authorization
+[Security implementation for APIs]
+
+### Error Handling
+[API error response formats and codes]
+
+## Error Handling Strategy
+
+### Error Classification
+[Types of errors and how they're categorized]
+
+### Error Recovery Mechanisms
+[How the system recovers from different error types]
+
+### Logging and Monitoring
+[What gets logged and how errors are monitored]
+
+### User Experience for Errors
+[How errors are presented to users]
+
+## Testing Strategy
+
+### Unit Testing Approach
+[Strategy for testing individual components]
+
+### Integration Testing Plan
+[How component interactions will be tested]
+
+### End-to-End Testing Scenarios
+[Complete user workflow testing approach]
+
+### Performance Testing Strategy
+[How performance will be validated]
+
+### Security Testing Plan
+[Security validation and vulnerability testing]
+
+## Performance Considerations
+
+### Performance Requirements
+[Specific performance targets and constraints]
+
+### Optimization Strategies
+[Planned performance optimizations]
+
+### Scalability Plan
+[How the system will scale with growth]
+
+### Monitoring and Metrics
+[What performance metrics will be tracked]
+
+## Security Implementation
+
+### Authentication Strategy
+[How users will be authenticated]
+
+### Authorization Model
+[How access control will be implemented]
+
+### Data Protection
+[How sensitive data will be protected]
+
+### Security Monitoring
+[How security events will be monitored]
+
+## Deployment Strategy
+
+### Environment Requirements
+[Infrastructure and environment needs]
+
+### Deployment Process
+[How the system will be deployed]
+
+### Configuration Management
+[How configuration will be managed]
+
+### Rollback Strategy
+[How to rollback if issues occur]
+```
+
+---
+
+## Quality Gates
+
+### Requirements → Design Gate
+**Validation Checklist:**
+- [ ] All requirements are testable and measurable
+- [ ] Edge cases and error scenarios are comprehensively covered
+- [ ] Non-functional requirements are clearly specified
+- [ ] Integration requirements are well-defined
+- [ ] Success criteria are quantifiable
+- [ ] Stakeholder approval has been obtained
+- [ ] Requirements traceability is established
+- [ ] Assumptions and constraints are documented
+
+**Gate Criteria:**
+- **Completeness**: All user needs are addressed
+- **Clarity**: Requirements are unambiguous
+- **Testability**: Each requirement can be validated
+- **Consistency**: No conflicting requirements exist
+- **Feasibility**: Technical feasibility is confirmed
+
+### Design → Tasks Gate
+**Validation Checklist:**
+- [ ] Architecture addresses all requirements comprehensively
+- [ ] Components have clear, well-defined responsibilities
+- [ ] Error handling strategy is comprehensive and robust
+- [ ] Testing strategy is detailed and appropriate
+- [ ] Performance considerations are addressed
+- [ ] Security implications are thoroughly considered
+- [ ] Integration points are well-defined
+- [ ] Scalability requirements are addressed
+
+**Gate Criteria:**
+- **Completeness**: Design covers all requirements
+- **Soundness**: Architecture is technically sound
+- **Maintainability**: Design supports long-term maintenance
+- **Scalability**: Design can handle expected growth
+- **Security**: Security considerations are comprehensive
+
+### Tasks → Implementation Gate
+**Validation Checklist:**
+- [ ] Tasks are specific and actionable
+- [ ] Complex tasks (≥5) are expanded into subtasks
+- [ ] Dependencies are clearly identified and logical
+- [ ] Testing is included for each task
+- [ ] Requirements traceability is maintained
+- [ ] Acceptance criteria are defined for each task
+- [ ] Effort estimates are provided
+- [ ] Risk assessment is completed
+
+**Gate Criteria:**
+- **Actionability**: Tasks can be executed by development team
+- **Completeness**: All design elements have corresponding tasks
+- **Sequencing**: Task order is logical and efficient
+- **Testability**: Each task includes validation approach
+- **Traceability**: Tasks map back to requirements
+
+---
+
+## Execution Patterns
+
+### Task Selection Algorithm
+**Selection Process:**
+1. **Read Context**: Load requirements.md, design.md, and tasks.json
+2. **Filter Available Tasks**: Identify tasks where all dependencies are completed
+3. **Analyze Complexity**: Review complexity scores and expansion status
+4. **Prioritize Tasks**: Order by High → Medium → Low priority, then by ID
+5. **Select Next Task**: Choose highest priority available task
+6. **Expand if Needed**: If complexity ≥5 and not expanded, expand first
+
+### Task Execution Pattern
+```
+1. Analyze Current Task
+   - Review task description and requirements
+   - Check complexity score and subtasks
+   - Understand acceptance criteria
+   - Identify dependencies and blockers
+
+2. Expand Complex Tasks (if needed)
+   - Research existing codebase for context
+   - Generate appropriate subtasks (3-8)
+   - Define subtask dependencies
+   - Set acceptance criteria for each subtask
+
+3. Execute Task/Subtask
+   - Implement required functionality
+   - Follow established patterns and conventions
+   - Apply appropriate quality standards
+   - Handle errors and edge cases
+
+4. Validate Implementation
+   - Test against acceptance criteria
+   - Verify integration with existing code
+   - Check performance and security
+   - Ensure code quality standards
+
+5. Update Status and Progress
+   - Mark subtask/task as completed
+   - Update progress in tasks.json
+   - Log implementation notes
+   - Identify any issues or blockers
+
+6. Review and Continue
+   - Stop for user review and feedback
+   - Address any issues or concerns
+   - Move to next task when approved
+```
+
+### Progress Tracking
+- **Task Status**: "pending" → "in-progress" → "done"
+- **Subtask Completion**: Track individual subtask progress
+- **Dependency Management**: Ensure dependency chain integrity
+- **Progress Logging**: Maintain detailed progress logs with timestamps
+- **Complexity Calibration**: Compare estimated vs actual complexity
+
+### Live Task Management
+- **Real-time Updates**: Keep tasks.json current with actual progress
+- **Logs Section**: Add detailed logs of completed steps and decisions
+- **Complexity Adjustment**: Update complexity scores based on implementation reality
+- **Dependency Tracking**: Monitor and update task dependencies
+- **Blocker Management**: Identify and resolve blocking issues
+
+---
+
+## Integration Points
+
+### With AI Collaboration
+- **Decision Frameworks**: Use systematic decision-making for complex choices
+- **Complexity Analysis**: Apply multi-factor complexity scoring
+- **Research Integration**: Leverage codebase analysis for context-aware development
+- **Prompting Strategies**: Use effective prompting patterns for better outcomes
+
+### With Development Standards
+- **Quality Requirements**: Apply appropriate quality standards based on complexity
+- **Code Patterns**: Follow established coding patterns and conventions
+- **Security Standards**: Implement security requirements throughout developmentpment
+- **Performance Standards**: Apply performance optimization based on requirements
+
+### With Project Organization
+- **Structure Alignment**: Ensure tasks align with project organization patterns
+- **Documentation Requirements**: Maintain appropriate documentation for complexity level
+- **Traceability**: Use EARS format and requirement IDs throughout
+- **File Organization**: Follow established project structure patterns
+
+### With Testing Practices
+- **Test Strategy**: Apply testing rigor appropriate to task complexity
+- **Coverage Requirements**: Meet coverage thresholds based on complexity level
+- **Test Types**: Use appropriate test types (unit, integration, e2e) for each task
+- **Quality Validation**: Validate implementation against acceptance criteria
+
+### With Workflow Automation
+- **Git Integration**: Use appropriate branching and commit strategies
+- **CI/CD Integration**: Apply quality gates and automation based on complexity
+- **Change Management**: Handle scope and complexity changes systematically
+- **Process Optimization**: Continuously improve based on task performance data
+
+---
+
+## Troubleshooting
+
+### Common Issues and Solutions
+
+#### Requirements Phase Issues
+
+**Issue**: Requirements are too vague or broad
+**Solution**: 
+- Break down broad requirements into specific user stories
+- Add concrete examples and scenarios
+- Use EARS format to make requirements testable
+- Include edge cases and error scenarios
+
+**Issue**: Conflicting or contradictory requirements
+**Solution**:
+- Identify conflicts through systematic review
+- Prioritize requirements based on business value
+- Resolve conflicts with stakeholder input
+- Document decisions and rationale
+
+**Issue**: Missing non-functional requirements
+**Solution**:
+- Systematically review performance, security, usability needs
+- Add specific, measurable non-functional requirements
+- Consider scalability and maintainability requirements
+- Include compliance and regulatory requirements
+
+#### Design Phase Issues
+
+**Issue**: Design doesn't address all requirements
+**Solution**:
+- Create traceability matrix from requirements to design elements
+- Review each requirement for design coverage
+- Add missing design elements
+- Validate design completeness with stakeholders
+
+**Issue**: Architecture is too complex or over-engineered
+**Solution**:
+- Simplify architecture while maintaining functionality
+- Focus on essential components first
+- Consider phased implementation approach
+- Balance complexity with maintainability
+
+**Issue**: Integration points are unclear or missing
+**Solution**:
+- Identify all external system dependencies
+- Define clear integration interfaces and contracts
+- Plan for integration testing and validation
+- Consider integration failure scenarios
+
+#### Tasks Phase Issues
+
+**Issue**: Tasks are too large or complex
+**Solution**:
+- Apply complexity analysis to identify complex tasks
+- Expand complex tasks into manageable subtasks
+- Ensure each subtask has single responsibility
+- Define clear acceptance criteria for each subtask
+
+**Issue**: Task dependencies are unclear or circular
+**Solution**:
+- Map out all task dependencies visually
+- Identify and resolve circular dependencies
+- Sequence tasks to minimize blocking
+- Consider parallel execution opportunities
+
+**Issue**: Tasks don't map back to requirements
+**Solution**:
+- Create traceability from tasks to requirements
+- Ensure all requirements have corresponding tasks
+- Validate task completeness against design
+- Add missing tasks for uncovered requirements
+
+#### Implementation Issues
+
+**Issue**: Complexity was underestimated
+**Solution**:
+- Re-analyze task complexity with new information
+- Expand task into additional subtasks if needed
+- Adjust timeline and resource allocation
+- Learn from estimation errors for future tasks
+
+**Issue**: Integration issues discovered during implementation
+**Solution**:
+- Analyze integration requirements and constraints
+- Update design to address integration issues
+- Create additional tasks for integration work
+- Test integration points thoroughly
+
+**Issue**: Performance or security issues discovered
+**Solution**:
+- Analyze performance/security requirements
+- Update design to address issues
+- Create specific tasks for optimization/security
+- Implement monitoring and validation
+
+### Escalation Procedures
+
+#### When to Escalate
+- **Requirements conflicts** that can't be resolved
+- **Technical feasibility** concerns that affect project viability
+- **Resource constraints** that impact timeline significantly
+- **Quality issues** that compromise system integrity
+
+#### Escalation Process
+1. **Document the Issue**: Clearly describe the problem and impact
+2. **Analyze Options**: Identify potential solutions and trade-offs
+3. **Gather Stakeholders**: Include relevant decision-makers
+4. **Present Recommendations**: Provide clear recommendations with rationale
+5. **Document Decisions**: Record decisions and rationale for future reference
+
+### Continuous Improvement
+
+#### Learning from Issues
+- **Pattern Recognition**: Identify recurring issues and root causes
+- **Process Improvement**: Update methodology based on lessons learned
+- **Tool Enhancement**: Improve tools and templates based on experience
+- **Knowledge Sharing**: Share insights and solutions with team
+
+#### Feedback Integration
+- **User Feedback**: Incorporate feedback on methodology effectiveness
+- **Team Input**: Gather input from development team on process improvements
+- **Stakeholder Feedback**: Include stakeholder feedback on deliverable quality
+- **Metrics Analysis**: Use project metrics to identify improvement opportunities
+
+This comprehensive development methodology provides a complete framework for systematic, high-quality development that adapts to complexity while maintaining efficient, direct communication throughout the process.

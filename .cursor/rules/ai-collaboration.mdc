@@ -1,0 +1,238 @@
+---
+description: AI collaboration patterns, decision frameworks, and prompting strategies
+globs: **/*
+alwaysApply: true
+---
+# AI Collaboration Guide
+
+## Core Collaboration Principles
+
+### Partnership Approach
+Work as a skilled team member who can execute independently while maintaining alignment.
+
+### Decision-Making Framework
+Use systematic criteria to make consistent, high-quality decisions throughout development.
+
+### Efficient Communication
+Minimize back-and-forth while ensuring critical validation at key decision points.
+
+## Decision Frameworks
+
+### Requirements Analysis Framework
+
+**Prioritization Criteria (in order):**
+1. **User Impact Severity** (Critical → High → Medium → Low)
+2. **Technical Feasibility** (Immediate → Moderate → Complex → Uncertain)
+3. **Dependency Relationships** (Foundation → Independent → Dependent → Optional)
+
+**Validation Process:**
+```
+Input: Raw requirement → Clarity Check → Completeness Analysis → 
+Consistency Verification → Feasibility Assessment → Output: Validated requirement
+```
+
+### Design Decision Framework
+
+**Evaluation Criteria (weighted):**
+- **Maintainability (30%)**: Code clarity, separation of concerns, testing ease
+- **Scalability (25%)**: Performance under load, resource efficiency, future extension
+- **Reliability (20%)**: Error handling, failure recovery, data consistency
+- **Development Velocity (15%)**: Implementation complexity, tooling support
+- **Security (10%)**: Authentication, data protection, compliance
+
+**Decision Matrix:**
+| Criteria | Weight | Option A | Option B | Option C |
+|----------|--------|----------|----------|----------|
+| Maintainability | 30% | Score/10 | Score/10 | Score/10 |
+| Scalability | 25% | Score/10 | Score/10 | Score/10 |
+| Reliability | 20% | Score/10 | Score/10 | Score/10 |
+| Development Velocity | 15% | Score/10 | Score/10 | Score/10 |
+| Security | 10% | Score/10 | Score/10 | Score/10 |
+
+### Task Planning Framework
+
+**Decomposition Strategy:**
+1. **Incremental Value Delivery**: Each task delivers testable functionality
+2. **Dependency Management**: Minimize blocking dependencies
+3. **Risk Mitigation**: Address high-risk areas early
+
+**Prioritization Matrix:**
+| Factor | Weight | High Priority | Medium Priority | Low Priority |
+|--------|--------|---------------|-----------------|--------------|
+| Business Value | 40% | Core functionality | Nice-to-have | Experimental |
+| Technical Risk | 30% | Unproven approaches | Moderate complexity | Well-understood |
+| Dependencies | 20% | Blocks other work | Some dependencies | Independent |
+| Effort | 10% | Quick wins | Moderate effort | High effort |
+
+## Prompting Strategies
+
+### Context-Rich Prompts
+
+**Effective Pattern:**
+```
+"I'm building [PROJECT_TYPE] that [CORE_PURPOSE]. 
+Current constraints: [TECHNICAL_CONSTRAINTS]
+User needs: [USER_REQUIREMENTS]
+Business context: [BUSINESS_CONTEXT]
+
+[SPECIFIC_REQUEST]"
+```
+
+**Example:**
+```
+"I'm building a SaaS application for small businesses that manages customer relationships. 
+Current constraints: React/TypeScript, PostgreSQL, 10k expected users
+User needs: Contact management, deal tracking, email integration
+Business context: B2B SaaS with freemium model
+
+Create requirements for user authentication system."
+```
+
+### Progressive Disclosure
+
+**Effective Sequence:**
+1. "First, let's identify the main user stories"
+2. "Now, let's add acceptance criteria for each story"
+3. "Finally, let's consider edge cases and error scenarios"
+
+### Alternative Exploration
+
+**When to Use:** Complex decisions with multiple viable approaches
+
+**Pattern:**
+```
+"Show me two different approaches for [PROBLEM].
+Include pros/cons and implementation complexity.
+Which aligns best with [SPECIFIC_CRITERIA]?"
+```
+
+### Validation Prompts
+
+**Strategic Questions:**
+- "Does this requirement cover all user scenarios?"
+- "Are there security considerations we missed?"
+- "Will this design scale with expected growth?"
+- "Are these tasks specific enough for implementation?"
+
+## Problem-Solving Framework
+
+### Root Cause Analysis
+
+**Process:**
+1. **Symptom Analysis**: What is observable? When does it occur?
+2. **Context Investigation**: What changed? What are the conditions?
+3. **Hypothesis Generation**: What could cause this? Most likely causes?
+4. **Testing and Validation**: How to test each hypothesis?
+
+### Solution Evaluation
+
+**Criteria:**
+1. **Effectiveness**: Does it solve the root cause?
+2. **Implementation Complexity**: How much effort required?
+3. **Side Effects**: What are potential negative impacts?
+
+## Optimization Frameworks
+
+### Performance Optimization
+
+**Decision Hierarchy:**
+1. **Measurement First**: Profile to identify bottlenecks
+2. **Optimization Priority**: Algorithm → Data structures → Caching → Resources → Hardware
+3. **Trade-off Analysis**: Performance vs complexity vs maintainability
+
+### Scalability Planning
+
+**Considerations:**
+1. **Current vs Future Load**: Growth patterns, peak vs average
+2. **Scaling Strategies**: Horizontal vs vertical, database scaling
+3. **Infrastructure**: Cloud vs on-premise, monitoring, disaster recovery
+
+## Integration Patterns
+
+### API Design Decisions
+
+**Evaluation Criteria:**
+1. **Consistency**: RESTful principles, naming conventions
+2. **Usability**: Clear endpoints, comprehensive documentation
+3. **Performance**: Response time, caching, rate limiting
+
+### Security Decision Framework
+
+**Assessment Process:**
+1. **Threat Modeling**: Identify attackers, attack vectors, vulnerability impact
+2. **Security Controls**: Authentication, authorization, data protection
+3. **Compliance**: Regulatory requirements, industry standards
+
+## Continuous Improvement
+
+### Learning Integration
+
+**Feedback Collection:**
+- User feedback and satisfaction metrics
+- Performance metrics and trends
+- Error rates and patterns
+- Development velocity and quality
+
+**Analysis and Insights:**
+- Identify improvement opportunities
+- Root cause analysis of issues
+- Pattern recognition in problems
+- Success factor analysis
+
+**Implementation and Validation:**
+- Prioritize improvements by impact
+- Implement changes incrementally
+- Measure impact of changes
+- Iterate based on results
+
+## Context-Specific Applications
+
+### New Feature Development
+```
+"I want to build [FEATURE]. Let's start with requirements using systematic analysis."
+```
+
+### Bug Resolution
+```
+"[BUG_DESCRIPTION] is occurring. Let's analyze root cause and design solution."
+```
+
+### Performance Optimization
+```
+"[SYSTEM] has performance issues. Let's identify bottlenecks and optimize systematically."
+```
+
+### Architecture Decisions
+```
+"We need to choose between [OPTIONS] for [USE_CASE]. 
+Evaluate using maintainability, scalability, and development velocity criteria."
+```
+
+## Quality Assurance
+
+### Decision Validation
+
+**Checklist:**
+- [ ] Decision criteria clearly defined
+- [ ] Multiple options evaluated systematically
+- [ ] Trade-offs explicitly considered
+- [ ] Implementation feasibility confirmed
+- [ ] Risk mitigation planned
+
+### Communication Validation
+
+**Effective Patterns:**
+- Direct execution with strategic validation
+- Show understanding through deliverables
+- Ask specific questions, not general ones
+- Maintain momentum while ensuring alignment
+
+### Outcome Measurement
+
+**Success Indicators:**
+- Decisions lead to successful implementations
+- Communication reduces rather than increases confusion
+- Collaboration accelerates rather than slows progress
+- Quality remains high throughout rapid execution
+
+This framework enables systematic, high-quality decision-making while maintaining the efficient, action-oriented collaboration style that makes AI partnership effective.

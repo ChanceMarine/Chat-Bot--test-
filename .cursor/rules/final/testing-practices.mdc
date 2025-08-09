@@ -1,0 +1,629 @@
+---
+description: Comprehensive testing standards including unit, integration, and end-to-end testing with complexity-aware strategies
+globs: **/*
+alwaysApply: true
+---
+# Testing Practices
+
+## Testing Philosophy
+
+### Testing Pyramid
+```
+    /\
+   /  \     E2E Tests (Few)
+  /____\    Integration Tests (Some)
+ /      \   
+/________\   Unit Tests (Many)
+```
+
+### Core Principles
+- **Test Behavior, Not Implementation**: Focus on what code does, not how
+- **Fast Feedback**: Tests run quickly for immediate feedback
+- **Reliable**: Deterministic tests that don't flake
+- **Maintainable**: Easy to understand and update
+- **Comprehensive**: Cover happy paths, edge cases, and errors
+
+## Complexity-Aware Testing Strategy
+
+### Testing Requirements by Complexity Score
+
+**High Complexity (7-10):**
+- **Unit Tests**: 95%+ coverage with extensive edge cases
+- **Integration Tests**: Full API and component integration testing
+- **E2E Tests**: Complete user journey validation
+- **Performance Tests**: Load and stress testing
+- **Security Tests**: Comprehensive security validation
+
+**Medium Complexity (4-6):**
+- **Unit Tests**: 85%+ coverage with key edge cases
+- **Integration Tests**: Core integration points tested
+- **E2E Tests**: Primary user flows tested
+- **Performance Tests**: Basic performance validation
+
+**Low Complexity (1-3):**
+- **Unit Tests**: 80%+ coverage with basic scenarios
+- **Integration Tests**: Key integration points only
+- **E2E Tests**: Critical paths only
+
+### Test Planning by Task Complexity
+```typescript
+const getTestStrategy = (complexityScore: number) => {
+  if (complexityScore >= 7) {
+    return {
+      unitTests: 'comprehensive',
+      integrationTests: 'full',
+      e2eTests: 'complete',
+      performanceTests: 'required',
+      securityTests: 'required'
+    };
+  } else if (complexityScore >= 4) {
+    return {
+      unitTests: 'standard',
+      integrationTests: 'core',
+      e2eTests: 'primary',
+      performanceTests: 'basic',
+      securityTests: 'standard'
+    };
+  } else {
+    return {
+      unitTests: 'basic',
+      integrationTests: 'minimal',
+      e2eTests: 'critical',
+      performanceTests: 'optional',
+      securityTests: 'basic'
+    };
+  }
+};
+```
+
+## Unit Testing
+
+### React Component Testing
+```typescript
+// ✅ Good: Test user interactions and behavior
+import { render, screen, fireEvent } from '@testing-library/react';
+
+describe('LoginForm', () => {
+  it('submits form with user input', async () => {
+    const mockSubmit = jest.fn();
+    render(<LoginForm onSubmit={mockSubmit} />);
+    
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: 'test@example.com' },
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), {
+      target: { value: 'password123' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+    
+    expect(mockSubmit).toHaveBeenCalledWith({
+      email: 'test@example.com',
+      password: 'password123',
+    });
+  });
+
+  it('displays validation errors for invalid input', () => {
+    render(<LoginForm onSubmit={jest.fn()} />);
+    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+    
+    expect(screen.getByText(/email is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/password is required/i)).toBeInTheDocument();
+  });
+});
+```
+
+### Custom Hook Testing
+```typescript
+// ✅ Good: Test hook behavior and state changes
+import { renderHook, act } from '@testing-library/react';
+
+describe('useCounter', () => {
+  it('increments counter correctly', () => {
+    const { result } = renderHook(() => useCounter(0));
+    
+    act(() => {
+      result.current.increment();
+    });
+    
+    expect(result.current.count).toBe(1);
+  });
+
+  it('resets counter to initial value', () => {
+    const { result } = renderHook(() => useCounter(5));
+    
+    act(() => {
+      result.current.increment();
+      result.current.reset();
+    });
+    
+    expect(result.current.count).toBe(5);
+  });
+});
+```
+
+### Utility Function Testing
+```typescript
+// ✅ Good: Test pure functions thoroughly
+describe('formatDate', () => {
+  it('formats date correctly', () => {
+    const date = new Date('2024-01-15');
+    expect(formatDate(date)).toBe('January 15, 2024');
+  });
+
+  it('handles invalid dates', () => {
+    expect(formatDate(null)).toBe('Invalid date');
+    expect(formatDate(undefined)).toBe('Invalid date');
+  });
+});
+
+describe('calculateTotal', () => {
+  it('calculates total with tax', () => {
+    const items = [
+      { price: 10, quantity: 2 },
+      { price: 5, quantity: 1 },
+    ];
+    expect(calculateTotal(items, 0.1)).toBe(27.5);
+  });
+
+  it('handles empty items', () => {
+    expect(calculateTotal([], 0.1)).toBe(0);
+  });
+});
+```
+
+## Integration Testing
+
+### API Route Testing
+```typescript
+// ✅ Good: Test complete API workflows
+import request from 'supertest';
+import { app } from '../app';
+
+describe('POST /api/users', () => {
+  beforeEach(async () => {
+    await prisma.user.deleteMany();
+  });
+
+  it('creates user with valid data', async () => {
+    const userData = {
+      email: 'test@example.com',
+      password: 'password123',
+      name: 'Test User',
+    };
+
+    const response = await request(app)
+      .post('/api/users')
+      .send(userData)
+      .expect(201);
+
+    expect(response.body).toMatchObject({
+      id: expect.any(String),
+      email: userData.email,
+      name: userData.name,
+    });
+    expect(response.body).not.toHaveProperty('password');
+  });
+
+  it('returns validation error for invalid data', async () => {
+    const response = await request(app)
+      .post('/api/users')
+      .send({ email: 'invalid' })
+      .expect(400);
+
+    expect(response.body).toHaveProperty('errors');
+  });
+});
+```
+
+### Database Integration Testing
+```typescript
+// ✅ Good: Test database operations
+describe('User Service', () => {
+  beforeEach(async () => {
+    await prisma.user.deleteMany();
+  });
+
+  afterAll(async () => {
+    await prisma.$disconnect();
+  });
+
+  it('creates user successfully', async () => {
+    const userData = {
+      email: 'test@example.com',
+      password: 'hashedPassword',
+      name: 'Test User',
+    };
+
+    const user = await createUser(userData);
+
+    expect(user).toMatchObject({
+      id: expect.any(String),
+      email: userData.email,
+      name: userData.name,
+    });
+  });
+
+  it('throws error for duplicate email', async () => {
+    const userData = {
+      email: 'test@example.com',
+      password: 'password',
+      name: 'Test User',
+    };
+
+    await createUser(userData);
+    await expect(createUser(userData)).rejects.toThrow('Email already exists');
+  });
+});
+```
+
+## End-to-End Testing
+
+### User Journey Testing
+```typescript
+// ✅ Good: Test complete user workflows
+import { test, expect } from '@playwright/test';
+
+test.describe('User Authentication Flow', () => {
+  test('user can register and login', async ({ page }) => {
+    // Registration
+    await page.goto('/register');
+    await page.fill('[data-testid="email-input"]', 'test@example.com');
+    await page.fill('[data-testid="password-input"]', 'password123');
+    await page.fill('[data-testid="name-input"]', 'Test User');
+    await page.click('[data-testid="register-button"]');
+    
+    // Verify redirect and success
+    await expect(page).toHaveURL('/login');
+    await expect(page.locator('[data-testid="success-message"]'))
+      .toContainText('Registration successful');
+    
+    // Login with new account
+    await page.fill('[data-testid="email-input"]', 'test@example.com');
+    await page.fill('[data-testid="password-input"]', 'password123');
+    await page.click('[data-testid="login-button"]');
+    
+    // Verify successful login
+    await expect(page).toHaveURL('/dashboard');
+    await expect(page.locator('[data-testid="user-name"]'))
+      .toContainText('Test User');
+  });
+});
+```
+
+### Critical Path Testing
+```typescript
+// ✅ Good: Test business-critical workflows
+test.describe('E-commerce Checkout', () => {
+  test('complete purchase flow', async ({ page }) => {
+    // Browse and add to cart
+    await page.goto('/products');
+    await page.click('[data-testid="product-card"]');
+    await page.click('[data-testid="add-to-cart"]');
+    
+    // Proceed to checkout
+    await page.click('[data-testid="checkout-button"]');
+    
+    // Fill shipping information
+    await page.fill('[data-testid="name-input"]', 'John Doe');
+    await page.fill('[data-testid="address-input"]', '123 Main St');
+    
+    // Fill payment information
+    await page.fill('[data-testid="card-number"]', '4242424242424242');
+    await page.fill('[data-testid="expiry"]', '12/25');
+    
+    // Complete purchase
+    await page.click('[data-testid="place-order"]');
+    
+    // Verify order confirmation
+    await expect(page).toHaveURL(/\/order\/\d+/);
+    await expect(page.locator('[data-testid="order-status"]'))
+      .toContainText('Confirmed');
+  });
+});
+```
+
+## Performance Testing
+
+### Load Testing
+```typescript
+// ✅ Good: Test application under load
+test.describe('Performance Tests', () => {
+  test('page loads within acceptable time', async ({ page }) => {
+    const startTime = Date.now();
+    await page.goto('/dashboard');
+    const loadTime = Date.now() - startTime;
+    
+    expect(loadTime).toBeLessThan(3000); // 3 seconds
+  });
+
+  test('API responds quickly', async ({ request }) => {
+    const startTime = Date.now();
+    const response = await request.get('/api/users');
+    const responseTime = Date.now() - startTime;
+    
+    expect(responseTime).toBeLessThan(1000); // 1 second
+    expect(response.status()).toBe(200);
+  });
+});
+```
+
+### Memory and Resource Testing
+```typescript
+// ✅ Good: Monitor resource usage for complex tasks
+test('does not leak memory during complex operations', async ({ page }) => {
+  const initialMemory = await page.evaluate(() => performance.memory?.usedJSHeapSize);
+  
+  // Perform complex operations
+  for (let i = 0; i < 100; i++) {
+    await page.click('[data-testid="create-item"]');
+    await page.click('[data-testid="delete-item"]');
+  }
+  
+  const finalMemory = await page.evaluate(() => performance.memory?.usedJSHeapSize);
+  const memoryIncrease = finalMemory - initialMemory;
+  
+  expect(memoryIncrease).toBeLessThan(10 * 1024 * 1024); // 10MB threshold
+});
+```
+
+## Test Organization
+
+### File Structure
+```
+src/
+├── components/
+│   ├── Button/
+│   │   ├── Button.tsx
+│   │   ├── Button.test.tsx
+│   │   └── index.ts
+├── utils/
+│   ├── formatDate.ts
+│   ├── formatDate.test.ts
+└── services/
+    ├── userService.ts
+    └── userService.test.ts
+```
+
+### Test Configuration
+```typescript
+// jest.config.js
+module.exports = {
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/src/test/setup.ts'],
+  moduleNameMapping: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+  },
+  collectCoverageFrom: [
+    'src/**/*.{ts,tsx}',
+    '!src/**/*.d.ts',
+    '!src/test/**/*',
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
+  },
+};
+```
+
+## Mocking and Test Data
+
+### API Mocking with MSW
+```typescript
+// ✅ Good: Mock API responses consistently
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+
+const server = setupServer(
+  rest.get('/api/users', (req, res, ctx) => {
+    return res(
+      ctx.json([
+        { id: '1', name: 'John Doe', email: 'john@example.com' },
+        { id: '2', name: 'Jane Smith', email: 'jane@example.com' },
+      ])
+    );
+  }),
+
+  rest.post('/api/users', (req, res, ctx) => {
+    const { name, email } = req.body as any;
+    return res(
+      ctx.status(201),
+      ctx.json({ id: '3', name, email })
+    );
+  })
+);
+
+export { server };
+```
+
+### Test Data Factories
+```typescript
+// ✅ Good: Generate consistent test data
+import { faker } from '@faker-js/faker';
+
+export const createUser = (overrides = {}) => ({
+  id: faker.string.uuid(),
+  email: faker.internet.email(),
+  name: faker.person.fullName(),
+  createdAt: faker.date.past(),
+  ...overrides,
+});
+
+export const createComplexTask = (overrides = {}) => ({
+  id: faker.number.int({ min: 1, max: 1000 }),
+  title: faker.lorem.sentence(),
+  description: faker.lorem.paragraphs(),
+  complexityScore: faker.number.int({ min: 7, max: 10 }),
+  subtasks: Array.from({ length: 5 }, () => ({
+    id: faker.number.int(),
+    title: faker.lorem.sentence(),
+    completed: faker.datatype.boolean(),
+  })),
+  ...overrides,
+});
+```
+
+## Test Quality Standards
+
+### Coverage Requirements by Complexity
+```typescript
+const coverageByComplexity = {
+  high: {
+    branches: 95,
+    functions: 95,
+    lines: 95,
+    statements: 95,
+  },
+  medium: {
+    branches: 85,
+    functions: 85,
+    lines: 85,
+    statements: 85,
+  },
+  low: {
+    branches: 80,
+    functions: 80,
+    lines: 80,
+    statements: 80,
+  },
+};
+```
+
+### Test Naming Conventions
+```typescript
+// ✅ Good: Descriptive test names
+describe('UserService', () => {
+  describe('createUser', () => {
+    it('should create user with valid data', () => {});
+    it('should throw error when email already exists', () => {});
+    it('should hash password before saving', () => {});
+  });
+
+  describe('getUserById', () => {
+    it('should return user when found', () => {});
+    it('should return null when user not found', () => {});
+  });
+});
+```
+
+### Test Isolation
+```typescript
+// ✅ Good: Isolated, independent tests
+describe('UserService', () => {
+  beforeEach(async () => {
+    await prisma.user.deleteMany(); // Clean state
+  });
+
+  afterEach(async () => {
+    jest.clearAllMocks(); // Reset mocks
+  });
+
+  it('creates user independently', async () => {
+    // Test implementation that doesn't depend on other tests
+  });
+});
+```
+
+## Integration with Task Complexity
+
+### Test Strategy Selection
+```typescript
+const selectTestStrategy = (task) => {
+  const { complexityScore, subtasks } = task;
+  
+  if (complexityScore >= 7 || subtasks.length > 5) {
+    return {
+      unitTests: 'comprehensive',
+      integrationTests: 'full',
+      e2eTests: 'complete',
+      performanceTests: true,
+      securityTests: true
+    };
+  } else if (complexityScore >= 4) {
+    return {
+      unitTests: 'standard',
+      integrationTests: 'core',
+      e2eTests: 'primary',
+      performanceTests: false,
+      securityTests: true
+    };
+  } else {
+    return {
+      unitTests: 'basic',
+      integrationTests: 'minimal',
+      e2eTests: 'critical',
+      performanceTests: false,
+      securityTests: false
+    };
+  }
+};
+```
+
+### Subtask Testing Requirements
+```typescript
+const getSubtaskTestRequirements = (subtask, parentComplexity) => {
+  return {
+    unitTests: parentComplexity >= 7 ? 'required' : 'standard',
+    integrationTests: subtask.dependencies.length > 0 ? 'required' : 'optional',
+    acceptanceTests: 'required', // Always test against acceptance criteria
+    performanceTests: parentComplexity >= 8 ? 'required' : 'optional'
+  };
+};
+```
+
+## Best Practices
+
+### Do's
+- Write tests that focus on behavior, not implementation
+- Use descriptive test names that explain the scenario
+- Keep tests isolated and independent
+- Mock external dependencies appropriately
+- Test both happy paths and error cases
+- Use test data factories for consistent data
+- Set coverage thresholds based on complexity
+- Run tests in CI/CD pipeline
+
+### Don'ts
+- Test implementation details
+- Write flaky tests that depend on timing
+- Skip testing error scenarios
+- Use hardcoded test data
+- Ignore test coverage metrics
+- Test third-party library functionality
+- Write slow tests without good reason
+- Skip integration tests for critical paths
+
+### Complexity-Aware Testing
+- **Analyze task complexity** before writing tests
+- **Adjust test rigor** based on complexity score
+- **Increase coverage** for high-complexity tasks
+- **Focus on critical paths** for complex workflows
+- **Include performance tests** for high-complexity tasks
+
+### Testing Checklist by Complexity
+
+**High Complexity (7-10):**
+- [ ] Comprehensive unit tests (95%+ coverage)
+- [ ] Full integration test suite
+- [ ] Complete E2E user journey tests
+- [ ] Performance and load testing
+- [ ] Security vulnerability testing
+- [ ] Error handling and edge case testing
+
+**Medium Complexity (4-6):**
+- [ ] Standard unit tests (85%+ coverage)
+- [ ] Core integration tests
+- [ ] Primary E2E flow tests
+- [ ] Basic performance validation
+- [ ] Standard security testing
+
+**Low Complexity (1-3):**
+- [ ] Basic unit tests (80%+ coverage)
+- [ ] Minimal integration tests
+- [ ] Critical path E2E tests
+- [ ] Basic functionality validation
+
+This comprehensive testing approach ensures code quality, reliability, and maintainability while adapting test rigor to task complexity and implementation requirements.

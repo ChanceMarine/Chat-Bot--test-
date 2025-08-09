@@ -1,0 +1,448 @@
+---
+description: Git workflow, change management, CI/CD, and continuous improvement processes
+globs: **/*
+alwaysApply: true
+---
+# Workflow Automation
+
+## Git Workflow Standards
+
+### Branch Naming Convention
+- **Feature**: `feature/description-of-feature`
+- **Bug Fix**: `fix/description-of-bug`
+- **Hotfix**: `hotfix/critical-issue-description`
+- **Release**: `release/version-number`
+- **Documentation**: `docs/description-of-documentation`
+
+### Commit Message Format
+```
+type(scope): description
+
+[optional body]
+
+[optional footer]
+```
+
+**Types**: feat, fix, docs, style, refactor, test, chore
+
+**Examples**:
+```bash
+feat(auth): add JWT token authentication
+fix(api): resolve memory leak in user endpoint
+docs(readme): update installation instructions
+test(auth): add unit tests for login validation
+```
+
+### Git Workflow Commands
+```bash
+# Start new feature
+git checkout main
+git pull origin main
+git checkout -b feature/your-feature-name
+
+# During development
+git add .
+git commit -m "feat(feature): add specific functionality"
+git push origin feature/your-feature-name
+
+# Before PR
+git fetch origin
+git rebase origin/main
+git push origin feature/your-feature-name --force-with-lease
+
+# After PR approval
+git checkout main
+git pull origin main
+git branch -d feature/your-feature-name
+```
+
+## Pull Request Standards
+
+### PR Template
+```markdown
+## Description
+Brief description of changes made.
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation update
+
+## Testing
+- [ ] Unit tests pass
+- [ ] Integration tests pass
+- [ ] Manual testing completed
+
+## Checklist
+- [ ] Code follows project style guidelines
+- [ ] Self-review completed
+- [ ] Documentation updated
+- [ ] No breaking changes (or documented)
+
+## Related Issues
+Closes #123
+```
+
+### PR Review Process
+1. **Self Review**: Author reviews code before requesting review
+2. **Automated Checks**: CI/CD pipeline runs tests and quality checks
+3. **Peer Review**: Team member reviews for quality and correctness
+4. **Address Feedback**: Author responds to all review comments
+5. **Final Approval**: Reviewer approves and PR is merged
+
+### Branch Protection Rules
+- **Require Reviews**: All PRs must be reviewed
+- **Require Status Checks**: Tests must pass before merge
+- **Require Up-to-date**: Branch must be current with main
+- **Restrict Direct Pushes**: No direct pushes to main branch
+
+## Change Management
+
+### Change Types
+1. **Clarification Changes**: Minor fixes, typos, formatting
+2. **Scope Changes**: New requirements, modified features
+3. **Implementation Discoveries**: Technical constraints found during coding
+
+### Change Decision Framework
+```mermaid
+flowchart TD
+    A[Change Request] --> B{Change Type?}
+    B -->|Clarification| C[Direct Edit]
+    B -->|Scope Change| D[Impact Assessment]
+    B -->|Implementation Discovery| E[Technical Review]
+    
+    D --> F{Impact > 20% effort?}
+    F -->|Yes| G[Stakeholder Approval]
+    F -->|No| H[Update Spec]
+    
+    E --> I{Affects Requirements?}
+    I -->|Yes| J[Update Requirements]
+    I -->|No| K[Update Design Only]
+```
+
+### Change Request Process
+```markdown
+## Change Request Template
+
+**Type**: [Clarification/Scope Change/Implementation Discovery]
+**Priority**: [High/Medium/Low]
+**Impact Score**: [1-10]
+
+### Description
+[Detailed description of the change]
+
+### Rationale
+[Why this change is needed]
+
+### Impact Assessment
+- Requirements: [Impact on requirements]
+- Design: [Impact on design]
+- Implementation: [Impact on tasks]
+
+### Proposed Solution
+[How to implement the change]
+```
+
+### Version Control for Specs
+- **Major (1.0.0 → 2.0.0)**: Breaking changes to requirements or core design
+- **Minor (1.0.0 → 1.1.0)**: New requirements or significant design changes
+- **Patch (1.0.0 → 1.0.1)**: Clarifications, bug fixes, minor updates
+
+## CI/CD Pipeline
+
+### Automated Quality Gates
+```yaml
+# Example GitHub Actions workflow
+name: Quality Gates
+
+on: [push, pull_request]
+
+jobs:
+  quality-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run linting
+        run: npm run lint
+        
+      - name: Run type checking
+        run: npm run type-check
+        
+      - name: Run tests
+        run: npm run test:coverage
+        
+      - name: Run security audit
+        run: npm audit --audit-level high
+        
+      - name: Build application
+        run: npm run build
+```
+
+### Quality Thresholds
+```yaml
+quality_gates:
+  - name: "Code Coverage"
+    threshold: 80
+    metric: "coverage_percentage"
+  
+  - name: "Test Execution"
+    threshold: 100
+    metric: "tests_passed"
+  
+  - name: "Security Scan"
+    threshold: 0
+    metric: "high_severity_vulnerabilities"
+  
+  - name: "Performance"
+    threshold: 2000
+    metric: "response_time_ms"
+```
+
+### Deployment Pipeline
+```yaml
+# Deployment stages
+stages:
+  - test:
+      - unit_tests
+      - integration_tests
+      - security_scan
+  - quality_gate:
+      - coverage_check
+      - performance_test
+      - security_validation
+  - deploy:
+      - staging_deploy
+      - e2e_tests
+      - production_deploy
+```
+
+## Continuous Improvement
+
+### Improvement Triggers
+- New code patterns not covered by existing rules
+- Repeated similar implementations across files
+- Common error patterns that could be prevented
+- New libraries or tools being used consistently
+- Emerging best practices in the codebase
+
+### Analysis Process
+- Compare new code with existing standards
+- Identify patterns that should be standardized
+- Monitor test patterns and coverage
+- Check for consistent error handling patterns
+- Look for references to external documentation
+
+### Rule Updates
+
+**Add New Rules When:**
+- A new technology/pattern is used in 3+ files
+- Common bugs could be prevented by a rule
+- Code reviews repeatedly mention the same feedback
+- New security or performance patterns emerge
+
+**Modify Existing Rules When:**
+- Better examples exist in the codebase
+- Additional edge cases are discovered
+- Related rules have been updated
+- Implementation details have changed
+
+### Feedback Collection
+```typescript
+// Example feedback collection
+interface ImprovementFeedback {
+  type: 'rule_suggestion' | 'process_improvement' | 'tool_recommendation';
+  description: string;
+  impact: 'high' | 'medium' | 'low';
+  effort: 'high' | 'medium' | 'low';
+  examples?: string[];
+}
+
+const collectFeedback = (feedback: ImprovementFeedback) => {
+  // Log feedback for analysis
+  console.log('Improvement Feedback:', feedback);
+  
+  // Store for periodic review
+  storeFeedback(feedback);
+};
+```
+
+## Monitoring and Metrics
+
+### Development Metrics
+- **Code Quality**: Complexity, coverage, duplication
+- **Velocity**: Story points, cycle time, lead time
+- **Quality**: Bug rate, defect density, customer satisfaction
+- **Process**: PR review time, deployment frequency, MTTR
+
+### Automated Monitoring
+```typescript
+// Example monitoring setup
+const monitorMetrics = () => {
+  // Track build times
+  trackBuildTime();
+  
+  // Monitor test execution
+  trackTestMetrics();
+  
+  // Monitor deployment success
+  trackDeploymentMetrics();
+  
+  // Track error rates
+  trackErrorRates();
+};
+```
+
+### Performance Monitoring
+```typescript
+// API performance monitoring
+export const monitorApiPerformance = (req: Request, res: Response, next: NextFunction) => {
+  const start = Date.now();
+  
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    
+    // Log performance metrics
+    console.log(`API ${req.method} ${req.path} - ${res.statusCode} - ${duration}ms`);
+    
+    // Alert on slow responses
+    if (duration > 1000) {
+      console.warn(`Slow API response: ${req.path} took ${duration}ms`);
+    }
+  });
+  
+  next();
+};
+```
+
+## Automation Tools
+
+### Git Hooks
+```bash
+# Pre-commit hook
+#!/bin/sh
+npm run lint
+npm run type-check
+npm test
+
+# Pre-push hook
+#!/bin/sh
+npm run test:full
+npm run build
+```
+
+### Automated Code Quality
+```typescript
+// ESLint configuration
+module.exports = {
+  extends: [
+    'next/core-web-vitals',
+    '@typescript-eslint/recommended',
+    'prettier',
+  ],
+  rules: {
+    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-explicit-any': 'error',
+    'react-hooks/exhaustive-deps': 'error',
+  },
+};
+
+// Prettier configuration
+module.exports = {
+  semi: true,
+  trailingComma: 'es5',
+  singleQuote: true,
+  printWidth: 80,
+  tabWidth: 2,
+};
+```
+
+### Dependency Management
+```bash
+# Automated dependency updates
+npm audit fix
+npm update
+npm outdated
+
+# Security scanning
+npm audit --audit-level high
+```
+
+## Documentation Automation
+
+### Automated Documentation
+```typescript
+// Generate API documentation
+const generateApiDocs = () => {
+  // Extract API routes and generate OpenAPI spec
+  // Update README with current API endpoints
+  // Generate component documentation from TypeScript interfaces
+};
+
+// Update changelog
+const updateChangelog = (version: string, changes: string[]) => {
+  const changelogEntry = `
+## ${version} - ${new Date().toISOString().split('T')[0]}
+
+${changes.map(change => `- ${change}`).join('\n')}
+  `;
+  
+  // Prepend to CHANGELOG.md
+  prependToChangelog(changelogEntry);
+};
+```
+
+### Automated Testing
+```typescript
+// Generate test templates
+const generateTestTemplate = (componentName: string) => {
+  return `
+import { render, screen } from '@testing-library/react';
+import { ${componentName} } from './${componentName}';
+
+describe('${componentName}', () => {
+  it('renders correctly', () => {
+    render(<${componentName} />);
+    // Add specific test assertions
+  });
+});
+  `;
+};
+```
+
+## Best Practices
+
+### Workflow Efficiency
+- **Automate repetitive tasks**: Use scripts and tools to reduce manual work
+- **Standardize processes**: Consistent workflows across team members
+- **Fast feedback loops**: Quick validation of changes
+- **Clear documentation**: Well-documented processes and decisions
+
+### Quality Assurance
+- **Automated quality gates**: Prevent low-quality code from merging
+- **Comprehensive testing**: Multiple levels of testing automation
+- **Security scanning**: Automated vulnerability detection
+- **Performance monitoring**: Continuous performance validation
+
+### Continuous Learning
+- **Regular retrospectives**: Team reflection on process improvements
+- **Metric-driven decisions**: Use data to guide process changes
+- **Knowledge sharing**: Document and share learnings
+- **Tool evaluation**: Regularly assess and improve tooling
+
+### Change Management
+- **Impact assessment**: Understand change implications before implementation
+- **Stakeholder communication**: Keep relevant parties informed
+- **Rollback procedures**: Plan for reverting problematic changes
+- **Documentation**: Maintain clear records of changes and rationale
+
+This workflow automation system ensures efficient, high-quality development processes with minimal manual overhead and maximum reliability.

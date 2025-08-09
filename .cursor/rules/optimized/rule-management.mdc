@@ -1,0 +1,195 @@
+---
+description: Simplified guidance for creating and maintaining Cursor rules
+globs: **/*
+alwaysApply: false
+---
+# Rule Management
+
+## Rule File Structure
+
+### Basic Rule Format
+```markdown
+---
+description: Brief description of rule purpose
+globs: **/* or specific/path/**/*
+alwaysApply: true or false
+---
+# Rule Title
+
+## Core Content
+[Main rule content with examples and guidelines]
+
+## Best Practices
+[Do's and don'ts]
+
+## Examples
+[Code examples and patterns]
+```
+
+### Rule Metadata
+- **description**: Clear, concise purpose statement
+- **globs**: File patterns where rule applies (`**/*` for all files)
+- **alwaysApply**: `true` for core rules, `false` for specialized rules
+
+## Rule Creation Process
+
+### When to Create New Rules
+- New technology/pattern used in 3+ files
+- Common bugs that could be prevented
+- Repeated code review feedback
+- New security or performance patterns
+
+### Rule Content Guidelines
+- **Be specific and actionable**: Provide clear, implementable guidance
+- **Include examples**: Show good and bad patterns with code
+- **Keep focused**: One rule per file, single responsibility
+- **Use consistent formatting**: Follow established patterns
+
+### Example Rule Creation
+```markdown
+---
+description: React component best practices and patterns
+globs: src/components/**/*
+alwaysApply: true
+---
+# React Component Standards
+
+## Component Structure
+```typescript
+// ✅ Good: Functional component with proper typing
+interface Props {
+  title: string;
+  onClick: () => void;
+}
+
+const Button: React.FC<Props> = ({ title, onClick }) => {
+  return <button onClick={onClick}>{title}</button>;
+};
+
+// ❌ Avoid: Class components for new code
+class Button extends React.Component {
+  // Use functional components instead
+}
+```
+
+## Best Practices
+- Use functional components with hooks
+- Define proper TypeScript interfaces
+- Keep components focused and small
+```
+
+## Rule Organization
+
+### File Naming
+- **kebab-case**: `react-components.mdc`, `api-standards.mdc`
+- **Descriptive**: Name clearly indicates rule purpose
+- **Consistent extension**: Always use `.mdc`
+
+### Directory Structure
+```
+.cursor/rules/
+├── core/                    # Always-apply rules
+│   ├── kiro-methodology.mdc
+│   ├── development-standards.mdc
+│   └── project-organization.mdc
+├── specialized/             # Context-specific rules
+│   ├── react-patterns.mdc
+│   ├── api-design.mdc
+│   └── database-patterns.mdc
+└── experimental/           # Trial rules
+    └── new-framework.mdc
+```
+
+## Rule Maintenance
+
+### Regular Review Process
+- **Monthly**: Review rule effectiveness and usage
+- **Quarterly**: Update examples and best practices
+- **Annually**: Major rule restructuring if needed
+
+### Update Triggers
+- New framework versions or breaking changes
+- Emerging best practices in the codebase
+- Team feedback on rule clarity or usefulness
+- Discovery of better patterns or approaches
+
+### Version Control
+- Track rule changes in git with clear commit messages
+- Use semantic versioning for major rule updates
+- Maintain changelog for significant rule modifications
+
+## Rule Quality Standards
+
+### Content Quality
+- **Clear and concise**: Easy to understand and follow
+- **Current examples**: Code examples work with current tech stack
+- **Comprehensive**: Cover common scenarios and edge cases
+- **Actionable**: Provide specific guidance, not vague suggestions
+
+### Technical Quality
+- **Valid syntax**: All code examples compile and run
+- **Best practices**: Follow established patterns and conventions
+- **Security conscious**: Include security considerations where relevant
+- **Performance aware**: Consider performance implications
+
+### Validation Checklist
+- [ ] Rule has clear, specific purpose
+- [ ] Examples are current and working
+- [ ] Guidance is actionable and specific
+- [ ] No conflicts with other rules
+- [ ] Appropriate glob patterns and metadata
+- [ ] Consistent formatting and structure
+
+## Rule Effectiveness Measurement
+
+### Usage Metrics
+- **Application frequency**: How often rule guidance is followed
+- **Violation detection**: Common patterns that violate rules
+- **Team feedback**: Developer satisfaction with rule clarity
+- **Code quality impact**: Measurable improvements from rule adoption
+
+### Improvement Process
+1. **Identify Issues**: Collect feedback on rule problems
+2. **Analyze Patterns**: Look for common rule violations or confusion
+3. **Update Content**: Improve examples, clarity, or coverage
+4. **Validate Changes**: Test updated rules with team
+5. **Deploy Updates**: Roll out improved rules
+
+## Integration with Development Workflow
+
+### IDE Integration
+- Rules automatically apply based on file patterns
+- Real-time guidance during development
+- Context-aware suggestions and examples
+
+### Code Review Integration
+- Reference rules in code review comments
+- Use rules to maintain consistency across team
+- Update rules based on review patterns
+
+### CI/CD Integration
+- Automated rule compliance checking
+- Rule violation reporting
+- Quality gate enforcement
+
+## Best Practices
+
+### Rule Creation
+- Start with specific, high-impact rules
+- Use real code examples from your codebase
+- Get team input before finalizing rules
+- Test rules with actual development scenarios
+
+### Rule Maintenance
+- Keep rules current with technology changes
+- Remove outdated or conflicting guidance
+- Consolidate overlapping rules
+- Regular team review and feedback sessions
+
+### Rule Organization
+- Group related rules logically
+- Use consistent naming and structure
+- Maintain clear rule hierarchy
+- Document rule relationships and dependencies
+
+This simplified approach to rule management ensures effective, maintainable guidance that improves development quality without overwhelming complexity.

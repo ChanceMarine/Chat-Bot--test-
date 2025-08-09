@@ -1,0 +1,478 @@
+---
+description: Git workflow, CI/CD, change management, and continuous improvement processes
+globs: **/*
+alwaysApply: true
+---
+# Workflow Automation
+
+## Git Workflow Standards
+
+### Branch Naming Convention
+- **Feature**: `feature/description-of-feature`
+- **Bug Fix**: `fix/description-of-bug`
+- **Hotfix**: `hotfix/critical-issue-description`
+- **Release**: `release/version-number`
+- **Documentation**: `docs/description-of-documentation`
+
+### Commit Message Format
+```
+type(scope): description
+
+[optional body]
+
+[optional footer]
+```
+
+**Types**: feat, fix, docs, style, refactor, test, chore
+
+**Examples**:
+```bash
+feat(auth): add JWT token authentication
+fix(api): resolve memory leak in user endpoint
+docs(readme): update installation instructions
+test(auth): add unit tests for login validation
+```
+
+### Git Workflow Commands
+```bash
+# Start new feature
+git checkout main
+git pull origin main
+git checkout -b feature/your-feature-name
+
+# During development
+git add .
+git commit -m "feat(feature): add specific functionality"
+git push origin feature/your-feature-name
+
+# Before PR
+git fetch origin
+git rebase origin/main
+git push origin feature/your-feature-name --force-with-lease
+
+# After PR approval
+git checkout main
+git pull origin main
+git branch -d feature/your-feature-name
+```
+
+## Pull Request Standards
+
+### PR Template
+```markdown
+## Description
+Brief description of changes made.
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation update
+
+## Complexity Analysis
+- **Complexity Score**: [1-10]
+- **Subtasks Completed**: [X/Y]
+- **Testing Strategy**: [Comprehensive/Standard/Basic]
+
+## Testing
+- [ ] Unit tests pass
+- [ ] Integration tests pass
+- [ ] E2E tests pass (if applicable)
+- [ ] Performance tests pass (if applicable)
+
+## Checklist
+- [ ] Code follows project style guidelines
+- [ ] Self-review completed
+- [ ] Documentation updated
+- [ ] No breaking changes (or documented)
+
+## Related Issues
+Closes #123
+```
+
+### PR Review Process
+1. **Self Review**: Author reviews code before requesting review
+2. **Automated Checks**: CI/CD pipeline runs tests and quality checks
+3. **Complexity Assessment**: Review complexity score and testing strategy
+4. **Peer Review**: Team member reviews for quality and correctness
+5. **Address Feedback**: Author responds to all review comments
+6. **Final Approval**: Reviewer approves and PR is merged
+
+### Branch Protection Rules
+- **Require Reviews**: All PRs must be reviewed
+- **Require Status Checks**: Tests must pass before merge
+- **Require Up-to-date**: Branch must be current with main
+- **Restrict Direct Pushes**: No direct pushes to main branch
+
+## CI/CD Pipeline
+
+### Automated Quality Gates
+```yaml
+# Example GitHub Actions workflow
+name: Quality Gates
+
+on: [push, pull_request]
+
+jobs:
+  quality-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run linting
+        run: npm run lint
+        
+      - name: Run type checking
+        run: npm run type-check
+        
+      - name: Run tests
+        run: npm run test:coverage
+        
+      - name: Analyze task complexity
+        run: npm run analyze-complexity
+        
+      - name: Run security audit
+        run: npm audit --audit-level high
+        
+      - name: Build application
+        run: npm run build
+```
+
+### Quality Thresholds by Complexity
+```yaml
+quality_gates:
+  high_complexity:
+    coverage_threshold: 95
+    performance_threshold: 1000
+    security_threshold: 0
+    complexity_score: "7-10"
+    
+  medium_complexity:
+    coverage_threshold: 85
+    performance_threshold: 1500
+    security_threshold: 0
+    complexity_score: "4-6"
+    
+  low_complexity:
+    coverage_threshold: 80
+    performance_threshold: 2000
+    security_threshold: 0
+    complexity_score: "1-3"
+```
+
+### Deployment Pipeline
+```yaml
+# Deployment stages with complexity awareness
+stages:
+  - analyze:
+      - complexity_analysis
+      - task_expansion_validation
+  - test:
+      - unit_tests
+      - integration_tests
+      - e2e_tests (if complexity >= 5)
+      - performance_tests (if complexity >= 7)
+  - quality_gate:
+      - coverage_check (threshold based on complexity)
+      - security_validation
+      - performance_validation
+  - deploy:
+      - staging_deploy
+      - smoke_tests
+      - production_deploy (if all gates pass)
+```
+
+## Change Management
+
+### Change Types and Complexity Impact
+1. **Clarification Changes**: Minor fixes, no complexity impact
+2. **Scope Changes**: May increase task complexity, requires re-analysis
+3. **Implementation Discoveries**: Often increases complexity, may trigger expansion
+
+### Change Decision Framework
+```mermaid
+flowchart TD
+    A[Change Request] --> B{Change Type?}
+    B -->|Clarification| C[Direct Edit]
+    B -->|Scope Change| D[Complexity Re-analysis]
+    B -->|Implementation Discovery| E[Technical Review]
+    
+    D --> F{Complexity Increase > 2 points?}
+    F -->|Yes| G[Expand into Subtasks]
+    F -->|No| H[Update Task]
+    
+    E --> I{Affects Task Complexity?}
+    I -->|Yes| J[Re-analyze and Expand]
+    I -->|No| K[Update Implementation Only]
+    
+    G --> L[Stakeholder Approval]
+    H --> M[Continue Implementation]
+    J --> L
+    K --> M
+```
+
+### Change Impact Assessment
+```typescript
+const assessChangeImpact = (change, currentTask) => {
+  const originalComplexity = currentTask.complexityScore;
+  const newComplexity = analyzeComplexity(change.updatedRequirements);
+  
+  return {
+    complexityDelta: newComplexity - originalComplexity,
+    requiresExpansion: newComplexity >= 5 && !currentTask.subtasks.length,
+    requiresReview: Math.abs(newComplexity - originalComplexity) >= 2,
+    impactLevel: getImpactLevel(newComplexity - originalComplexity)
+  };
+};
+```
+
+### Version Control for Specs
+- **Major (1.0.0 → 2.0.0)**: Breaking changes, complexity score changes > 3 points
+- **Minor (1.0.0 → 1.1.0)**: New requirements, complexity score changes 1-3 points
+- **Patch (1.0.0 → 1.0.1)**: Clarifications, no complexity impact
+
+## Continuous Improvement
+
+### Improvement Triggers
+- **Complexity Analysis Results**: Tasks consistently over/under estimated
+- **Subtask Completion Patterns**: Subtasks taking longer than estimated
+- **Testing Effectiveness**: Tests not catching issues in complex tasks
+- **Performance Issues**: Complex tasks causing performance problems
+
+### Analysis and Learning Process
+```typescript
+const analyzeTaskPerformance = (completedTasks) => {
+  const insights = {
+    complexityAccuracy: calculateComplexityAccuracy(completedTasks),
+    expansionEffectiveness: analyzeExpansionSuccess(completedTasks),
+    testingCoverage: analyzeTestingEffectiveness(completedTasks),
+    performanceImpact: analyzePerformanceCorrelation(completedTasks)
+  };
+  
+  return generateImprovementRecommendations(insights);
+};
+```
+
+### Feedback Integration
+- **Complexity Calibration**: Adjust scoring based on actual implementation difficulty
+- **Expansion Refinement**: Improve subtask generation based on success rates
+- **Testing Strategy**: Adapt testing requirements based on defect patterns
+- **Process Optimization**: Streamline workflows based on efficiency metrics
+
+## Monitoring and Metrics
+
+### Development Metrics by Complexity
+```typescript
+const trackMetricsByComplexity = {
+  high: {
+    cycleTime: 'track detailed breakdown',
+    defectRate: 'monitor closely',
+    testCoverage: 'require 95%+',
+    performanceImpact: 'measure and optimize'
+  },
+  medium: {
+    cycleTime: 'track overall time',
+    defectRate: 'standard monitoring',
+    testCoverage: 'require 85%+',
+    performanceImpact: 'basic monitoring'
+  },
+  low: {
+    cycleTime: 'basic tracking',
+    defectRate: 'periodic review',
+    testCoverage: 'require 80%+',
+    performanceImpact: 'minimal monitoring'
+  }
+};
+```
+
+### Automated Monitoring
+```typescript
+// Task complexity and performance correlation
+const monitorTaskPerformance = (task) => {
+  const metrics = {
+    complexityScore: task.complexityScore,
+    actualEffort: calculateActualEffort(task),
+    defectCount: getDefectCount(task),
+    performanceImpact: measurePerformanceImpact(task),
+    testCoverage: getTestCoverage(task)
+  };
+  
+  // Alert on significant deviations
+  if (metrics.actualEffort > estimatedEffort * 1.5) {
+    alertComplexityUnderestimation(task, metrics);
+  }
+  
+  return metrics;
+};
+```
+
+### Performance Monitoring
+```typescript
+// Monitor performance impact of complex tasks
+export const monitorComplexTaskPerformance = (req: Request, res: Response, next: NextFunction) => {
+  const start = Date.now();
+  const taskComplexity = req.headers['x-task-complexity'] || 'unknown';
+  
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    
+    // Log with complexity context
+    console.log(`API ${req.method} ${req.path} - Complexity: ${taskComplexity} - ${duration}ms`);
+    
+    // Alert based on complexity expectations
+    const threshold = getPerformanceThreshold(taskComplexity);
+    if (duration > threshold) {
+      console.warn(`Complex task performance issue: ${req.path} (complexity: ${taskComplexity}) took ${duration}ms`);
+    }
+  });
+  
+  next();
+};
+```
+
+## Automation Tools
+
+### Git Hooks with Complexity Awareness
+```bash
+# Pre-commit hook
+#!/bin/sh
+npm run lint
+npm run type-check
+npm run analyze-complexity
+npm test
+
+# Pre-push hook
+#!/bin/sh
+npm run test:full
+npm run complexity-report
+npm run build
+```
+
+### Automated Code Quality
+```typescript
+// ESLint configuration with complexity rules
+module.exports = {
+  extends: [
+    'next/core-web-vitals',
+    '@typescript-eslint/recommended',
+    'prettier',
+  ],
+  rules: {
+    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-explicit-any': 'error',
+    'react-hooks/exhaustive-deps': 'error',
+    'complexity': ['warn', { max: 10 }], // Align with complexity scoring
+  },
+};
+```
+
+### Dependency Management
+```bash
+# Automated dependency updates with complexity impact assessment
+npm audit fix
+npm update
+npm run analyze-complexity-impact # Check if updates affect task complexity
+npm outdated
+```
+
+## Integration with Task Complexity
+
+### Workflow Adaptation by Complexity
+```typescript
+const adaptWorkflowByComplexity = (task) => {
+  const { complexityScore } = task;
+  
+  if (complexityScore >= 7) {
+    return {
+      reviewers: 2, // Require multiple reviewers
+      testingStrategy: 'comprehensive',
+      deploymentApproval: 'required',
+      performanceValidation: 'required',
+      rollbackPlan: 'detailed'
+    };
+  } else if (complexityScore >= 4) {
+    return {
+      reviewers: 1,
+      testingStrategy: 'standard',
+      deploymentApproval: 'automated',
+      performanceValidation: 'basic',
+      rollbackPlan: 'standard'
+    };
+  } else {
+    return {
+      reviewers: 1,
+      testingStrategy: 'basic',
+      deploymentApproval: 'automated',
+      performanceValidation: 'minimal',
+      rollbackPlan: 'basic'
+    };
+  }
+};
+```
+
+### CI/CD Pipeline Adaptation
+```yaml
+# Dynamic pipeline based on task complexity
+pipeline:
+  analyze_complexity:
+    script: npm run analyze-complexity
+    
+  test_strategy:
+    script: |
+      if [ "$COMPLEXITY_SCORE" -ge 7 ]; then
+        npm run test:comprehensive
+        npm run test:performance
+        npm run test:security
+      elif [ "$COMPLEXITY_SCORE" -ge 4 ]; then
+        npm run test:standard
+        npm run test:integration
+      else
+        npm run test:basic
+      fi
+      
+  deployment_strategy:
+    script: |
+      if [ "$COMPLEXITY_SCORE" -ge 7 ]; then
+        npm run deploy:staged
+        npm run validate:comprehensive
+        npm run deploy:production
+      else
+        npm run deploy:direct
+      fi
+```
+
+## Best Practices
+
+### Workflow Efficiency
+- **Automate repetitive tasks**: Use scripts and tools to reduce manual work
+- **Adapt to complexity**: Scale process rigor based on task complexity
+- **Fast feedback loops**: Quick validation of changes
+- **Clear documentation**: Well-documented processes and decisions
+
+### Quality Assurance
+- **Complexity-aware gates**: Adjust quality thresholds based on task complexity
+- **Comprehensive testing**: Multiple levels of testing for complex tasks
+- **Security scanning**: Automated vulnerability detection
+- **Performance monitoring**: Continuous performance validation
+
+### Continuous Learning
+- **Complexity calibration**: Improve scoring accuracy over time
+- **Process optimization**: Streamline workflows based on complexity patterns
+- **Metric-driven decisions**: Use complexity data to guide process changes
+- **Knowledge sharing**: Document and share complexity insights
+
+### Change Management
+- **Impact assessment**: Understand complexity implications of changes
+- **Stakeholder communication**: Keep relevant parties informed of complexity changes
+- **Rollback procedures**: Plan for reverting complex changes
+- **Documentation**: Maintain clear records of complexity evolution
+
+This workflow automation system ensures efficient, high-quality development processes that adapt to task complexity while maintaining minimal manual overhead and maximum reliability.

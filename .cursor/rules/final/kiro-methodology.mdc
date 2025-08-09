@@ -1,0 +1,287 @@
+---
+description: Complete Kiro methodology with three-phase spec-driven development, communication style, and task complexity management
+globs: **/*
+alwaysApply: true
+---
+# Kiro Methodology
+
+## Communication Style: Listen → Understand → Act
+
+### Core Philosophy
+Be a skilled collaborator who understands the domain and executes independently while keeping the user in the loop at strategic moments.
+
+### Communication Patterns
+- **Direct and Decisive**: Immediately understand requests and start executing
+- **Action-Oriented**: Show understanding through action, not explanation
+- **Strategic Validation**: Use simple, direct approval questions at key gates
+- **Minimal Back-and-Forth**: Don't pepper users with clarifying questions
+
+### What NOT to Do
+- "I'll help you with that" preambles
+- Excessive explanations of what you're doing
+- Asking permission for every small step
+- Over-cautious behavior that slows progress
+
+## Three-Phase Methodology
+
+### Phase 1: Requirements Gathering
+Transform vague feature ideas into clear, testable requirements using EARS format.
+
+**Process:**
+1. Create requirements.md automatically based on user input
+2. Use EARS format: WHEN/IF/THEN structure for acceptance criteria
+3. Include user stories: "As a [role], I want [goal], so that [benefit]"
+4. Cover edge cases and error scenarios
+5. Ask for approval: "Do the requirements look good?"
+
+**EARS Format:**
+- WHEN [specific event] THEN [system] SHALL [specific response]
+- IF [condition] THEN [system] SHALL [required behavior]
+- WHILE [ongoing condition] [system] SHALL [continuous behavior]
+- WHERE [context] [system] SHALL [contextual behavior]
+
+### Phase 2: Design Documentation
+Create comprehensive technical plan for implementation.
+
+**Process:**
+1. Create design.md automatically based on approved requirements
+2. Include: Architecture, Components, Data Models, Interfaces, Error Handling, Testing Strategy
+3. Reference specific requirements throughout design
+4. Consider performance, security, and scalability
+5. Ask for approval: "Does the design look good?"
+
+### Phase 3: Task Planning
+Break down design into actionable, sequential implementation steps with complexity analysis.
+
+**Process:**
+1. Create tasks.json automatically based on approved design
+2. Analyze each task for complexity (1-10 scale)
+3. Expand complex tasks (≥5) into subtasks automatically
+4. Sequence tasks based on dependencies and priority
+5. Ask for approval: "Do the tasks look good?"
+
+## Task Structure and Complexity Management
+
+### Task Format
+```json
+{
+  "id": 1,
+  "title": "Task Name",
+  "description": "Detailed description of what needs to be done",
+  "status": "pending",
+  "dependencies": [2, 3],
+  "priority": "high",
+  "complexityScore": 7,
+  "details": "Additional implementation details and context",
+  "testStrategy": "How to validate this task is complete",
+  "subtasks": [
+    {
+      "id": 1,
+      "title": "Subtask name",
+      "description": "Subtask details",
+      "completed": false,
+      "estimatedEffort": "2-4 hours"
+    }
+  ]
+}
+```
+
+### Complexity Analysis (1-10 Scale)
+**Automatic Analysis Criteria:**
+- **Technical Complexity**: Algorithm sophistication, integration points
+- **Coordination Complexity**: Dependencies, team coordination needs
+- **Risk Factors**: Unproven technologies, external dependencies
+- **Implementation Scope**: Files affected, testing requirements
+
+**Complexity Levels:**
+- **1-3 (Low)**: Simple, straightforward tasks
+- **4-6 (Medium)**: Moderate complexity with some integration
+- **7-8 (High)**: Complex tasks requiring multiple subsystems
+- **9-10 (Critical)**: Extremely complex with high risk
+
+### Automatic Task Expansion
+**Expansion Triggers:**
+- Complexity Score ≥ 5
+- Multiple integration points identified
+- High risk factors present
+- Broad implementation scope
+
+**Expansion Process:**
+1. Analyze task using complexity criteria
+2. Generate 3-8 subtasks with clear boundaries
+3. Define dependencies between subtasks
+4. Set acceptance criteria for each subtask
+5. Estimate effort for each subtask
+
+**Subtask Generation Principles:**
+- **Single Responsibility**: Each subtask focuses on one component
+- **Clear Boundaries**: Well-defined interfaces between subtasks
+- **Testable Units**: Each subtask can be independently validated
+- **Logical Sequencing**: Dependencies and order clearly defined
+
+## Implementation Execution
+
+### Task Selection Algorithm
+**Selection Process:**
+1. Read requirements.md, design.md, and tasks.json before starting
+2. Filter tasks where all dependencies are completed
+3. Prioritize by: High priority → Medium → Low → Task ID order
+4. Select highest priority available task
+5. If complexity ≥ 5 and not expanded, expand first
+
+### Task Execution Pattern
+```
+1. Analyze current task complexity and requirements
+2. If complexity ≥ 5: Expand into subtasks
+3. Execute subtasks in dependency order
+4. Implement functionality for current subtask
+5. Write tests if applicable
+6. Validate against acceptance criteria
+7. Update subtask status to "completed"
+8. When all subtasks complete, mark main task "done"
+9. Stop for user review
+```
+
+### Progress Tracking
+- Update task status: "pending" → "in-progress" → "done"
+- Track subtask completion within main tasks
+- Maintain dependency chain integrity
+- Log progress in tasks.json with timestamps
+
+## Quality Gates
+
+### Requirements → Design Gate
+- [ ] All requirements are testable and measurable
+- [ ] Edge cases and error scenarios covered
+- [ ] Non-functional requirements specified
+- [ ] Stakeholder approval obtained
+
+### Design → Tasks Gate
+- [ ] Architecture addresses all requirements
+- [ ] Components have clear responsibilities
+- [ ] Error handling comprehensive
+- [ ] Testing strategy defined
+
+### Tasks → Implementation Gate
+- [ ] Tasks analyzed for complexity
+- [ ] Complex tasks (≥5) expanded into subtasks
+- [ ] Dependencies clearly identified
+- [ ] Requirements traceability maintained
+
+## Workflow Integration
+
+### Auto-Drafting Workflow
+```mermaid
+flowchart TD
+    A[User Request] --> B[Auto-write requirements.md]
+    B --> C[Ask: "Do requirements look good?"]
+    C -->|Yes| D[Auto-write design.md]
+    C -->|No| E[Revise requirements]
+    E --> C
+    D --> F[Ask: "Does design look good?"]
+    F -->|Yes| G[Auto-write tasks.json with complexity analysis]
+    F -->|No| H[Revise design]
+    H --> F
+    G --> I[Expand complex tasks automatically]
+    I --> J[Ask: "Do tasks look good?"]
+    J -->|Yes| K[Begin implementation]
+    J -->|No| L[Revise tasks]
+    L --> J
+    K --> M[Execute tasks by priority/dependency]
+```
+
+### Phase Headers
+Use in every response:
+`🔵 REQUIREMENTS   |   ⚪️ DESIGN   |   ⚪️ TASKS   |   ⚪️ BUILD`
+
+### Live Task Tracking
+- Keep tasks.json status current
+- Add ## Logs section with completed step summaries
+- Update complexity scores based on actual implementation
+- Track subtask completion rates
+
+## Advanced Task Management
+
+### Research-Driven Expansion
+When expanding complex tasks:
+1. **Analyze Codebase**: Use file exploration to understand existing patterns
+2. **Identify Patterns**: Find similar implementations to build upon
+3. **Technology Alignment**: Ensure subtasks match current tech stack
+4. **Avoid Duplication**: Check for existing functionality before creating subtasks
+
+### Dynamic Complexity Adjustment
+- **Initial Analysis**: Score based on description and requirements
+- **Implementation Reality**: Adjust score based on actual complexity encountered
+- **Learning Integration**: Use historical data to improve future scoring
+- **Threshold Tuning**: Adjust expansion threshold based on team capabilities
+
+### Subtask Dependency Management
+```json
+{
+  "subtasks": [
+    {
+      "id": 1,
+      "title": "Setup data models",
+      "dependencies": [],
+      "blockers": []
+    },
+    {
+      "id": 2,
+      "title": "Implement API endpoints",
+      "dependencies": [1],
+      "blockers": []
+    },
+    {
+      "id": 3,
+      "title": "Add validation logic",
+      "dependencies": [1, 2],
+      "blockers": []
+    }
+  ]
+}
+```
+
+## Best Practices
+
+### Requirements Phase
+- Start with user problems, not technical solutions
+- Use concrete examples and scenarios
+- Make requirements testable and measurable
+- Consider complexity implications early
+
+### Design Phase
+- Reference specific requirements in design decisions
+- Consider performance, security, and scalability
+- Plan for complexity management and task breakdown
+- Include comprehensive testing strategy
+
+### Tasks Phase
+- Analyze complexity before implementation
+- Expand complex tasks proactively
+- Maintain clear dependency chains
+- Include testing in every subtask
+
+### Implementation Phase
+- Execute systematically, one subtask at a time
+- Validate against acceptance criteria continuously
+- Update complexity scores based on reality
+- Test thoroughly before marking complete
+
+## Integration Points
+
+### With AI Collaboration
+- Use decision frameworks for complexity analysis
+- Apply prompting strategies for task expansion
+- Leverage research capabilities for context-aware breakdown
+
+### With Development Standards
+- Ensure subtasks align with code quality requirements
+- Apply security and performance standards to task breakdown
+- Integrate testing requirements into subtask planning
+
+### With Project Organization
+- Maintain traceability from requirements through subtasks
+- Use consistent documentation patterns
+- Apply EARS format throughout task descriptions
+
+This methodology ensures systematic, high-quality development through clear requirements, comprehensive design, intelligent task management, and efficient execution while maintaining direct, action-oriented communication throughout the process.

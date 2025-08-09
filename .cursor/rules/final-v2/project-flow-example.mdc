@@ -1,0 +1,638 @@
+---
+description: Complete A-Z project workflow from initial chat to finished product with all decision branches and options
+globs: **/*
+alwaysApply: true
+---
+# Project Flow Example: Complete A-Z Workflow
+
+## Table of Contents
+1. [Workflow Overview](#workflow-overview)
+2. [Initial Contact Phase](#initial-contact-phase)
+3. [Requirements Phase](#requirements-phase)
+4. [Design Phase](#design-phase)
+5. [Implementation Planning](#implementation-planning)
+6. [Development Execution](#development-execution)
+7. [Quality Assurance](#quality-assurance)
+8. [Deployment & Delivery](#deployment--delivery)
+9. [Maintenance & Support](#maintenance--support)
+10. [Decision Trees](#decision-trees)
+
+---
+
+## Workflow Overview
+
+This document outlines the complete journey from opening Cursor and starting a conversation to delivering a finished product. Each phase includes decision points, alternative paths, and quality gates.
+
+### Core Workflow Phases
+```mermaid
+graph TD
+    A[Open Cursor & Start Chat] --> B[Initial Contact Phase]
+    B --> C[Requirements Phase]
+    C --> D[Design Phase]
+    D --> E[Implementation Planning]
+    E --> F[Development Execution]
+    F --> G[Quality Assurance]
+    G --> H[Deployment & Delivery]
+    H --> I[Maintenance & Support]
+    
+    C --> C1[Requirements Iteration]
+    D --> D1[Design Iteration]
+    E --> E1[Task Refinement]
+    F --> F1[Code Review & Fixes]
+    G --> G1[Bug Fixes & Improvements]
+```
+
+---
+
+## Initial Contact Phase
+
+### Entry Points
+When you first open Cursor and start chatting, there are several possible entry points:
+
+#### 1. New Feature Request
+**User Input**: "I want to build a user authentication system"
+**AI Response Path**:
+- Immediately analyze request type
+- Determine if this needs a spec or direct implementation
+- Check for existing related code
+- Start requirements gathering
+
+#### 2. Bug Fix Request
+**User Input**: "The login form isn't working properly"
+**AI Response Path**:
+- Investigate current implementation
+- Identify root cause
+- Determine fix complexity
+- Create fix plan or spec if complex
+
+#### 3. Code Review/Improvement
+**User Input**: "Can you review this component and suggest improvements?"
+**AI Response Path**:
+- Analyze existing code
+- Apply development standards
+- Suggest improvements
+- Create refactoring plan if needed
+
+#### 4. General Question
+**User Input**: "How should I structure my React components?"
+**AI Response Path**:
+- Provide guidance based on rules
+- Reference project organization standards
+- Suggest specific patterns
+- Offer to implement examples
+
+### Initial Analysis Actions
+```mermaid
+graph TD
+    A[User Request] --> B{Request Type?}
+    B -->|New Feature| C[Check Complexity]
+    B -->|Bug Fix| D[Investigate Issue]
+    B -->|Code Review| E[Analyze Code]
+    B -->|Question| F[Provide Guidance]
+    
+    C -->|Complex| G[Create Spec]
+    C -->|Simple| H[Direct Implementation]
+    
+    D -->|Simple Fix| I[Apply Fix]
+    D -->|Complex Fix| J[Create Fix Plan]
+    
+    E --> K[Suggest Improvements]
+    F --> L[Offer Implementation]
+```
+
+### Security & Rules Check
+**Always Performed**:
+- Scan request for security implications
+- Check against development standards
+- Verify request aligns with project goals
+- Identify any compliance requirements
+
+---
+
+## Requirements Phase
+
+### Automatic Requirements Creation
+When a new feature is identified, the AI immediately:
+
+1. **Create .specs/features/{feature-name}/requirements.md**
+2. **Generate initial EARS format requirements**
+3. **Include comprehensive user stories**
+4. **Cover edge cases and error scenarios**
+5. **Ask for user approval**
+
+### Requirements Workflow
+```mermaid
+graph TD
+    A[Feature Request] --> B[Auto-Create requirements.md]
+    B --> C[Generate EARS Requirements]
+    C --> D[Include User Stories]
+    D --> E[Add Edge Cases]
+    E --> F[Security Considerations]
+    F --> G[Performance Requirements]
+    G --> H[Ask User Approval]
+    
+    H -->|Approved| I[Move to Design]
+    H -->|Changes Needed| J[Revise Requirements]
+    J --> H
+    
+    I --> K[Design Phase]
+```
+
+### Requirements Quality Gates
+**Before proceeding to design**:
+- [ ] All requirements use EARS format
+- [ ] User stories have clear value propositions
+- [ ] Edge cases are covered
+- [ ] Security requirements included
+- [ ] Performance criteria defined
+- [ ] Integration requirements specified
+- [ ] User explicitly approves
+
+### Example Requirements Flow
+```
+User: "I need a shopping cart feature"
+
+AI: [Immediately creates requirements.md with:]
+- User story: "As a customer, I want to add items to a cart..."
+- EARS requirements: "WHEN user clicks 'Add to Cart' THEN system SHALL..."
+- Edge cases: Empty cart, item out of stock, quantity limits
+- Security: Input validation, session management
+- Performance: Cart operations under 200ms
+
+AI: "Do the requirements look good? If so, we can move on to the design."
+```
+
+---
+
+## Design Phase
+
+### Automatic Design Creation
+After requirements approval:
+
+1. **Create .specs/features/{feature-name}/design.md**
+2. **Research existing codebase for patterns**
+3. **Design architecture addressing all requirements**
+4. **Include component relationships**
+5. **Plan error handling and testing**
+6. **Ask for user approval**
+
+### Design Workflow
+```mermaid
+graph TD
+    A[Requirements Approved] --> B[Research Existing Code]
+    B --> C[Auto-Create design.md]
+    C --> D[System Architecture]
+    D --> E[Component Design]
+    E --> F[Data Models]
+    F --> G[API Design]
+    G --> H[Error Handling]
+    H --> I[Testing Strategy]
+    I --> J[Security Implementation]
+    J --> K[Performance Optimization]
+    K --> L[Ask User Approval]
+    
+    L -->|Approved| M[Move to Tasks]
+    L -->|Changes Needed| N[Revise Design]
+    N --> L
+    
+    M --> O[Implementation Planning]
+```
+
+### Design Research Process
+**Codebase Analysis**:
+- Explore project structure
+- Find similar implementations
+- Identify reusable components
+- Understand current patterns
+- Check integration points
+
+### Design Quality Gates
+**Before proceeding to tasks**:
+- [ ] Architecture addresses all requirements
+- [ ] Components have clear responsibilities
+- [ ] Error handling is comprehensive
+- [ ] Testing strategy is detailed
+- [ ] Security is thoroughly considered
+- [ ] Performance requirements addressed
+- [ ] Integration points defined
+- [ ] User explicitly approves
+
+---
+
+## Implementation Planning
+
+### Automatic Task Creation
+After design approval:
+
+1. **Create .specs/features/{feature-name}/tasks.md**
+2. **Analyze each task for complexity (1-10 scale)**
+3. **Expand complex tasks (≥5) into subtasks**
+4. **Sequence tasks by dependencies**
+5. **Include testing for each task**
+6. **Ask for user approval**
+
+### Task Planning Workflow
+```mermaid
+graph TD
+    A[Design Approved] --> B[Auto-Create tasks.md]
+    B --> C[Break Down Design]
+    C --> D[Analyze Complexity]
+    D --> E{Complexity ≥ 5?}
+    E -->|Yes| F[Expand into Subtasks]
+    E -->|No| G[Keep as Single Task]
+    F --> H[Define Dependencies]
+    G --> H
+    H --> I[Add Testing Requirements]
+    I --> J[Sequence Tasks]
+    J --> K[Ask User Approval]
+    
+    K -->|Approved| L[Ready for Development]
+    K -->|Changes Needed| M[Revise Tasks]
+    M --> K
+    
+    L --> N[Development Execution]
+```
+
+### Complexity Analysis System
+**Multi-factor scoring (1-10)**:
+- Technical Complexity (40%)
+- Coordination Complexity (25%)
+- Risk Factors (20%)
+- Implementation Scope (15%)
+
+### Task Expansion Example
+```
+Original Task: "Implement user authentication system" (Complexity: 8)
+
+Expanded Subtasks:
+1. Set up password hashing with bcrypt (Complexity: 3)
+2. Implement JWT token generation (Complexity: 4)
+3. Create authentication middleware (Complexity: 5)
+4. Build login/logout endpoints (Complexity: 4)
+5. Add session management (Complexity: 6)
+6. Implement rate limiting (Complexity: 5)
+7. Add security headers (Complexity: 3)
+8. Create comprehensive tests (Complexity: 4)
+```
+
+---
+
+## Development Execution
+
+### Task Execution Pattern
+For each task in the approved list:
+
+1. **Read Context** (requirements.md, design.md, tasks.md)
+2. **Select Next Available Task** (dependencies met)
+3. **Expand if Complex** (≥5 and not already expanded)
+4. **Execute Task/Subtask**
+5. **Validate Implementation**
+6. **Update Status**
+7. **Stop for User Review**
+
+### Execution Workflow
+```mermaid
+graph TD
+    A[Start Task Execution] --> B[Read All Context Files]
+    B --> C[Select Next Available Task]
+    C --> D{Task Complex?}
+    D -->|Yes & Not Expanded| E[Expand Task]
+    D -->|No or Already Expanded| F[Execute Task]
+    E --> F
+    F --> G[Write/Modify Code]
+    G --> H[Run Tests]
+    H --> I[Validate Against Acceptance Criteria]
+    I --> J[Update Task Status]
+    J --> K[Stop for User Review]
+    
+    K -->|Approved| L{More Tasks?}
+    K -->|Changes Needed| M[Fix Issues]
+    M --> I
+    
+    L -->|Yes| C
+    L -->|No| N[Development Complete]
+```
+
+### Code Quality Checks
+**During each task**:
+- Apply development standards
+- Follow security best practices
+- Ensure performance requirements
+- Write appropriate tests
+- Update documentation
+- Check integration points
+
+### Example Task Execution
+```
+Task: "Implement login form validation"
+
+AI Actions:
+1. Reads requirements.md for validation rules
+2. Checks design.md for component structure
+3. Analyzes existing form patterns in codebase
+4. Implements validation logic
+5. Adds error handling
+6. Writes unit tests
+7. Updates component documentation
+8. Validates against acceptance criteria
+9. Updates task status to "completed"
+10. Stops for user review
+
+AI: "Task completed. The login form now validates email format, password strength, and handles all error cases as specified. Ready to move to the next task?"
+```
+
+---
+
+## Quality Assurance
+
+### Continuous Quality Checks
+Throughout development:
+
+#### Code Quality
+- **Automated Testing**: Unit, integration, E2E tests
+- **Code Review**: Standards compliance
+- **Security Scanning**: Vulnerability detection
+- **Performance Testing**: Load and stress testing
+- **Accessibility Testing**: WCAG compliance
+
+#### Quality Gates
+```mermaid
+graph TD
+    A[Code Implementation] --> B[Unit Tests Pass]
+    B --> C[Integration Tests Pass]
+    C --> D[Security Scan Clean]
+    D --> E[Performance Meets Requirements]
+    E --> F[Code Review Approved]
+    F --> G[Documentation Updated]
+    G --> H[Ready for Deployment]
+    
+    B -->|Fail| I[Fix Code Issues]
+    C -->|Fail| J[Fix Integration Issues]
+    D -->|Fail| K[Fix Security Issues]
+    E -->|Fail| L[Optimize Performance]
+    
+    I --> B
+    J --> C
+    K --> D
+    L --> E
+```
+
+### Testing Strategy
+**Multi-level testing approach**:
+- **Unit Tests**: Individual component testing
+- **Integration Tests**: Component interaction testing
+- **E2E Tests**: Complete user workflow testing
+- **Performance Tests**: Load and response time testing
+- **Security Tests**: Vulnerability and penetration testing
+
+---
+
+## Deployment & Delivery
+
+### Pre-Deployment Checklist
+- [ ] All tests passing
+- [ ] Security scan clean
+- [ ] Performance requirements met
+- [ ] Documentation complete
+- [ ] Configuration verified
+- [ ] Backup procedures ready
+- [ ] Rollback plan prepared
+
+### Deployment Workflow
+```mermaid
+graph TD
+    A[Development Complete] --> B[Pre-Deployment Checks]
+    B --> C{All Checks Pass?}
+    C -->|No| D[Fix Issues]
+    D --> B
+    C -->|Yes| E[Deploy to Staging]
+    E --> F[Staging Tests]
+    F --> G{Staging OK?}
+    G -->|No| H[Fix Staging Issues]
+    H --> E
+    G -->|Yes| I[Deploy to Production]
+    I --> J[Production Monitoring]
+    J --> K[Deployment Complete]
+```
+
+### Platform-Specific Deployment
+- **Web Apps**: Build optimization, CDN deployment, SSL setup
+- **Mobile Apps**: App store submission, device testing
+- **APIs**: Load balancer setup, database migration
+- **Desktop Apps**: Installer creation, update mechanism
+
+---
+
+## Maintenance & Support
+
+### Post-Deployment Activities
+1. **Monitor Performance**: Track key metrics
+2. **Handle Issues**: Bug fixes and improvements
+3. **User Feedback**: Collect and analyze feedback
+4. **Updates**: Regular updates and patches
+5. **Documentation**: Keep docs current
+
+### Maintenance Workflow
+```mermaid
+graph TD
+    A[Production Deployment] --> B[Monitor Performance]
+    B --> C[Collect User Feedback]
+    C --> D{Issues Found?}
+    D -->|Yes| E[Analyze Issue]
+    D -->|No| F[Continue Monitoring]
+    E --> G{Critical Issue?}
+    G -->|Yes| H[Emergency Fix]
+    G -->|No| I[Plan Fix in Next Release]
+    H --> J[Deploy Hotfix]
+    I --> K[Add to Backlog]
+    J --> B
+    K --> B
+    F --> B
+```
+
+---
+
+## Decision Trees
+
+### Initial Request Classification
+```mermaid
+graph TD
+    A[User Request] --> B{Request Type?}
+    B -->|"Build feature X"| C[New Feature Path]
+    B -->|"Fix bug Y"| D[Bug Fix Path]
+    B -->|"Improve code Z"| E[Improvement Path]
+    B -->|"How do I...?"| F[Guidance Path]
+    
+    C --> G{Complex Feature?}
+    G -->|Yes| H[Create Full Spec]
+    G -->|No| I[Direct Implementation]
+    
+    D --> J{Simple Bug?}
+    J -->|Yes| K[Quick Fix]
+    J -->|No| L[Investigation & Plan]
+    
+    E --> M{Major Refactor?}
+    M -->|Yes| N[Create Refactor Spec]
+    M -->|No| O[Direct Improvements]
+    
+    F --> P[Provide Guidance]
+    P --> Q[Offer Implementation]
+```
+
+### Complexity Decision Tree
+```mermaid
+graph TD
+    A[Analyze Task] --> B{Technical Complexity}
+    B -->|High| C[Score 7-10]
+    B -->|Medium| D[Score 4-6]
+    B -->|Low| E[Score 1-3]
+    
+    C --> F{Multiple Integrations?}
+    D --> G{Some Dependencies?}
+    E --> H[Keep Simple]
+    
+    F -->|Yes| I[Expand into Subtasks]
+    F -->|No| J[Consider Other Factors]
+    
+    G -->|Yes| K[Possible Expansion]
+    G -->|No| L[Likely Single Task]
+    
+    I --> M[3-8 Subtasks]
+    K --> N[2-4 Subtasks]
+    L --> O[Single Task]
+    H --> O
+```
+
+### Quality Gate Decision Tree
+```mermaid
+graph TD
+    A[Code Complete] --> B{Tests Pass?}
+    B -->|No| C[Fix Test Issues]
+    B -->|Yes| D{Security Clean?}
+    D -->|No| E[Fix Security Issues]
+    D -->|Yes| F{Performance OK?}
+    F -->|No| G[Optimize Performance]
+    F -->|Yes| H{Code Review OK?}
+    H -->|No| I[Address Review Comments]
+    H -->|Yes| J[Ready for Deployment]
+    
+    C --> B
+    E --> D
+    G --> F
+    I --> H
+```
+
+### Deployment Decision Tree
+```mermaid
+graph TD
+    A[Ready to Deploy] --> B{Environment?}
+    B -->|Development| C[Direct Deploy]
+    B -->|Staging| D[Staging Tests Required]
+    B -->|Production| E[Full Quality Gates]
+    
+    D --> F{Staging Tests Pass?}
+    F -->|No| G[Fix Issues]
+    F -->|Yes| H[Ready for Production]
+    
+    E --> I{All Gates Pass?}
+    I -->|No| J[Address Issues]
+    I -->|Yes| K[Deploy to Production]
+    
+    G --> D
+    J --> E
+```
+
+---
+
+## Example Complete Flow
+
+### Scenario: Building a User Dashboard
+
+#### 1. Initial Contact
+```
+User: "I need to build a user dashboard for my web app"
+
+AI: [Immediately analyzes request]
+- Identifies: New feature request
+- Determines: Complex feature (needs spec)
+- Checks: Existing codebase for patterns
+- Starts: Requirements gathering
+```
+
+#### 2. Requirements Phase
+```
+AI: [Auto-creates requirements.md with:]
+- User stories for dashboard functionality
+- EARS requirements for data display, filtering, user interactions
+- Edge cases: empty data, loading states, errors
+- Security: authentication, data access controls
+- Performance: load times, data refresh rates
+
+AI: "Do the requirements look good? If so, we can move on to the design."
+User: "Yes, looks comprehensive"
+```
+
+#### 3. Design Phase
+```
+AI: [Researches existing code, then creates design.md with:]
+- Component architecture (DashboardContainer, DataVisualization, FilterPanel)
+- Data flow from API to components
+- State management approach
+- Error handling strategy
+- Testing plan for each component
+
+AI: "Does the design look good? If so, we can move on to the implementation plan."
+User: "Approved"
+```
+
+#### 4. Implementation Planning
+```
+AI: [Creates tasks.md with complexity analysis:]
+1. Create dashboard layout component (Complexity: 4)
+2. Implement data fetching service (Complexity: 6) → Expanded to subtasks
+3. Build data visualization components (Complexity: 7) → Expanded to subtasks
+4. Add filtering and search functionality (Complexity: 5) → Expanded to subtasks
+5. Implement responsive design (Complexity: 3)
+6. Add comprehensive testing (Complexity: 4)
+
+AI: "Do the tasks look good?"
+User: "Yes, let's start implementing"
+```
+
+#### 5. Development Execution
+```
+AI: "Starting with Task 1: Create dashboard layout component"
+[Implements layout component with proper structure, styling, responsive design]
+[Writes unit tests for component]
+[Updates task status]
+
+AI: "Task 1 complete. The dashboard layout component is ready with responsive design and proper accessibility. Ready for Task 2?"
+User: "Yes, continue"
+
+AI: "Starting Task 2.1: Set up API service structure"
+[Continues through each subtask...]
+```
+
+#### 6. Quality Assurance
+```
+AI: [Throughout development]
+- Runs tests after each task
+- Checks security implications
+- Validates performance requirements
+- Ensures accessibility compliance
+- Updates documentation
+
+AI: "All tasks complete. Running final quality checks..."
+- ✅ All tests passing (95% coverage)
+- ✅ Security scan clean
+- ✅ Performance under 200ms load time
+- ✅ WCAG AA compliance
+- ✅ Documentation updated
+```
+
+#### 7. Deployment Ready
+```
+AI: "Dashboard feature is complete and ready for deployment. All quality gates passed. Would you like me to help with deployment configuration?"
+```
+
+This complete workflow ensures every project follows a systematic approach from initial idea to finished product, with quality gates and decision points throughout the process.

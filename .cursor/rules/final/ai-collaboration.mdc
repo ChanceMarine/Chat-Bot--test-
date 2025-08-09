@@ -1,0 +1,283 @@
+---
+description: AI collaboration patterns, decision frameworks, complexity analysis, and task expansion strategies
+globs: **/*
+alwaysApply: true
+---
+# AI Collaboration Guide
+
+## Core Collaboration Principles
+
+### Partnership Approach
+Work as a skilled team member who can execute independently while maintaining alignment.
+
+### Decision-Making Framework
+Use systematic criteria to make consistent, high-quality decisions throughout development.
+
+### Efficient Communication
+Minimize back-and-forth while ensuring critical validation at key decision points.
+
+## Task Complexity Analysis System
+
+### Complexity Scoring Framework (1-10 Scale)
+
+**Analysis Criteria:**
+1. **Technical Complexity (40%)**
+   - Algorithm sophistication required
+   - Number of integration points
+   - Data structure complexity
+   - Performance requirements
+
+2. **Coordination Complexity (25%)**
+   - Dependencies on other systems
+   - Team coordination requirements
+   - Cross-functional integration needs
+   - API integration complexity
+
+3. **Risk Factors (20%)**
+   - Unproven technologies
+   - External dependencies
+   - Security implications
+   - Performance constraints
+
+4. **Implementation Scope (15%)**
+   - Number of files/components affected
+   - Testing requirements
+   - Documentation needs
+   - Configuration complexity
+
+### Complexity Evaluation Matrix
+```
+Score 1-3 (Low):
+- Single component changes
+- Well-established patterns
+- Minimal dependencies
+- Clear implementation path
+
+Score 4-6 (Medium):
+- Multiple component integration
+- Some new patterns required
+- Moderate dependencies
+- Standard complexity algorithms
+
+Score 7-8 (High):
+- Complex system integration
+- Novel approaches required
+- High dependency coordination
+- Advanced algorithms needed
+
+Score 9-10 (Critical):
+- Architectural changes required
+- Cutting-edge technology
+- Complex dependency chains
+- High-risk implementation
+```
+
+### Automatic Expansion Triggers
+- **Complexity Score ≥ 5**: Flag for potential expansion
+- **Multiple Integration Points**: More than 3 external systems
+- **High Risk Factors**: Unproven tech or critical security
+- **Broad Scope**: Affects more than 5 files/components
+
+## Task Expansion Strategies
+
+### Strategy 1: Complexity-Report Driven
+Used when complexity analysis has been performed:
+
+```json
+{
+  "expansionAnalysis": {
+    "taskId": 24,
+    "complexityScore": 8,
+    "recommendedSubtasks": 6,
+    "expansionRationale": "High complexity due to AI integration, multiple frameworks, file operations, and configuration requirements",
+    "subtaskBreakdown": [
+      "Command structure implementation",
+      "AI prompt engineering",
+      "Test file generation logic",
+      "Framework-specific templates",
+      "MCP tool integration",
+      "Documentation integration"
+    ]
+  }
+}
+```
+
+### Strategy 2: Research-Driven Expansion
+Used when codebase analysis is available:
+
+**Research Process:**
+1. **Explore Structure**: Use Glob patterns to understand project layout
+2. **Find Patterns**: Use Grep to locate existing implementations
+3. **Analyze Context**: Read key files to understand architecture
+4. **Generate Subtasks**: Create tasks that build on existing patterns
+
+**Research Integration:**
+```javascript
+// Codebase analysis before expansion
+1. glob("**/*.js", "**/*.ts", "**/*.json") // Explore structure
+2. grep("similar_functionality") // Find existing patterns
+3. read("package.json", "README.md") // Understand context
+4. generateContextAwareSubtasks() // Create aligned subtasks
+```
+
+### Strategy 3: Default Expansion
+Standard approach for general task breakdown:
+
+**Expansion Principles:**
+1. **Component Boundaries**: Break along logical component lines
+2. **Dependency Order**: Sequence subtasks by dependencies
+3. **Testing Integration**: Include testing in each subtask
+4. **Clear Interfaces**: Define inputs/outputs between subtasks
+
+## Decision Frameworks
+
+### Requirements Analysis Framework
+
+**Prioritization Criteria (weighted):**
+1. **User Impact Severity (40%)**: Critical → High → Medium → Low
+2. **Technical Feasibility (30%)**: Immediate → Moderate → Complex → Uncertain
+3. **Dependency Relationships (20%)**: Foundation → Independent → Dependent → Optional
+4. **Business Value (10%)**: High ROI → Medium ROI → Low ROI → Experimental
+
+### Design Decision Framework
+
+**Evaluation Matrix:**
+| Criteria | Weight | Scoring Guidelines |
+|----------|--------|-------------------|
+| Maintainability | 30% | Code clarity, separation of concerns, testing ease |
+| Scalability | 25% | Performance under load, resource efficiency |
+| Reliability | 20% | Error handling, failure recovery, consistency |
+| Development Velocity | 15% | Implementation complexity, tooling support |
+| Security | 10% | Authentication, data protection, compliance |
+
+### Task Planning Framework
+
+**Decomposition Strategy:**
+1. **Incremental Value**: Each subtask delivers testable functionality
+2. **Dependency Management**: Minimize blocking dependencies
+3. **Risk Mitigation**: Address high-risk areas early
+4. **Complexity Balance**: Mix simple and complex subtasks
+
+## Prompting Strategies
+
+### Context-Rich Prompts
+```
+"I'm building [PROJECT_TYPE] that [CORE_PURPOSE].
+Current constraints: [TECHNICAL_CONSTRAINTS]
+User needs: [USER_REQUIREMENTS]
+Business context: [BUSINESS_CONTEXT]
+
+[SPECIFIC_REQUEST]"
+```
+
+### Progressive Disclosure
+1. "First, let's identify the main user stories"
+2. "Now, let's add acceptance criteria for each story"
+3. "Finally, let's analyze complexity and expand complex tasks"
+
+### Complexity Analysis Prompts
+```
+"Analyze this task for complexity using the 1-10 scale:
+- Technical complexity: [algorithms, integrations, data structures]
+- Coordination complexity: [dependencies, team coordination]
+- Risk factors: [unproven tech, external dependencies]
+- Implementation scope: [files affected, testing needs]
+
+If complexity ≥ 5, expand into 3-8 subtasks with clear boundaries."
+```
+
+### Research-Driven Prompts
+```
+"Before expanding this task, analyze the codebase:
+1. Explore project structure with glob patterns
+2. Search for similar implementations
+3. Understand current architecture and patterns
+4. Generate subtasks that align with existing code
+
+Create subtasks that build upon rather than duplicate existing work."
+```
+
+## Advanced Decision Patterns
+
+### Multi-Factor Analysis
+```javascript
+const analyzeComplexity = (task) => {
+  const technical = assessTechnicalComplexity(task);
+  const coordination = assessCoordinationNeeds(task);
+  const risk = assessRiskFactors(task);
+  const scope = assessImplementationScope(task);
+  
+  const weightedScore = 
+    (technical * 0.4) + 
+    (coordination * 0.25) + 
+    (risk * 0.2) + 
+    (scope * 0.15);
+    
+  return {
+    score: Math.round(weightedScore),
+    breakdown: { technical, coordination, risk, scope },
+    recommendation: weightedScore >= 5 ? 'expand' : 'implement'
+  };
+};
+```
+
+### Dynamic Threshold Adjustment
+- **Team Experience**: Lower threshold for junior teams
+- **Project Timeline**: Higher threshold for tight deadlines
+- **Risk Tolerance**: Adjust based on project criticality
+- **Historical Data**: Learn from past expansion effectiveness
+
+## Integration Patterns
+
+### With Kiro Methodology
+- **Requirements Phase**: Use decision frameworks for prioritization
+- **Design Phase**: Apply evaluation matrices for architecture decisions
+- **Tasks Phase**: Implement complexity analysis and expansion
+- **Implementation**: Execute with continuous complexity monitoring
+
+### With Development Standards
+- **Code Quality**: Ensure subtasks meet quality standards
+- **Performance**: Include performance considerations in complexity analysis
+- **Security**: Factor security implications into risk assessment
+- **Testing**: Integrate testing requirements into subtask planning
+
+### With Project Organization
+- **Structure**: Align subtasks with project organization patterns
+- **Documentation**: Maintain traceability through complexity analysis
+- **Requirements**: Use EARS format in subtask descriptions
+
+## Quality Assurance
+
+### Expansion Validation
+- **Coverage Check**: All original task functionality covered by subtasks
+- **Dependency Validation**: Subtask dependencies are logical and minimal
+- **Boundary Clarity**: Clear interfaces between subtasks
+- **Testing Integration**: Each subtask includes validation criteria
+
+### Complexity Accuracy
+- **Historical Tracking**: Compare predicted vs actual complexity
+- **Adjustment Learning**: Improve scoring based on implementation reality
+- **Team Calibration**: Adjust thresholds based on team capabilities
+- **Continuous Improvement**: Refine criteria based on outcomes
+
+## Best Practices
+
+### Complexity Analysis
+- **Multi-Factor Evaluation**: Consider all four complexity dimensions
+- **Context Awareness**: Factor in project-specific constraints
+- **Historical Learning**: Use past data to improve accuracy
+- **Team Alignment**: Calibrate scoring with team experience
+
+### Task Expansion
+- **Logical Boundaries**: Break along natural component lines
+- **Clear Dependencies**: Minimize and clearly define dependencies
+- **Testable Units**: Each subtask should be independently testable
+- **Appropriate Granularity**: Not too broad, not too narrow
+
+### Research Integration
+- **Systematic Exploration**: Use consistent patterns for codebase analysis
+- **Pattern Recognition**: Identify and leverage existing implementations
+- **Architecture Alignment**: Ensure subtasks fit current architecture
+- **Duplication Avoidance**: Check for existing functionality before creating subtasks
+
+This framework enables systematic, high-quality decision-making and intelligent task management while maintaining efficient, action-oriented collaboration throughout the development process.
